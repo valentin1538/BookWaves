@@ -39,12 +39,11 @@ id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 nom VARCHAR(75),
 image BLOB,
 infos VARCHAR(250),
-idepub INT,
+format VARCHAR(75),#je sais pas quoi mettre en type de données
 idauteur INT,
 idediteur INT,
 idgenre INT,
 idlangue INT,
-FOREIGN KEY (idepub) REFERENCES epub(id),
 FOREIGN KEY (idauteur) REFERENCES auteur(id),
 FOREIGN KEY (idediteur) REFERENCES editeur(id),
 FOREIGN KEY (idgenre) REFERENCES genre(id),
@@ -81,7 +80,7 @@ id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 nom VARCHAR(75)
 );
 
-
+ 
 #CREATION TABLE ACTUALITE
 CREATE TABLE actualite (
 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
