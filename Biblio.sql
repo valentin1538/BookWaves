@@ -109,7 +109,7 @@ INSERT INTO utilisateur(isadmin,mail,nom,motdepasse) VALUES (0,'utilisateur@gmai
 
 #INSERTION LIVRE
 #Insertion par défaut
-INSERT INTO livre(nom,infos,idauteur,idediteur,idgenre,idlangue) VALUES ('NO_NAME','NO_INFOS',0,0,0,0);
+INSERT INTO livre(nom,infos,idauteur,idediteur,idgenre,idlangue) VALUES ('NO_NAME','NO_INFOS',1,1,1,1);
 #Insertion des livres
 INSERT INTO livre(nom,infos,idauteur,idediteur,idgenre,idlangue) VALUES
 ('ONE PIECE','L histoire suit principalement l équipage de Chapeau de paille, mené par son capitaine Monkey D. Luffy, un jeune homme ayant mangé le fruit du Gum Gum et dont le rêve est de devenir le Roi des pirates.',2,2,2,2),
