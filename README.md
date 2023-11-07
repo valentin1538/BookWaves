@@ -1,4 +1,4 @@
 # Bibliotheque-Sio
 #Les éléments commun seront dans la branche main
-# Créez vous chacun une branche en appuyant sur main et créer une branche 
+# Créez vous chacun une branche en appuyant sur le menu des branches (main)
 #Pour y mettre vos éléments personnels
