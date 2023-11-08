@@ -41,10 +41,9 @@
               <ul class="dropdown-menu extended notification">
               <div class="notify-arrow notify-arrow-green"></div>
               <li>
-                <a href="index.html#">
-                  <span class="label label-success"><i class="fa fa-plus"></i></span>
-                  Ajout depuis un dossier unique
-                  </a>
+              <button id="add-book"><span class="label label-success"><i class="fa fa-plus"></i></span>
+                  Ajout depuis un dossier unique</button>
+              <input type="file" id="file-input" accept=".epub" style="display: none">
               </li>
             </ul>
           </li>
