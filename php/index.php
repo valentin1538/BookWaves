@@ -299,9 +299,102 @@
           <!-- /col-lg-3 -->
         </div>
         <!-- /row -->
+        <div class="container">
+    <h2>Mes Ebooks</h2>
+    <ul class="book-list" id="book-list">
+      <!-- Les livres seront ajoutés dynamiquement ici -->
+    </ul>
+    <button id="add-book">Ajouter un livre</button>
+    <input type="file" id="file-input" accept=".epub" style="display: none">
+  </div>
+
+  <div id="book-details" style="display: none">
+    <h2>Details du livre</h2>
+    <div>
+      <label for="title">Titre:</label>
+      <input type="text" id="title">
+    </div>
+    <div>
+      <label for="author">Auteur:</label>
+      <input type="text" id="author">
+    </div>
+    <button id="save-details">Enregistrer</button>
+    <button id="close-details">Fermer</button>
+  </div>
+
       </section>
     </section>
     <!--main content end-->
+
+  
+  <script>
+    const bookList = document.getElementById('book-list');
+    const addBookButton = document.getElementById('add-book');
+    const fileInput = document.getElementById('file-input');
+
+    const bookDetails = document.getElementById('book-details');
+    const titleInput = document.getElementById('title');
+    const authorInput = document.getElementById('author');
+    const saveDetailsButton = document.getElementById('save-details');
+    const closeDetailsButton = document.getElementById('close-details');
+
+    addBookButton.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (event) => {
+      const files = event.target.files;
+      if (files.length > 0) {
+        const newBookItem = document.createElement('li');
+        newBookItem.classList.add('book-item');
+
+        newBookItem.innerHTML = `
+          <div>
+            <h3>${files[0].name}</h3>
+            <p>Auteur : Inconnu</p>
+            <p>Format : EPUB</p>
+          </div>
+          <div>
+            <button class="edit-button">Éditer</button>
+            <button class="delete-button">Supprimer</button>
+          </div>
+        `;
+
+        bookList.appendChild(newBookItem);
+      }
+    });
+
+    bookList.addEventListener('click', (event) => {
+      if (event.target.classList.contains('edit-button')) {
+        bookDetails.style.display = 'block';
+        const bookItem = event.target.closest('.book-item');
+        const titleElement = bookItem.querySelector('h3');
+        const authorElement = bookItem.querySelector('p:nth-of-type(2)');
+        titleInput.value = titleElement.textContent;
+        authorInput.value = authorElement.textContent.split(':')[1].trim();
+      }
+
+      if (event.target.classList.contains('delete-button')) {
+        const bookItem = event.target.closest('.book-item');
+        bookList.removeChild(bookItem);
+      }
+    });
+
+    saveDetailsButton.addEventListener('click', () => {
+      const selectedBook = document.querySelector('.book-item .edit-button:focus');
+      if (selectedBook) {
+        const titleElement = selectedBook.querySelector('h3');
+        const authorElement = selectedBook.querySelector('p:nth-of-type(2)');
+        titleElement.textContent = titleInput.value;
+        authorElement.textContent = `Auteur : ${authorInput.value}`;
+        bookDetails.style.display = 'none';
+      }
+    });
+
+    closeDetailsButton.addEventListener('click', () => {
+      bookDetails.style.display = 'none';
+    });
+  </script>
 
     <!-- js placed at the end of the document so the pages load faster -->
     <script src="lib/jquery/jquery.min.js"></script>
