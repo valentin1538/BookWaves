@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">s
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bibliothèque SIO</title>
     <!-- Bootstrap core CSS -->
@@ -178,7 +178,7 @@
       </div>
       <div class="top-menu">
         <ul class="nav pull-right top-menu">
-          <li><a class="logout" href="login.html">Logout</a></li>
+          <li><a class="logout" href="login.html">Login</a></li>
         </ul>
       </div>
     </header>
@@ -240,86 +240,32 @@
           <div class="col-lg-9 main-chart">
             <!--CUSTOM CHART START -->
             <div class="border-head">
-              <h3>USER VISITS</h3>
+              <h3>MES LIVRES</h3>
             </div>
             <!--custom chart end-->
-            <div class="row mt">
-              <!-- SERVER STATUS PANELS -->
-              <div class="col-md-2 col-sm-5 mb">
-                <div class="grey-panel pn donut-chart">
-                  <div class="grey-header">
-                    <h5>SERVER LOAD</h5>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-6 col-xs-6 goleft">
-                      <p>Usage<br/>Increase:</p>
-                    </div>
-                    <div class="col-sm-6 col-xs-6">
-                      <h2>21%</h2>
-                    </div>
-                  </div>
-                </div>
-                <!-- /grey-panel -->
+            <ul class="book-list" id="book-list">
+              <div class="row mt">
+                <!-- Les livres seront ajoutés dynamiquement ici -->
               </div>
-              <!-- /col-md-4-->
-              <div class="col-md-2 col-sm-5 mb">
-                <div class="darkblue-panel pn">
-                  <div class="darkblue-header">
-                    <h5>DROPBOX STATICS</h5>
-                  </div>
-                  <p>April 17, 2014</p>
-                  <footer>
-                    <div class="pull-left">
-                      <h5><i class="fa fa-hdd-o"></i> 17 GB</h5>
-                    </div>
-                    <div class="pull-right">
-                      <h5>60% Used</h5>
-                    </div>
-                  </footer>
-                </div>
-                <!--  /darkblue panel -->
-              </div>
-              <!-- /col-md-4 -->
-              <div class="col-md-2 col-sm-5 mb">
-                <!-- REVENUE PANEL -->
-                <div class="green-panel pn">
-                  <div class="green-header">
-                    <h5>REVENUE</h5>
-                  </div>
-                  <div class="chart mt">
-                    <div class="sparkline" data-type="line" data-resize="true" data-height="75" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="[200,135,667,333,526,996,564,123,890,464,655]"></div>
-                  </div>
-                  <p class="mt"><b>$ 17,980</b><br/>Month Income</p>
-                </div>
-              </div>
-              <!-- /col-md-4 -->
-            </div>
+            </ul>
           </div>
           <!-- /col-lg-3 -->
         </div>
         <!-- /row -->
-        <div class="container">
-    <h2>Mes Ebooks</h2>
-    <ul class="book-list" id="book-list">
-      <!-- Les livres seront ajoutés dynamiquement ici -->
-    </ul>
-    <button id="add-book">Ajouter un livre</button>
-    <input type="file" id="file-input" accept=".epub" style="display: none">
-  </div>
-
-  <div id="book-details" style="display: none">
-    <h2>Details du livre</h2>
-    <div>
-      <label for="title">Titre:</label>
-      <input type="text" id="title">
-    </div>
-    <div>
-      <label for="author">Auteur:</label>
-      <input type="text" id="author">
-    </div>
-    <button id="save-details">Enregistrer</button>
-    <button id="close-details">Fermer</button>
-  </div>
+        
+        <div id="book-details" style="display: none">
+          <h2>Details du livre</h2>
+          <div>
+            <label for="title">Titre:</label>
+            <input type="text" id="title">
+           </div>
+          <div>
+            <label for="author">Auteur:</label>
+            <input type="text" id="author">
+          </div>
+          <button id="save-details">Enregistrer</button>
+          <button id="close-details">Fermer</button>
+        </div>
 
       </section>
     </section>
@@ -348,14 +294,21 @@
         newBookItem.classList.add('book-item');
 
         newBookItem.innerHTML = `
-          <div>
-            <h3>${files[0].name}</h3>
-            <p>Auteur : Inconnu</p>
-            <p>Format : EPUB</p>
-          </div>
-          <div>
-            <button class="edit-button">Éditer</button>
-            <button class="delete-button">Supprimer</button>
+          <div class="col-md-2 col-sm-5 mb">
+            <div class="darkblue-panel pn">
+              <div class="darkblue-header">
+                <p style="color : white;">${files[0].name}</p>
+              </div>
+              <p>Auteur : Aucun</p>
+              <footer>
+                <div class="pull-left">
+                  <h5><i class="fa fa-hdd-o"></i></h5>
+                </div>
+                <div class="pull-right">
+                  <h5>Format : Ebup</h5>
+                </div>
+              </footer>
+            </div>
           </div>
         `;
 
