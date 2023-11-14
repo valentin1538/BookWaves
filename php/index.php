@@ -16,7 +16,7 @@ if ($conn->connect_error) {
   session_start();
   // Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
   if(!isset($_SESSION["username"])){
-    header("Location: login.php");
+    header("Location: ./pages_cnx/login.php");
     exit(); 
   }
 
@@ -57,6 +57,9 @@ $result = $conn->query($sql);
         *********************************************************************************************************************************************************** -->
     <!--header start-->
     <header class="header black-bg">
+      <div class="sidebar-toggle-box">
+        <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+      </div>
       <!--logo start-->
       <a href="index.php" class="logo"><b><?php echo $_SESSION['username']; ?></span></b></a>
       <!--logo end-->
@@ -195,7 +198,7 @@ $result = $conn->query($sql);
       </div>
       <div class="top-menu">
         <ul class="nav pull-right top-menu">
-          <li><a class="logout" href="./pages_cnx_bdd/logout.php">Déconnexion</a></li>
+          <li><a class="logout" href="./pages/logout.php">Déconnexion</a></li>
         </ul>
       </div>
     </header>
@@ -215,7 +218,7 @@ $result = $conn->query($sql);
               </a>
           </li>
           <li class="Livres">
-            <a href="index.php">
+            <a href="./pages/livres.php">
               <i class="fa fa-book-open"></i>
               <span>Livres</span>
               </a>
@@ -247,66 +250,7 @@ $result = $conn->query($sql);
    <!--main content start-->
    <section id="main-content">
       <section class="wrapper">
-        <div class="row">
-          <div class="col-lg-9 main-chart">
-            <!--CUSTOM CHART START -->
-            <div class="border-head">
-              <h3>MES LIVRES</h3>
-              <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Titre</th>
-            <th>Infos</th>
-            <th>Auteur</th>
-            <th>Éditeur</th>
-            <th>Genre</th>
-            <th>Langue</th>
-        </tr>
-        <?php
-        if ($result ->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<tr>";
-                echo "<td>" . $row["id"] . "</td>";
-                echo "<td>" . $row["nom"] . "</td>";
-                echo "<td>" . $row["infos"] . "</td>";
-                echo "<td>" . $row["nom_auteur"] . "</td>";
-                echo "<td>" . $row["nom_editeur"] . "</td>";
-                echo "<td>" . $row["nom_genre"] . "</td>";
-                echo "<td>" . $row["nom_langue"] . "</td>";
-                echo "</tr>";
-            }
-        } else {
-            echo "Aucun livre trouvé dans la base de données.";
-        }
-        $conn->close();
-        ?>
-    </table>
-            </div>
-            <!--custom chart end-->
-            <ul class="book-list" id="book-list">
-              <div class="row mt">
-                <!-- Les livres seront ajoutés dynamiquement ici -->
-              </div>
-            </ul>
-          </div>
-          <!-- /col-lg-3 -->
-        </div>
-        <!-- /row -->
-        
-        <div id="book-details" style="display: none">
-          <h2>Details du livre</h2>
-          <div>
-            <label for="title">Titre:</label>
-            <input type="text" id="title">
-           </div>
-          <div>
-            <label for="author">Auteur:</label>
-            <input type="text" id="author">
-          </div>
-          <button id="save-details">Enregistrer</button>
-          <button id="close-details">Fermer</button>
-        </div>
-
+        <center> Coucou </center>
       </section>
     </section>
     <!--main content end-->
