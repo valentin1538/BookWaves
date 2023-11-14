@@ -12,16 +12,9 @@ $conn = new mysqli($servername, $username, $password, $database);
 if ($conn->connect_error) {
     die("La connexion à la base de données a échoué : " . $conn->connect_error);
 }
- // Initialiser la session
-  session_start();
-  // Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
-  if(!isset($_SESSION["username"])){
-    header("Location: ./pages_cnx/login.php");
-    exit(); 
-  }
-
-?>
-<?php
+// Initialiser la session
+session_start();
+// Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
 
 // Requête pour récupérer les données des tables
 $sql = "SELECT livre.id, livre.nom, livre.infos, auteur.nom as nom_auteur, editeur.nom as nom_editeur, genre.nom as nom_genre, langue.nom as nom_langue FROM livre
@@ -34,7 +27,7 @@ $result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,23 +44,20 @@ $result = $conn->query($sql);
 
 
 <body>
-<section id="container">
-    <!-- **********************************************************************************************************************************************************
-        TOP BAR CONTENT & NOTIFICATIONS
-        *********************************************************************************************************************************************************** -->
-    <!--header start-->
-    <header class="header black-bg">
-      <div class="sidebar-toggle-box">
-        <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
-      </div>
-      <!--logo start-->
-      <a href="index.php" class="logo"><b><?php echo $_SESSION['username']; ?></span></b></a>
-      <!--logo end-->
-      <div class="nav notify-row" id="top_menu">
-        <!--  Categories start -->
-        <ul class="nav top-menu">
-          <!-- Ajout Livre Boutton start -->
-         <!-- <li id="header_ajout_livre_bar" class="dropdown">
+  <section id="container">
+      <!-- **********************************************************************************************************************************************************
+          TOP BAR CONTENT & NOTIFICATIONS
+          *********************************************************************************************************************************************************** -->
+      <!--header start-->
+      <header class="header black-bg">
+        <!--logo start-->
+        <a href="../index.php" class="logo"><b><span>BOOK WAVES <?php echo isset($_SESSION['username']) ? ' / ' . $_SESSION['username'] : ''; ?></span></b></a>
+        <!--logo end-->
+        <div class="nav notify-row text-center" id="top_menu">
+          <!--  Categories start -->
+          <ul class="nav top-menu">
+            <!-- Ajout Livre Boutton start -->
+            <li id="header_ajout_livre_bar" class="dropdown">
             
             <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
             Ajouter
@@ -82,255 +72,264 @@ $result = $conn->query($sql);
               </li>
             </ul>
           </li>
-          <li id="header_Editer_metadonnees_bar" class="dropdown">
+            <li id="header_Editer_metadonnees_bar" class="dropdown">
+              <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
+                Editer les metadonnées
+                <i class="fa-solid fa-file-pen"></i>
+                  </a>
+                  <ul class="dropdown-menu extended notification">
+                  <div class="notify-arrow notify-arrow-green"></div>
+                  <li>
+                    <a href="index.html#">
+                      <span class="label label-success"><i class="fa fa-pen"></i></span>
+                      Editer les métadonnées d'un livre
+                      </a>
+                  </li>
+                </ul>
+            </li>
+            <li id="header_convertir_livre_bar" class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
-              Editer les metadonnées
-              <i class="fa-solid fa-file-pen"></i>
-                </a>
+                Convertir
+                <i class="fa-solid fa-repeat"></i>
+                  </a>
                 <ul class="dropdown-menu extended notification">
-                <div class="notify-arrow notify-arrow-green"></div>
-                <li>
-                  <a href="index.html#">
-                    <span class="label label-success"><i class="fa fa-pen"></i></span>
-                    Editer les métadonnées d'un livre
-                    </a>
-                </li>
-              </ul>
-          </li>
-          <li id="header_convertir_livre_bar" class="dropdown">
-          <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
-              Convertir
-              <i class="fa-solid fa-repeat"></i>
+                  <div class="notify-arrow notify-arrow-green"></div>
+                  <li>
+                    <a href="index.html#">
+                      <span class="label label-warning"><i class="fa fa-arrow-right"></i></span>
+                      Convertir le format d'un livre
+                      </a>
+                  </li>
+                </ul>
+            </li>
+            <li id="header_convertir_livre_bar" class="dropdown">
+            <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
+              Recupération des actualités
+                <i class="fa-solid fa-newspaper"></i>
+                  </a>
+                <ul class="dropdown-menu extended notification">
+                  <div class="notify-arrow notify-arrow-green"></div>
+                  <li>
+                    <a href="index.html#">
+                      <span class="label label-danger"><i class="fa fa-calendar"></i></span>
+                      Planifier le dl des actualités
+                      </a>
+                  </li>
+                </ul>
+            </li>
+          </ul>
+          <!-- notification end -->
+        </div>
+        <div class="top-menu">
+          <ul class="nav pull-right top-menu">
+          <?php if (isset($_SESSION['username'])): ?>
+            <!-- Utilisateur connecté -->
+            <li><a class="logout" href="./pages_cnx/logout.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Déconnexion</a></li>
+          <?php else: ?>
+            <!-- Utilisateur non connecté -->
+            <li><a class="logout" href="./pages_cnx/login.php">Se Connecter</a></li>
+          <?php endif; ?>
+          </ul>
+        </div>
+      </header>
+      <!--header end-->
+      <!-- **********************************************************************************************************************************************************
+          MAIN SIDEBAR MENU
+          *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+        <div id="sidebar" class="nav-collapse ">
+          <!-- sidebar menu start-->
+          <ul class="sidebar-menu" id="nav-accordion">
+          <li class="Formats">
+              <a href="index.php">
+                <i class="fa fa-book"></i>
+                <span>Livres</span>
                 </a>
-              <ul class="dropdown-menu extended notification">
-                <div class="notify-arrow notify-arrow-green"></div>
-                <li>
-                  <a href="index.html#">
-                    <span class="label label-warning"><i class="fa fa-arrow-right"></i></span>
-                    Convertir le format d'un livre
-                    </a>
-                </li>
-              </ul>
-          </li>
-          <li id="header_convertir_livre_bar" class="dropdown">
-          <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
-            Visualiser
-              <i class="fa-solid fa-eye"></i>
+            </li>
+            <li class="Livres">
+              <a href="./pages/playlist.php">
+                <i class="fa fa-book-open"></i>
+                <span>Playlist</span>
                 </a>
-              <ul class="dropdown-menu extended notification">
-                <div class="notify-arrow notify-arrow-green"></div>
-                <li>
-                  <a href="index.html#">
-                    <span class="label label-success"><i class="fa fa-expand"></i></span>
-                    Visualiser un livre
-                    </a>
-                </li>
-              </ul>
-          </li>
-          <li id="header_convertir_livre_bar" class="dropdown">
-          <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
-            Supprimer
-              <i class="fa-solid fa-trash"></i>
+            </li>
+            <li class="auteur">
+              <a href="index.php">
+                <i class="fa fa-user-tie"></i>
+                <span>Auteur</span>
                 </a>
-              <ul class="dropdown-menu extended notification">
-                <div class="notify-arrow notify-arrow-green"></div>
-                <li>
-                  <a href="index.html#">
-                    <span class="label label-danger"><i class="fa fa-x"></i></span>
-                    Supprimer un livre
-                    </a>
-                </li>
-              </ul>
-          </li>
-          <li id="header_convertir_livre_bar" class="dropdown">
-          <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
-            Favoris
-              <i class="fa-solid fa-bookmark"></i>
+            </li>
+            <li class="editeur">
+              <a href="index.php">
+                <i class="fa fa-feather"></i>
+                <span>Editeur</span>
                 </a>
-              <ul class="dropdown-menu extended notification">
-                <div class="notify-arrow notify-arrow-green"></div>
-                <li>
-                  <a href="index.html#">
-                    <span class="label label-success"><i class="fa fa-plus"></i></span>
-                    Ajouter un livre en favoris
-                    </a>
-                </li>
-                <li>
-                  <a href="index.html#">
-                    <span class="label label-warning"><i class="fa fa-magnifying-glass"></i></span>
-                    Afficher les favoris
-                    </a>
-                </li>
-              </ul>
-          </li>
-          <li id="header_convertir_livre_bar" class="dropdown">
-          <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
-            Enregistrer sous
-              <i class="fa-solid fa-floppy-disk"></i>
+            </li>
+            <li class="Genres">
+              <a href="index.php">
+                <i class="fa fa-tags"></i>
+                <span>Genres</span>
                 </a>
-              <ul class="dropdown-menu extended notification">
-                <div class="notify-arrow notify-arrow-green"></div>
-                <li>
-                  <a href="index.html#">
-                    <span class="label label-success"><i class="fa fa-file-export"></i></span>
-                    Enregistrer sous...
-                    </a>
-                </li>
-              </ul>
-          </li>
-          <li id="header_convertir_livre_bar" class="dropdown">
-          <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
-            Recupération des actualités
-              <i class="fa-solid fa-newspaper"></i>
-                </a>
-              <ul class="dropdown-menu extended notification">
-                <div class="notify-arrow notify-arrow-green"></div>
-                <li>
-                  <a href="index.html#">
-                    <span class="label label-danger"><i class="fa fa-calendar"></i></span>
-                    Planifier le dl des actualités
-                    </a>
-                </li>
-              </ul>
-          </li>
-        </ul>
-         notification end -->
-      </div>
-      <div class="top-menu">
-        <ul class="nav pull-right top-menu">
-          <li><a class="logout" href="./pages/logout.php">Déconnexion</a></li>
-        </ul>
-      </div>
-    </header>
-    <!--header end-->
-    <!-- **********************************************************************************************************************************************************
-        MAIN SIDEBAR MENU
-        *********************************************************************************************************************************************************** -->
-    <!--sidebar start-->
-    <aside>
-      <div id="sidebar" class="nav-collapse ">
-        <!-- sidebar menu start-->
-        <ul class="sidebar-menu" id="nav-accordion">
-        <li class="Formats">
-            <a href="index.php">
-              <i class="fa fa-book"></i>
-              <span>Bibliothèque</span>
-              </a>
-          </li>
-          <li class="Livres">
-            <a href="./pages/livres.php">
-              <i class="fa fa-book-open"></i>
-              <span>Livres</span>
-              </a>
-          </li>
-          <li class="auteur">
-            <a href="index.php">
-              <i class="fa fa-user-tie"></i>
-              <span>Auteur</span>
-              </a>
-          </li>
-          <li class="editeur">
-            <a href="index.php">
-              <i class="fa fa-feather"></i>
-              <span>Editeur</span>
-              </a>
-          </li>
-          <li class="Genres">
-            <a href="index.php">
-              <i class="fa fa-tags"></i>
-              <span>Genres</span>
-              </a>
-          </li>
-        </ul>
-        <!-- sidebar menu end-->
-      </div>
-    </aside>
-    <!--sidebar end-->
+            </li>
+          </ul>
+          <!-- sidebar menu end-->
+        </div>
+      </aside>
+      <!--sidebar end-->
 
-   <!--main content start-->
-   <section id="main-content">
-      <section class="wrapper">
-        <center> Coucou </center>
+    <!--main content start-->
+    <section id="main-content">
+        <section class="wrapper">
+          <div class="row">
+            <div class="main-chart">
+              <!--CUSTOM CHART START -->
+              <div class="border-head">
+                <h3>MES LIVRES</h3>
+                <div class ="container book-list" id="book-list">
+                  <div class ="grid-item">
+                    <div class="darkblue-header">
+                      <p> LIVRE 1</p>
+                    </div>
+                    <p>Auteur : Aucun</p>
+                    <div class="pull-left">
+                      <h5><i class="fa fa-hdd-o"></i></h5>
+                    </div>
+                    <div class="pull-right">
+                      <h5>Format : Ebup</h5>
+                      </div>
+                  </div>
+                  <div class ="grid-item">
+                    <div class="darkblue-header">
+                      <p> LIVRE 2</p>
+                    </div>
+                    <p>Auteur : Aucun</p>
+                    <div class="pull-left">
+                      <h5><i class="fa fa-hdd-o"></i></h5>
+                    </div>
+                    <div class="pull-right">
+                      <h5>Format : Ebup</h5>
+                      </div>
+                  </div>
+                  <div class ="grid-item">
+                    <div class="darkblue-header">
+                      <p> LIVRE 3</p>
+                    </div>
+                    <p>Auteur : Aucun</p>
+                    <div class="pull-left">
+                      <h5><i class="fa fa-hdd-o"></i></h5>
+                    </div>
+                    <div class="pull-right">
+                      <h5>Format : Ebup</h5>
+                      </div>
+                  </div>
+                  <div class ="grid-item">
+                    <div class="darkblue-header">
+                      <p> LIVRE 1</p>
+                    </div>
+                    <p>Auteur : Aucun</p>
+                    <div class="pull-left">
+                      <h5><i class="fa fa-hdd-o"></i></h5>
+                    </div>
+                    <div class="pull-right">
+                      <h5>Format : Ebup</h5>
+                      </div>
+                  </div>
+                  <div class ="grid-item">
+                    <div class="darkblue-header">
+                      <p> LIVRE 5</p>
+                    </div>
+                    <p>Auteur : Aucun</p>
+                    <div class="pull-left">
+                      <h5><i class="fa fa-hdd-o"></i></h5>
+                    </div>
+                    <div class="pull-right">
+                      <h5>Format : Ebup</h5>
+                      </div>
+                  </div>
+                  <div class ="grid-item">
+                    <div class="darkblue-header">
+                      <p> LIVRE 6</p>
+                    </div>
+                    <p>Auteur : Aucun</p>
+                    <div class="pull-left">
+                      <h5><i class="fa fa-hdd-o"></i></h5>
+                    </div>
+                    <div class="pull-right">
+                      <h5>Format : Ebup</h5>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <!--custom chart end-->
+            </div>
+            <!-- /col-lg-3 -->
+          </div>
+          <!-- /row -->
+        </section>
       </section>
-    </section>
-    <!--main content end-->
+      <!--main content end-->
 
-  
-  <script>
-    const bookList = document.getElementById('book-list');
-    const addBookButton = document.getElementById('add-book');
-    const fileInput = document.getElementById('file-input');
+    
+    <script>
 
-    const bookDetails = document.getElementById('book-details');
-    const titleInput = document.getElementById('title');
-    const authorInput = document.getElementById('author');
-    const saveDetailsButton = document.getElementById('save-details');
-    const closeDetailsButton = document.getElementById('close-details');
+      const bookList = document.getElementById('book-list');
+      const addBookButton = document.getElementById('add-book');
+      const fileInput = document.getElementById('file-input');
 
-    addBookButton.addEventListener('click', () => {
-      fileInput.click();
-    });
+      const bookDetails = document.getElementById('book-details');
+      const titleInput = document.getElementById('title');
+      const authorInput = document.getElementById('author');
+      const saveDetailsButton = document.getElementById('save-details');
+      const closeDetailsButton = document.getElementById('close-details');
 
-    fileInput.addEventListener('change', (event) => {
-      const files = event.target.files;
-      if (files.length > 0) {
-        const newBookItem = document.createElement('li');
-        newBookItem.classList.add('book-item');
+      addBookButton.addEventListener('click', () => {
+        fileInput.click();
+      });
 
-        newBookItem.innerHTML = `
-          <div class="col-md-2 col-sm-5 mb">
-            <div class="darkblue-panel pn">
+      fileInput.addEventListener('change', (event) => {
+        const files = event.target.files;
+        if (files.length > 0) {
+          const newBookItem = document.createElement('li');
+          newBookItem.classList.add('book-item');
+
+          newBookItem.innerHTML = `
+            <div class ="grid-item">
               <div class="darkblue-header">
-                <p style="color : white;">${files[0].name}</p>
+                <p>${files[0].name}</p>
               </div>
               <p>Auteur : Aucun</p>
-              <footer>
-                <div class="pull-left">
-                  <h5><i class="fa fa-hdd-o"></i></h5>
-                </div>
-                <div class="pull-right">
-                  <h5>Format : Ebup</h5>
-                </div>
-              </footer>
+              <div class="pull-left">
+                <h5><i class="fa fa-hdd-o"></i></h5>
+              </div>
+              <div class="pull-right">
+                <h5>Format : Ebup</h5>
+              </div>
             </div>
-          </div>
-        `;
+          `;
 
-        bookList.appendChild(newBookItem);
-      }
-    });
+          bookList.appendChild(newBookItem);
+        }
+      });
 
-    bookList.addEventListener('click', (event) => {
-      if (event.target.classList.contains('edit-button')) {
-        bookDetails.style.display = 'block';
-        const bookItem = event.target.closest('.book-item');
-        const titleElement = bookItem.querySelector('h3');
-        const authorElement = bookItem.querySelector('p:nth-of-type(2)');
-        titleInput.value = titleElement.textContent;
-        authorInput.value = authorElement.textContent.split(':')[1].trim();
-      }
+      bookList.addEventListener('click', (event) => {
+        if (event.target.classList.contains('edit-button')) {
+          bookDetails.style.display = 'block';
+          const bookId = event.target.closest('.book-item').dataset.id;
+          const bookItem = event.target.closest('.book-item');
+          const titleElement = bookItem.querySelector('h3');
+          const authorElement = bookItem.querySelector('p:nth-of-type(2)');
+          titleInput.value = titleElement.textContent;
+          authorInput.value = authorElement.textContent.split(':')[1].trim();
+        }
 
-      if (event.target.classList.contains('delete-button')) {
-        const bookItem = event.target.closest('.book-item');
-        bookList.removeChild(bookItem);
-      }
-    });
+        if (event.target.classList.contains('delete-button')) {
+          const bookItem = event.target.closest('.book-item');
+          bookList.removeChild(bookItem);
+        }
+      });
 
-    saveDetailsButton.addEventListener('click', () => {
-      const selectedBook = document.querySelector('.book-item .edit-button:focus');
-      if (selectedBook) {
-        const titleElement = selectedBook.querySelector('h3');
-        const authorElement = selectedBook.querySelector('p:nth-of-type(2)');
-        titleElement.textContent = titleInput.value;
-        authorElement.textContent = `Auteur : ${authorInput.value}`;
-        bookDetails.style.display = 'none';
-      }
-    });
 
-    closeDetailsButton.addEventListener('click', () => {
-      bookDetails.style.display = 'none';
-    });
-  </script>
+    </script>
 
     <!-- js placed at the end of the document so the pages load faster -->
     <script src="lib/jquery/jquery.min.js"></script>
