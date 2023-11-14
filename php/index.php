@@ -1,9 +1,44 @@
+<?php
+// Connexion à la base de données
+$servername = "localhost"; // Remplacez par le nom de votre serveur de base de données
+$username = "root"; // Remplacez par votre nom d'utilisateur de base de données
+$password = ""; // Remplacez par votre mot de passe de base de données
+$database = "Biblio"; // Remplacez par le nom de votre base de données
+
+// Créez la connexion à la base de données
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Vérifiez la connexion
+if ($conn->connect_error) {
+    die("La connexion à la base de données a échoué : " . $conn->connect_error);
+}
+ // Initialiser la session
+  session_start();
+  // Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
+  if(!isset($_SESSION["username"])){
+    header("Location: login.php");
+    exit(); 
+  }
+
+?>
+<?php
+
+// Requête pour récupérer les données des tables
+$sql = "SELECT livre.id, livre.nom, livre.infos, auteur.nom as nom_auteur, editeur.nom as nom_editeur, genre.nom as nom_genre, langue.nom as nom_langue FROM livre
+        INNER JOIN auteur ON livre.idauteur = auteur.id
+        INNER JOIN editeur ON livre.idediteur = editeur.id
+        INNER JOIN genre ON livre.idgenre = genre.id
+        INNER JOIN langue ON livre.idlangue = langue.id";
+
+$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bibliothèque SIO</title>
+    <title>Bibliothèque</title>
     <!-- Bootstrap core CSS -->
     <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!--external css-->
@@ -22,17 +57,14 @@
         *********************************************************************************************************************************************************** -->
     <!--header start-->
     <header class="header black-bg">
-      <div class="sidebar-toggle-box">
-        <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
-      </div>
       <!--logo start-->
-      <a href="index.php" class="logo"><b>Bibliothèque</span></b></a>
+      <a href="index.php" class="logo"><b><?php echo $_SESSION['username']; ?></span></b></a>
       <!--logo end-->
       <div class="nav notify-row" id="top_menu">
         <!--  Categories start -->
         <ul class="nav top-menu">
           <!-- Ajout Livre Boutton start -->
-          <li id="header_ajout_livre_bar" class="dropdown">
+         <!-- <li id="header_ajout_livre_bar" class="dropdown">
             
             <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
             Ajouter
@@ -47,8 +79,6 @@
               </li>
             </ul>
           </li>
-          <!-- Ajout Livre Boutton end -->
-          <!-- Editer Metadonnes Boutton start-->
           <li id="header_Editer_metadonnees_bar" class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
               Editer les metadonnées
@@ -64,8 +94,6 @@
                 </li>
               </ul>
           </li>
-          <!-- Editer Metadonnes Boutton end -->
-          <!-- Convertir Livre Boutton start-->
           <li id="header_convertir_livre_bar" class="dropdown">
           <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
               Convertir
@@ -81,8 +109,6 @@
                 </li>
               </ul>
           </li>
-          <!-- Convertir Livre Boutton end -->
-          <!-- Visualiser Livre Boutton start-->
           <li id="header_convertir_livre_bar" class="dropdown">
           <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
             Visualiser
@@ -98,8 +124,6 @@
                 </li>
               </ul>
           </li>
-          <!-- Visualiser Livre Boutton end -->
-          <!-- Supprimer Livre Boutton start-->
           <li id="header_convertir_livre_bar" class="dropdown">
           <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
             Supprimer
@@ -115,8 +139,6 @@
                 </li>
               </ul>
           </li>
-          <!-- Suprimmer Livre Boutton end -->
-          <!-- Favoris Boutton start-->
           <li id="header_convertir_livre_bar" class="dropdown">
           <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
             Favoris
@@ -138,8 +160,6 @@
                 </li>
               </ul>
           </li>
-          <!-- Favoris Boutton end -->
-          <!-- Enregistrer Livre Boutton start-->
           <li id="header_convertir_livre_bar" class="dropdown">
           <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
             Enregistrer sous
@@ -155,8 +175,6 @@
                 </li>
               </ul>
           </li>
-          <!-- Enregistrer Livre Boutton end -->
-          <!-- Recherche Livre Actualite Boutton start-->
           <li id="header_convertir_livre_bar" class="dropdown">
           <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
             Recupération des actualités
@@ -172,13 +190,12 @@
                 </li>
               </ul>
           </li>
-          <!-- Recherche Livre Actualite Boutton end -->
         </ul>
-        <!--  notification end -->
+         notification end -->
       </div>
       <div class="top-menu">
         <ul class="nav pull-right top-menu">
-          <li><a class="logout" href="login.html">Login</a></li>
+          <li><a class="logout" href="./pages_cnx_bdd/logout.php">Déconnexion</a></li>
         </ul>
       </div>
     </header>
@@ -191,6 +208,12 @@
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
+        <li class="Formats">
+            <a href="index.php">
+              <i class="fa fa-book"></i>
+              <span>Bibliothèque</span>
+              </a>
+          </li>
           <li class="Livres">
             <a href="index.php">
               <i class="fa fa-book-open"></i>
@@ -209,22 +232,10 @@
               <span>Editeur</span>
               </a>
           </li>
-          <li class="Formats">
-            <a href="index.php">
-              <i class="fa fa-book"></i>
-              <span>Formats</span>
-              </a>
-          </li>
           <li class="Genres">
             <a href="index.php">
               <i class="fa fa-tags"></i>
               <span>Genres</span>
-              </a>
-          </li>
-          <li class="Langues">
-            <a href="index.php">
-              <i class="fa fa-globe"></i>
-              <span>Langues</span>
               </a>
           </li>
         </ul>
@@ -241,6 +252,35 @@
             <!--CUSTOM CHART START -->
             <div class="border-head">
               <h3>MES LIVRES</h3>
+              <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Titre</th>
+            <th>Infos</th>
+            <th>Auteur</th>
+            <th>Éditeur</th>
+            <th>Genre</th>
+            <th>Langue</th>
+        </tr>
+        <?php
+        if ($result ->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $row["id"] . "</td>";
+                echo "<td>" . $row["nom"] . "</td>";
+                echo "<td>" . $row["infos"] . "</td>";
+                echo "<td>" . $row["nom_auteur"] . "</td>";
+                echo "<td>" . $row["nom_editeur"] . "</td>";
+                echo "<td>" . $row["nom_genre"] . "</td>";
+                echo "<td>" . $row["nom_langue"] . "</td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "Aucun livre trouvé dans la base de données.";
+        }
+        $conn->close();
+        ?>
+    </table>
             </div>
             <!--custom chart end-->
             <ul class="book-list" id="book-list">

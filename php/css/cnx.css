@@ -1,0 +1,67 @@
+
+@import url(http://fonts.googleapis.com/css?family=Ruda:400,700,900);
+body{
+ background: #eaeaea;
+}
+#container{
+ width:400px;
+ margin:0 auto;
+ margin-top:10%;
+}
+/* Bordered form */
+form {
+ width:100%;
+ padding: 30px;
+ border: 1px solid #2f323a;
+ background: #2f323a;
+ box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+ 
+ border-radius: 10px; 
+}
+#container h1{
+    font-family: 'Ruda', sans-serif;
+ width: 38%;
+ margin: 0 auto;
+ color: white;
+ padding-bottom: 10px;
+}
+
+input { border-radius: 10px; }
+
+
+#container h2{
+    font-family: 'Ruda', sans-serif;
+    color: white;
+    margin: 0 auto;
+   }
+
+   #container h3{
+    font-family: 'Ruda', sans-serif;
+    color: white;
+   }
+
+/* Full-width inputs */
+input[type=text], input[type=password] {
+ width: 100%;
+ padding: 12px 20px;
+ margin: 8px 0;
+ display: inline-block;
+ border: 1px solid #2f323a;
+ box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+input[type=submit] {
+ background-color: #eaeaea;
+ color: #eaeaea;
+ padding: 14px 20px;
+ margin: 8px 0;
+ border: none;
+ cursor: pointer;
+ width: 100%;
+}
+input[type=submit]:hover {
+ background-color: w#eaeaea;
+ color: #eaeaea;
+ border: 1px solid #2f323a;
+}
