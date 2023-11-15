@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<package xmlns="http://www.idpf.org/2007/opf" version="2.0" unique-identifier="BookId">
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+    <dc:title>Correspondance - Tome III</dc:title>
+    <dc:creator opf:file-as="Flaubert, Gustave" opf:role="aut">Gustave Flaubert</dc:creator>
+    <dc:language>fr</dc:language>
+    <dc:subject>Documents - Essais</dc:subject>
+    <dc:publisher>Ebooks libres et gratuits</dc:publisher>
+    <dc:description>La correspondance de Flaubert est constituée de plus de 4 000 lettres adressées à près de 300 correspondants, tels que Louise Colet, George Sand, Maxime Du Camp, la princesse Mathilde, les frères Goncourt, Guy de Maupassant, Émile Zola et bien d'autres. Elle s’étend sur une période de près de 50 ans, de 1830, quand Flaubert avait 9 ans, à 1880, année de sa mort, et a fait l’objet de nombreuses éditions. Elle a été parfois considérée comme son chef-d’œuvre. NB : l'orthographe originale de l'auteur, souvent déficiente, a été conservée.</dc:description>
+    <dc:date opf:event="creation">2023-06-17T19:28:14Z</dc:date>
+    <meta name="office:version" content="LibreOffice/7.5.1.2$Windows_X86_64 LibreOffice_project/fcbaee479e84c6cd81291587d2ee68cba099e129" />
+    <meta name="office:last-modification-date" content="2023-06-17T21:25:00" />
+    <meta name="office:creation-date" content="2019-05-04T10:57:00" />
+    <meta name="éditeur" content="Ebooks libres et gratuits" />
+    <meta name="amanuensis:generator" content="amanuensis" />
+    <meta name="amanuensis:version" content="green snake 22" />
+    <meta name="amanuensis:xhtml-creation-date" content="2023-06-17T21:28:06" />
+    <meta name="cover" content="img1" />
+    <dc:identifier id="BookId">urn:uuid:666D39EE-6E66-1014-9C67-CC3C47F41028</dc:identifier>
+  </metadata>
+  <manifest>
+    <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml" />
+    <item id="css1" href="style.css" media-type="text/css" />
+    <item id="img1" href="cover.jpg" media-type="image/jpeg" />
+    <item id="ch1" href="cover.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch2" href="book_0000.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch3" href="book_0001.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch4" href="book_0002.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch5" href="book_0003.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch6" href="book_0004.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch7" href="book_0005.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch8" href="book_0006.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch9" href="book_0007.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch10" href="book_0008.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch11" href="book_0009.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch12" href="book_0010.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch13" href="book_0011.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch14" href="book_0012.xhtml" media-type="application/xhtml+xml" />
+  </manifest>
+  <spine toc="ncx">
+    <itemref idref="ch1" />
+    <itemref idref="ch2" />
+    <itemref idref="ch3" />
+    <itemref idref="ch4" />
+    <itemref idref="ch5" />
+    <itemref idref="ch6" />
+    <itemref idref="ch7" />
+    <itemref idref="ch8" />
+    <itemref idref="ch9" />
+    <itemref idref="ch10" />
+    <itemref idref="ch11" />
+    <itemref idref="ch12" />
+    <itemref idref="ch13" />
+    <itemref idref="ch14" />
+  </spine>
+  <guide>
+    <reference href="cover.xhtml" type="cover" title="Couverture" />
+  </guide>
+</package>
