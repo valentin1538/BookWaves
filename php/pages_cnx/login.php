@@ -23,7 +23,8 @@ if (isset($_POST['username'])){
         // L'utilisateur est authentifié avec succès
         $row = $result->fetch_assoc();
         $_SESSION["admin"] = $row["admin"]; // Stocker le statut administrateur dans la session
-
+        $_SESSION["id"] = $row["id"];
+        $_SESSION["email"] = $row["email"];
         if ($row["admin"] == 1) {
             header("Location: admin.php"); // Redirigez vers la page de gestion des auteurs pour les administrateurs
         } else 

@@ -284,7 +284,7 @@ ul.sidebar-menu {
 }
 
 #sidebar > ul > li > ul.sub {
-  display: none;
+  display: block;
 }
 
 #sidebar > ul > li.active > ul.sub,
@@ -322,16 +322,6 @@ ul.sidebar-menu li ul.sub li a:hover {
   background: transparent;
 }
 
-ul.sidebar-menu li ul.sub li.active a {
-  color: #4ecdc4;
-  -webkit-transition: all 0.3s ease;
-  -moz-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  -ms-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-  display: block;
-}
-
 ul.sidebar-menu li {
   /*line-height: 20px !important;*/
   margin-bottom: 5px;
@@ -361,10 +351,20 @@ ul.sidebar-menu li a {
   transition: all 0.3s ease;
 }
 
-ul.sidebar-menu li a.active,
 ul.sidebar-menu li a:hover,
 ul.sidebar-menu li a:focus {
   background: #4ecdc4;
+  color: #fff;
+  display: block;
+
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+ul.sidebar-menu li a.active {
   color: #fff;
   display: block;
 
@@ -3425,6 +3425,7 @@ ul.chat-available-user li a:hover {
   display: grid;
   align-items: center;
   padding: 10%;
+  min-width: 100px;
   justify-content: center;
   border: #000 solid 1px;
 }
@@ -3432,4 +3433,39 @@ ul.chat-available-user li a:hover {
 .titre-page {
   padding: 0%;
   color: white;
+}
+
+/* Style pour les sous-listes */
+ul.sidebar-menu li ul.menu-deroulant-commune,
+ul.sidebar-menu li ul.menu-deroulant-perso {
+  display: none;
+  padding-left: 32px;
+  padding-bottom: 10px;
+}
+
+ul.sidebar-menu li ul.menu-deroulant-commune .active,
+ul.sidebar-menu li ul.menu-deroulant-perso .active {
+  color: white;
+}
+
+ul.sidebar-menu li ul.menu-deroulant-commune li a:hover,
+ul.sidebar-menu li ul.menu-deroulant-perso li a:hover {
+  color: white;
+  background: transparent;
+}
+
+/* Style pour les liens des sous-listes */
+ul.sidebar-menu li ul.menu-deroulant-commune li a,
+ul.sidebar-menu li ul.menu-deroulant-perso li a {
+  text-decoration: none;
+  font-size: 12px;
+  padding: 6px 0;
+  line-height: 35px;
+  height: 35px;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  color: #aeb2b7;
 }
