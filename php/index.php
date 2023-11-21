@@ -72,6 +72,7 @@ $result = $conn->query($sql);
                   <input type="file" id="file-input" accept=".epub" style="display: none">
                 </li>
               </ul>
+            </li>
             <li id="header_convertir_livre_bar" class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
               Recupération des actualités
@@ -242,13 +243,35 @@ $result = $conn->query($sql);
                   // Affichage des livres filtrés
                   echo '<div class="container">';
                   foreach ($livres as $livre) {
-                      echo '<div class="book">';
-                      echo '<h2>' . $livre['nom'] . '</h2>';
-                      echo '<p><strong>Auteur :</strong> ' . $livre['auteur'] . '</p>';
-                      echo '<p><strong>Éditeur :</strong> ' . $livre['editeur'] . '</p>';
-                      echo '<p><strong>Genre :</strong> ' . $livre['genre'] . '</p>';
-                      echo '<p><strong>Langue :</strong> ' . $livre['langue'] . '</p>';
-                      echo '</div>';
+                    echo '<div class="book">';
+                    echo '<div class="title-bar">';
+                    echo '<h2>' . $livre['nom'] . '</h2>';
+                    echo '<div id="header_ajout_livre_bar" class="dropdown bars">';
+                    echo '<a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">';
+                    echo '<i class="fa-solid fa-bars"></i>';
+                    echo '</a>';
+                    echo '<ul class="dropdown-menu extended notification">';
+                    echo '<div class="notify-arrow notify-arrow-green"></div>';
+                    echo '<li>';
+                    echo '<a href="#"><i class="fa fa-eye"></i> Visualiser</a>';
+                    echo '</li>';
+                    echo '<li>';
+                    echo '<a href="#"><i class="fa fa-pencil"></i> Modifier</a>';
+                    echo '</li>';
+                    echo '<li>';
+                    echo '<a href="#"><i class="fa fa-arrows-rotate"></i> Convertir</a>';
+                    echo '</li>';
+                    echo '<li>';
+                    echo '<a href="#"><i class="fa fa-trash"></i> Supprimer</a>';
+                    echo '</li>';
+                    echo '</ul>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '<p><strong>Auteur :</strong> ' . $livre['auteur'] . '</p>';
+                    echo '<p><strong>Éditeur :</strong> ' . $livre['editeur'] . '</p>';
+                    echo '<p><strong>Genre :</strong> ' . $livre['genre'] . '</p>';
+                    echo '<p><strong>Langue :</strong> ' . $livre['langue'] . '</p>';
+                    echo '</div>';
                   }
                   echo '</div>';
                   ?>
@@ -264,59 +287,6 @@ $result = $conn->query($sql);
 
     
     <script>
-
-      const bookList = document.getElementById('book-list');
-      const addBookButton = document.getElementById('add-book');
-      const fileInput = document.getElementById('file-input');
-
-      const bookDetails = document.getElementById('book-details');
-      const titleInput = document.getElementById('title');
-      const authorInput = document.getElementById('author');
-      const saveDetailsButton = document.getElementById('save-details');
-      const closeDetailsButton = document.getElementById('close-details');
-
-      addBookButton.addEventListener('click', () => {
-        fileInput.click();
-      });
-
-      fileInput.addEventListener('change', (event) => {
-        const files = event.target.files;
-        if (files.length > 0) {
-          const newBookItem = document.createElement('div');
-          newBookItem.classList.add('grid-item');
-
-          newBookItem.innerHTML = `
-            <h2>${files[0].name}</h2>
-            <p>Auteur : Aucun</p>
-            <div class="pull-left">
-              <h5><i class="fa fa-hdd-o"></i></h5>
-            </div>
-            <div class="pull-right">
-              <h5>Format : Ebup</h5>
-            </div>
-          `;
-
-          bookList.appendChild(newBookItem);
-        }
-      });
-
-      bookList.addEventListener('click', (event) => {
-        if (event.target.classList.contains('edit-button')) {
-          bookDetails.style.display = 'block';
-          const bookId = event.target.closest('.book-item').dataset.id;
-          const bookItem = event.target.closest('.book-item');
-          const titleElement = bookItem.querySelector('h3');
-          const authorElement = bookItem.querySelector('p:nth-of-type(2)');
-          titleInput.value = titleElement.textContent;
-          authorInput.value = authorElement.textContent.split(':')[1].trim();
-        }
-
-        if (event.target.classList.contains('delete-button')) {
-          const bookItem = event.target.closest('.book-item');
-          bookList.removeChild(bookItem);
-        }
-      });
-
 
     </script>
 
