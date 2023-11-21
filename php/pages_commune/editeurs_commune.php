@@ -198,41 +198,107 @@ $result = $conn->query($sql);
     </aside>
     <!--sidebar end-->
 
-   <!--main content start-->
-   <section id="main-content">
+    <!--main content start-->
+    <section id="main-content">
       <section class="wrapper">
         <div class="row">
           <div class="main-chart">
             <!--CUSTOM CHART START -->
             <div class="border-head">
-                <h3>BIBLIOTHEQUE COMMUNE</h3>
-            </div>
-            <!--custom chart end-->
+              <h3>EDITEURS</h3>
+              <div class="container">
+                <?php
+                
+                // Requête pour récupérer les editeurs
+                $queryediteurs = "SELECT id, nom FROM editeur";
+                $resultediteurs = $conn->query($queryediteurs);
+                
+                if ($resultediteurs && $resultediteurs->num_rows > 0) {
+                    while ($rowediteur = $resultediteurs->fetch_assoc()) {
+                        $editeurId = $rowediteur['id'];
+                        $editeurName = $rowediteur['nom'];
+                
+                        echo '<div class="book">';
+                        echo "<a href='#' class='editeur-link' data-editeur-id='$editeurId'>$editeurName</a>";
+                        echo '</div>';
+                    }
+                } else {
+                    echo "Aucun editeur trouvé dans la base de données.";
+                }
+                
+                echo '</div>';
+                
+                // Affiche la liste des livres du editeur sélectionné
+                echo '<div class="livres-list" id="livres-list">';
+                echo '</div>';
+                
+                ?>
+              </div>
+
           </div>
           <!-- /col-lg-3 -->
         </div>
+        <!-- /row -->
+        </div>
+
       </section>
     </section>
-    <!--main content end-->
+      <!--main content end-->
 
-  
-  <script>
-  </script>
-  
-    <!-- js placed at the end of the document so the pages load faster -->
-    <script src="../lib/jquery/jquery.min.js"></script>
+    
+    <script>
 
-    <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
-    <script class="include" type="text/javascript" src="../lib/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="../lib/jquery.scrollTo.min.js"></script>
-    <script src="../lib/jquery.nicescroll.js" type="text/javascript"></script>
-    <script src="../lib/jquery.sparkline.js"></script>
-    <!--common script for all pages-->
-    <script src="../lib/common-scripts.js"></script>
-    <script type="text/javascript" src="../lib/gritter/js/jquery.gritter.js"></script>
-    <script type="text/javascript" src="../lib/gritter-conf.js"></script>
-    <!--script for this page-->
-    <script src="../lib/sparkline-chart.js"></script>
-    <script src="../lib/zabuto_calendar.js"></script>
+      document.addEventListener('DOMContentLoaded', function () {
+          var editeurLinks = document.querySelectorAll('.editeur-link');
+          var livresList = document.getElementById('livres-list');
+
+          editeurLinks.forEach(function (link) {
+              link.addEventListener('click', function (event) {
+                  event.preventDefault();
+                  var editeurId = link.getAttribute('data-editeur-id');
+                  chargerLivresParediteur(editeurId);
+              });
+          });
+
+          function chargerLivresParediteur(editeurId) {
+              // Exécute une requête AJAX pour charger les livres du editeur sélectionné
+              var xhr = new XMLHttpRequest();
+              xhr.open('GET', 'charger-livres-par-editeur.php?editeurId=' + editeurId, true);
+
+              xhr.onload = function () {
+                  if (xhr.status >= 200 && xhr.status < 400) {
+                      // La requête a réussi, mettez à jour la liste des livres
+                      livresList.innerHTML = xhr.responseText;
+                  } else {
+                      console.error('La requête a échoué.');
+                  }
+              };
+
+              xhr.onerror = function () {
+                  console.error('Erreur réseau.');
+              };
+
+              xhr.send();
+          }
+      });
+      
+    </script>
+
+      <!-- js placed at the end of the document so the pages load faster -->
+      <script src="lib/jquery/jquery.min.js"></script>
+
+      <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+      <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
+      <script src="lib/jquery.scrollTo.min.js"></script>
+      <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
+      <script src="lib/jquery.sparkline.js"></script>
+      <!--common script for all pages-->
+      <script src="lib/common-scripts.js"></script>
+      <script type="text/javascript" src="lib/gritter/js/jquery.gritter.js"></script>
+      <script type="text/javascript" src="lib/gritter-conf.js"></script>
+      <!--script for this page-->
+      <script src="lib/sparkline-chart.js"></script>
+      <script src="lib/zabuto_calendar.js"></script>
+
 </body>
 </html>

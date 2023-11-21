@@ -10,11 +10,17 @@ $conn = new mysqli($servername, $username, $password, $database);
 
 // Vérifiez la connexion
 if ($conn->connect_error) {
-    die("La connexion à la base de données a échoué : " . $conn->connect_error);
+  die("La connexion à la base de données a échoué : " . $conn->connect_error);
 }
- // Initialiser la session
+// Initialiser la session
 session_start();
 // Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
+if(!isset($_SESSION["username"])){
+  header("Location: ../pages_cnx/login.php");
+  exit(); 
+}
+
+$_SESSION['redirect_url'] = $_SERVER['REQUEST_URI'];
 
 // Requête pour récupérer les données des tables
 $sql = "SELECT livre.id, livre.nom, livre.infos, auteur.nom as nom_auteur, editeur.nom as nom_editeur, genre.nom as nom_genre, langue.nom as nom_langue FROM livre
@@ -208,37 +214,47 @@ $result = $conn->query($sql);
         <h3>MA BIBLIOTHEQUE</h3>
 
         <?php
-        if (isset($_SESSION['username'])) {
-            // L'utilisateur est connecté, récupère les playlists liées à l'utilisateur
-            $userId = $_SESSION['id']; // Assure-toi d'avoir une variable de session contenant l'ID de l'utilisateur
 
-            $sqlPlaylists = "SELECT playlist.id, playlist.nom FROM playlist WHERE playlist.idpersonne = $userId";
-            $resultPlaylists = $conn->query($sqlPlaylists);
-            echo '<div class="container book-list" id="book-list">';
-            if ($resultPlaylists->num_rows > 0) {
-                // Affiche les playlists
-                
-                while ($row = $resultPlaylists->fetch_assoc()) {
-                    echo '<div class="grid-item">';
-                      echo '<h2 class="text-center">' . $row['nom'] . '</h2>';
-                      echo '<p>Playlist de : '. $_SESSION['username'] .' </p>';
-                    echo '</div>';
-                }
-                echo '<div class="grid-item">';
-                echo '<h2>Nouvelle Playlist</h2>';
-                echo '<button class="text_center"><i class="fa fa-plus"></i>Créer une playlist</button>';
-                echo '</div>';
-                
-            } else {
-              echo '<div class="grid-item">';
-                echo '<h2>Nouvelle Playlist</h2>';
-                echo '<button class="text_center"><i class="fa fa-plus"></i>Créer une playlist</button>';
-              echo '</div>';
-            }
-        } else {
-            // L'utilisateur n'est pas connecté, affiche un message et un lien vers la page de connexion
-            echo '<p>Connectez-vous pour accéder à votre bibliothèque. <a href="../pages_cnx/login.php">Se Connecter</a></p>';
+        try {
+            $connexion = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+            $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            // Récupérer le terme de recherche depuis l'URL
+            $recherche = isset($_GET['recherche']) ? $_GET['recherche'] : '';
+
+            // Requête pour récupérer les livres filtrés par le terme de recherche
+            $requete = "SELECT livreperso.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue, livreperso.infos AS infos 
+                FROM livreperso 
+                JOIN auteur ON livreperso.idauteur = auteur.id 
+                JOIN editeur ON livreperso.idediteur = editeur.id 
+                JOIN genre ON livreperso.idgenre = genre.id 
+                JOIN langue ON livreperso.idlangue = langue.id 
+                WHERE livreperso.nom LIKE '%$recherche%' AND livreperso.idpersonne = '%$_SESSION[id]%'"; // Requête SQL pour la recherche
+
+            $resultats = $connexion->query($requete);
+            $livres = $resultats->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            echo "Erreur de connexion : " . $e->getMessage();
         }
+
+        // Affichage du formulaire de recherche
+        echo '<form class="barre-recherche" action="" method="GET">';
+        echo '<input type="text" name="recherche" placeholder="Rechercher un livre" value="' . htmlentities($recherche) . '">';
+        echo '<input type="submit" value="Rechercher">';
+        echo '</form>';
+
+        // Affichage des livres filtrés
+        echo '<div class="container">';
+        foreach ($livres as $livre) {
+            echo '<div class="book">';
+            echo '<h2>' . $livre['nom'] . '</h2>';
+            echo '<p><strong>Auteur :</strong> ' . $livre['auteur'] . '</p>';
+            echo '<p><strong>Éditeur :</strong> ' . $livre['editeur'] . '</p>';
+            echo '<p><strong>Genre :</strong> ' . $livre['genre'] . '</p>';
+            echo '<p><strong>Langue :</strong> ' . $livre['langue'] . '</p>';
+            echo '</div>';
+        }
+        echo '</div>';
         ?>
 
     </div>

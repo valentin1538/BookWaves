@@ -198,41 +198,103 @@ $result = $conn->query($sql);
     </aside>
     <!--sidebar end-->
 
-   <!--main content start-->
-   <section id="main-content">
-      <section class="wrapper">
-        <div class="row">
-          <div class="main-chart">
-            <!--CUSTOM CHART START -->
-            <div class="border-head">
-                <h3>BIBLIOTHEQUE COMMUNE</h3>
+    <!--main content start-->
+    <section id="main-content">
+        <section class="wrapper">
+          <div class="row">
+            <div class="main-chart">
+              <!--CUSTOM CHART START -->
+              <div class="border-head">
+                <h3>GENRES</h3>
+                <div class="container">
+                <?php
+                
+                // Requête pour récupérer les genres
+                $queryGenres = "SELECT id, nom FROM genre";
+                $resultGenres = $conn->query($queryGenres);
+                
+                if ($resultGenres && $resultGenres->num_rows > 0) {
+                    while ($rowGenre = $resultGenres->fetch_assoc()) {
+                        $genreId = $rowGenre['id'];
+                        $genreName = $rowGenre['nom'];
+                
+                        echo '<div class="book">';
+                        echo "<a href='#' class='genre-link' data-genre-id='$genreId'>$genreName</a>";
+                        echo '</div>';
+                    }
+                } else {
+                    echo "Aucun genre trouvé dans la base de données.";
+                }
+                
+                echo '</div>';
+                
+                // Affiche la liste des livres du genre sélectionné
+                echo '<div class="livres-list" id="livres-list">';
+                echo '</div>';
+                
+                ?>
+              </div>
             </div>
-            <!--custom chart end-->
+            <!-- /col-lg-3 -->
           </div>
-          <!-- /col-lg-3 -->
-        </div>
+          <!-- /row -->
+        </section>
       </section>
-    </section>
-    <!--main content end-->
+      <!--main content end-->
 
-  
-  <script>
-  </script>
-  
-    <!-- js placed at the end of the document so the pages load faster -->
-    <script src="../lib/jquery/jquery.min.js"></script>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var genreLinks = document.querySelectorAll('.genre-link');
+        var livresList = document.getElementById('livres-list');
 
-    <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
-    <script class="include" type="text/javascript" src="../lib/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="../lib/jquery.scrollTo.min.js"></script>
-    <script src="../lib/jquery.nicescroll.js" type="text/javascript"></script>
-    <script src="../lib/jquery.sparkline.js"></script>
-    <!--common script for all pages-->
-    <script src="../lib/common-scripts.js"></script>
-    <script type="text/javascript" src="../lib/gritter/js/jquery.gritter.js"></script>
-    <script type="text/javascript" src="../lib/gritter-conf.js"></script>
-    <!--script for this page-->
-    <script src="../lib/sparkline-chart.js"></script>
-    <script src="../lib/zabuto_calendar.js"></script>
+      genreLinks.forEach(function (link) {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            var genreId = link.getAttribute('data-genre-id');
+            chargerLivresParGenre(genreId);
+          });
+      });
+
+    function chargerLivresParGenre(genreId) {
+        // Exécute une requête AJAX pour charger les livres du genre sélectionné
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'charger-livres-par-genre.php?genreId=' + genreId, true);
+
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 400) {
+                // La requête a réussi, mettez à jour la liste des livres
+                livresList.innerHTML = xhr.responseText;
+            } else {
+                console.error('La requête a échoué.');
+            }
+        };
+
+        xhr.onerror = function () {
+            console.error('Erreur réseau.');
+        };
+
+        xhr.send();
+    }
+    });
+    </script>
+
+      <!-- js placed at the end of the document so the pages load faster -->
+      <script src="lib/jquery/jquery.min.js"></script>
+
+      <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+      <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
+      <script src="lib/jquery.scrollTo.min.js"></script>
+      <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
+      <script src="lib/jquery.sparkline.js"></script>
+      <!--common script for all pages-->
+      <script src="lib/common-scripts.js"></script>
+      <script type="text/javascript" src="lib/gritter/js/jquery.gritter.js"></script>
+      <script type="text/javascript" src="lib/gritter-conf.js"></script>
+      <!--script for this page-->
+      <script src="lib/sparkline-chart.js"></script>
+      <script src="lib/zabuto_calendar.js"></script>
+
+
 </body>
 </html>

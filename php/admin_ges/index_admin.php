@@ -12,8 +12,17 @@ $conn = new mysqli($servername, $username, $password, $database);
 if ($conn->connect_error) {
     die("La connexion à la base de données a échoué : " . $conn->connect_error);
 }
-// Initialiser la session
-session_start();
+ // Initialiser la session
+  session_start();
+  // Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
+  if(!isset($_SESSION["username"])){
+    header("Location: ../pages_cnx/login.php");
+    exit(); 
+  }
+  if(($_SESSION["idprofil"])!=4){
+    header("Location: ../pages_cnx/login.php");
+    exit(); 
+  }
 // Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
 
 // Requête pour récupérer les données des tables
@@ -33,14 +42,13 @@ $result = $conn->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bibliothèque</title>
     <!-- Bootstrap core CSS -->
-    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!--external css-->
-    <link href="lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="../lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
   <!-- Custom styles for this template -->
-  <link href="css/style.css" rel="stylesheet">
-  <link href="css/style-responsive.css" rel="stylesheet">
+  <link href="../css/style.css" rel="stylesheet">
+  <link href="../css/style-responsive.css" rel="stylesheet">
   <script src="https://kit.fontawesome.com/cf0cc41982.js" crossorigin="anonymous"></script>
-
 </head>
 
 
@@ -52,38 +60,23 @@ $result = $conn->query($sql);
       <!--header start-->
       <header class="header black-bg">
         <!--logo start-->
-        <a href="index.php" class="logo"><b><span>BOOK WAVES <?php echo isset($_SESSION['username']) ? ' / ' . $_SESSION['username'] : ''; ?></span></b></a>
+        <a href="../index.php" class="logo"><b><span>BOOK WAVES <?php echo isset($_SESSION['username']) ? ' / ' . $_SESSION['username'] : ''; ?></span></b></a>
         <!--logo end-->
         <div class="nav notify-row text-center" id="top_menu">
           <!--  Categories start -->
           <ul class="nav top-menu">
             <!-- Ajout Livre Boutton start -->
             <li id="header_ajout_livre_bar" class="dropdown">
-            
-            <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
-              Ajouter
-              <i class="fa-solid fa-book-medical"></i>
-            </a>
+              <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
+                Ajouter
+                <i class="fa-solid fa-book-medical"></i>
+              </a>
               <ul class="dropdown-menu extended notification">
                 <div class="notify-arrow notify-arrow-green"></div>
                 <li>
                   <button id="add-book"><span class="label label-success"><i class="fa fa-plus"></i></span>
                       Ajout depuis un dossier unique</button>
                   <input type="file" id="file-input" accept=".epub" style="display: none">
-                </li>
-              </ul>
-            <li id="header_convertir_livre_bar" class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
-              Recupération des actualités
-              <i class="fa-solid fa-newspaper"></i>
-            </a>
-              <ul class="dropdown-menu extended notification">
-                <div class="notify-arrow notify-arrow-green"></div>
-                <li>
-                  <a href="index.html#">
-                    <span class="label label-danger"><i class="fa fa-calendar"></i></span>
-                    Charger les actualités
-                  </a>
                 </li>
               </ul>
             </li>
@@ -93,7 +86,7 @@ $result = $conn->query($sql);
           <ul class="nav pull-right top-menu">
           <?php if (isset($_SESSION['username'])): ?>
             <!-- Utilisateur connecté -->
-            <li><a class="logout" href="./pages_cnx/logout.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Déconnexion</a></li>
+            <li><a class="logout" href="../pages_cnx/logout.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Déconnexion</a></li>
           <?php else: ?>
             <!-- Utilisateur non connecté -->
             <li><a class="logout" href="./pages_cnx/login.php">Se Connecter</a></li>
@@ -110,74 +103,24 @@ $result = $conn->query($sql);
         <div id="sidebar" class="nav-collapse">
             <!-- sidebar menu start-->
             <ul class="sidebar-menu" id="nav-accordion">
-                <li class="sub-menu">
+                <li class="Formats">
                     <a href="#" id="biblioCommuneLink" class="menu-link">
                         <i class="fa fa-book"></i>
                         <span>Bibliothèque Commune</span>
                     </a>
                     <ul id="menuDeroulantCommun" class="menu-deroulant-commune" style="display: block;">
                         <li class="auteur">
-                            <a href="./index.php" class="active">
-                                <i class="fa fa-book-open"></i>
-                                <span>Livres</span>
-                            </a>
-                        </li>
-                        <li class="auteur">
-                            <a href="./pages_commune/auteurs_commune.php">
+                            <a href="./index_admin.php" class="active">
                                 <i class="fa fa-user-tie"></i>
-                                <span>Auteurs</span>
-                            </a>
-                        </li>
-                        <li class="editeur">
-                            <a href="./pages_commune/editeurs_commune.php">
-                                <i class="fa fa-feather"></i>
-                                <span>Editeurs</span>
-                            </a>
-                        </li>
-                        <li class="Genres">
-                            <a href="./pages_commune/genres_commune.php">
-                                <i class="fa fa-tags"></i>
-                                <span>Genres</span>
+                                <span>Livres</span>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="sub-menu">
-                    <a href="#" id="biblioPersoLink" class="menu-link">
-                        <i class="fa fa-book"></i>
-                        <span>Bibliothèque Perso</span>
-                    </a>
-                    <ul id="menuDeroulantPerso" class="menu-deroulant-perso">
-                        <li class="auteur">
-                            <a href="./pages_perso/livres_perso.php">
-                                <i class="fa fa-book-open"></i>
-                                <span>Livres</span>
-                            </a>
-                        </li>
-                        <li class="auteur">
-                            <a href="./pages_perso/auteurs_perso.php">
-                                <i class="fa fa-user-tie"></i>
-                                <span>Auteurs</span>
-                            </a>
-                        </li>
-                        <li class="editeur">
-                            <a href="./pages_perso/editeurs_perso.php">
-                                <i class="fa fa-feather"></i>
-                                <span>Editeurs</span>
-                            </a>
-                        </li>
-                        <li class="Genres">
-                            <a href="./pages_perso/genres_perso.php">
-                                <i class="fa fa-tags"></i>
-                                <span>Genres</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="sub-menu">
-                    <a href="./pages_autres/livresRecherche.php">
-                        <i class="fa fa-globe"></i>
-                        <span>Recherche d'Ebook</span>
+                <li>
+                    <a href="./gestion_users">
+                        <i class="fa fa-users"></i>
+                        <span>Gestion Utilisateurs</span>
                     </a>
                 </li>
             </ul>
@@ -208,50 +151,69 @@ $result = $conn->query($sql);
               <!--CUSTOM CHART START -->
               <div class="border-head">
                 <h3>BIBLIOTHEQUE COMMUNE</h3>
-                  <?php
+                <div class ="container book-list" id="book-list">
+                  <div class ="book">
+                    <h2> LIVRE 1</h2>
+                    <p>Auteur : Aucun</p>
+                    <div class="pull-left">
+                      <h5><i class="fa fa-hdd-o"></i></h5>
+                    </div>
+                    <div class="pull-right">
+                      <h5>Format : Ebup</h5>
+                    </div>
+                  </div>
+                  <div class ="book">
+                    <h2> LIVRE 2</h2>
+                    <p>Auteur : Aucun</p>
+                    <div class="pull-left">
+                      <h5><i class="fa fa-hdd-o"></i></h5>
+                    </div>
+                    <div class="pull-right">
+                      <h5>Format : Ebup</h5>
+                    </div>
+                  </div>
+                  <div class ="book">
+                    <h2> LIVRE 3</h2>
+                    <p>Auteur : Aucun</p>
+                    <div class="pull-left">
+                      <h5><i class="fa fa-hdd-o"></i></h5>
+                    </div>
+                    <div class="pull-right">
+                      <h5>Format : Ebup</h5>
+                    </div>
+                  </div>
+                  <div class ="book">
+                    <h2> LIVRE 4</h2>
+                    <p>Auteur : Aucun</p>
+                    <div class="pull-left">
+                      <h5><i class="fa fa-hdd-o"></i></h5>
+                    </div>
+                    <div class="pull-right">
+                      <h5>Format : Ebup</h5>
+                    </div>
+                  </div>
+                  <div class ="book">
+                    <h2> LIVRE 5</h2>
+                    <p>Auteur : Aucun</p>
+                    <div class="pull-left">
+                      <h5><i class="fa fa-hdd-o"></i></h5>
+                    </div>
+                    <div class="pull-right">
+                      <h5>Format : Ebup</h5>
+                    </div>
+                  </div>
+                  <div class ="book">
+                    <h2> LIVRE 6</h2>
+                    <p>Auteur : Aucun</p>
+                    <div class="pull-left">
+                      <h5><i class="fa fa-hdd-o"></i></h5>
+                    </div>
+                    <div class="pull-right">
+                      <h5>Format : Ebup</h5>
+                    </div>
+                  </div>
 
-
-                  try {
-                      $connexion = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
-                      $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-                      // Récupérer le terme de recherche depuis l'URL
-                      $recherche = isset($_GET['recherche']) ? $_GET['recherche'] : '';
-
-                      // Requête pour récupérer les livres filtrés par le terme de recherche
-                      $requete = "SELECT livre.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue, livre.infos AS infos 
-                          FROM livre 
-                          JOIN auteur ON livre.idauteur = auteur.id 
-                          JOIN editeur ON livre.idediteur = editeur.id 
-                          JOIN genre ON livre.idgenre = genre.id 
-                          JOIN langue ON livre.idlangue = langue.id 
-                          WHERE livre.nom LIKE '%$recherche%'"; // Requête SQL pour la recherche
-
-                      $resultats = $connexion->query($requete);
-                      $livres = $resultats->fetchAll(PDO::FETCH_ASSOC);
-                  } catch (PDOException $e) {
-                      echo "Erreur de connexion : " . $e->getMessage();
-                  }
-
-                  // Affichage du formulaire de recherche
-                  echo '<form class="barre-recherche" action="" method="GET">';
-                  echo '<input type="text" name="recherche" placeholder="Rechercher un livre" value="' . htmlentities($recherche) . '">';
-                  echo '<input type="submit" value="Rechercher">';
-                  echo '</form>';
-
-                  // Affichage des livres filtrés
-                  echo '<div class="container">';
-                  foreach ($livres as $livre) {
-                      echo '<div class="book">';
-                      echo '<h2>' . $livre['nom'] . '</h2>';
-                      echo '<p><strong>Auteur :</strong> ' . $livre['auteur'] . '</p>';
-                      echo '<p><strong>Éditeur :</strong> ' . $livre['editeur'] . '</p>';
-                      echo '<p><strong>Genre :</strong> ' . $livre['genre'] . '</p>';
-                      echo '<p><strong>Langue :</strong> ' . $livre['langue'] . '</p>';
-                      echo '</div>';
-                  }
-                  echo '</div>';
-                  ?>
+                </div>
               </div>
               <!--custom chart end-->
             </div>
@@ -321,19 +283,19 @@ $result = $conn->query($sql);
     </script>
 
     <!-- js placed at the end of the document so the pages load faster -->
-    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="../lib/jquery/jquery.min.js"></script>
 
-    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-    <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="lib/jquery.scrollTo.min.js"></script>
-    <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
-    <script src="lib/jquery.sparkline.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+    <script class="include" type="text/javascript" src="../lib/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="../lib/jquery.scrollTo.min.js"></script>
+    <script src="../lib/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="../lib/jquery.sparkline.js"></script>
     <!--common script for all pages-->
-    <script src="lib/common-scripts.js"></script>
-    <script type="text/javascript" src="lib/gritter/js/jquery.gritter.js"></script>
-    <script type="text/javascript" src="lib/gritter-conf.js"></script>
+    <script src="../lib/common-scripts.js"></script>
+    <script type="text/javascript" src="../lib/gritter/js/jquery.gritter.js"></script>
+    <script type="text/javascript" src="../lib/gritter-conf.js"></script>
     <!--script for this page-->
-    <script src="lib/sparkline-chart.js"></script>
-    <script src="lib/zabuto_calendar.js"></script>
+    <script src="../lib/sparkline-chart.js"></script>
+    <script src="../lib/zabuto_calendar.js"></script>
 </body>
 </html>

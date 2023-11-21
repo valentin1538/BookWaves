@@ -205,19 +205,84 @@ $result = $conn->query($sql);
           <div class="main-chart">
             <!--CUSTOM CHART START -->
             <div class="border-head">
-                <h3>BIBLIOTHEQUE COMMUNE</h3>
-            </div>
-            <!--custom chart end-->
+              <h3>AUTEURS</h3>
+              <div class="container">
+                <?php
+                
+                // Requête pour récupérer les editeurs
+                $queryauteurs = "SELECT id, nom FROM auteur";
+                $resultauteurs = $conn->query($queryauteurs);
+                
+                if ($resultauteurs && $resultauteurs->num_rows > 0) {
+                    while ($roweauteur = $resultauteurs->fetch_assoc()) {
+                        $auteurId = $roweauteur['id'];
+                        $auteurName = $roweauteur['nom'];
+                
+                        echo '<div class="book">';
+                        echo "<a href='#' class='auteur-link' data-auteur-id='$auteurId'>$auteurName</a>";
+                        echo '</div>';
+                    }
+                } else {
+                    echo "Aucun auteur trouvé dans la base de données.";
+                }
+                
+                echo '</div>';
+                
+                // Affiche la liste des livres du editeur sélectionné
+                echo '<div class="livres-list" id="livres-list">';
+                echo '</div>';
+                
+                ?>
+              </div>
+
           </div>
           <!-- /col-lg-3 -->
         </div>
+        <!-- /row -->
+        </div>
+
       </section>
     </section>
-    <!--main content end-->
+      <!--main content end-->
 
-  
-  <script>
-  </script>
+    
+    <script>
+
+      document.addEventListener('DOMContentLoaded', function () {
+          var auteurLinks = document.querySelectorAll('.auteur-link');
+          var livresList = document.getElementById('livres-list');
+
+          auteurLinks.forEach(function (link) {
+              link.addEventListener('click', function (event) {
+                  event.preventDefault();
+                  var auteurId = link.getAttribute('data-auteur-id');
+                  chargerLivresParediteur(auteurId);
+              });
+          });
+
+          function chargerLivresParediteur(auteurId) {
+              // Exécute une requête AJAX pour charger les livres du editeur sélectionné
+              var xhr = new XMLHttpRequest();
+              xhr.open('GET', 'charger-livres-par-auteur.php?auteurId=' + auteurId, true);
+
+              xhr.onload = function () {
+                  if (xhr.status >= 200 && xhr.status < 400) {
+                      // La requête a réussi, mettez à jour la liste des livres
+                      livresList.innerHTML = xhr.responseText;
+                  } else {
+                      console.error('La requête a échoué.');
+                  }
+              };
+
+              xhr.onerror = function () {
+                  console.error('Erreur réseau.');
+              };
+
+              xhr.send();
+          }
+      });
+      
+    </script>
   
     <!-- js placed at the end of the document so the pages load faster -->
     <script src="../lib/jquery/jquery.min.js"></script>

@@ -3286,9 +3286,6 @@ ul.chat-available-user li a:hover {
   padding: 40px 0;
 }
 
-.contact-form {
-}
-
 .contact-form label {
   color: #999;
 }
@@ -3411,7 +3408,7 @@ ul.chat-available-user li a:hover {
 
 .container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 40px;
   width: 100%;
 }
@@ -3421,13 +3418,33 @@ ul.chat-available-user li a:hover {
   display: none;
 }
 
-.grid-item {
-  display: grid;
-  align-items: center;
-  padding: 10%;
-  min-width: 100px;
-  justify-content: center;
-  border: #000 solid 1px;
+.book {
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.book img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+.book h2 {
+  font-size: 16px;
+  margin-top: 10px;
+}
+.book p {
+  font-size: 14px;
+
+  margin-top: 5px;
+}
+.book a {
+  text-decoration: none;
+}
+.book a:hover {
+  text-decoration: none;
 }
 
 .titre-page {
@@ -3468,4 +3485,53 @@ ul.sidebar-menu li ul.menu-deroulant-perso li a {
   -ms-transition: all 0.3s ease;
   transition: all 0.3s ease;
   color: #aeb2b7;
+}
+
+.btn {
+  background-color: transparent;
+}
+
+.auteur::selection {
+  background: transparent;
+}
+
+.container-ges {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 40px;
+  width: 100%;
+}
+
+.ges-item {
+  text-align: center;
+  padding: 10px;
+  margin: 20px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.barre-recherche {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Style pour le champ de recherche */
+.barre-recherche input[type="text"] {
+  padding: 8px;
+  width: 300px;
+}
+
+/* Style pour le bouton de recherche */
+.barre-recherche input[type="submit"] {
+  padding: 8px 15px;
+  background-color: #4ecdc4;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+
+.livres-list {
+  padding-top: 15px;
 }
