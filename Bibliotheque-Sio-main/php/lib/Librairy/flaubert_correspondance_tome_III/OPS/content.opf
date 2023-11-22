@@ -2,7 +2,7 @@
 
 <package xmlns="http://www.idpf.org/2007/opf" version="2.0" unique-identifier="BookId">
   <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
-    <dc:title>Correspondance - Tome III</dc:title>
+    <dc:title>Tome III</dc:title>
     <dc:creator opf:file-as="Flaubert, Gustave" opf:role="aut">Gustave Flaubert</dc:creator>
     <dc:language>fr</dc:language>
     <dc:subject>Documents - Essais</dc:subject>

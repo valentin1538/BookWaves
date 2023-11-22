@@ -23,7 +23,35 @@ body {
   margin: 0px !important;
   font-size: 13px;
 }
+/* Styles pour le formulaire pop-up */
+#metadata-form {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-width: 400px;
+  width: 100%;
+}
 
+#metadata-form h3 {
+  margin-bottom: 10px;
+}
+
+#metadata-form button {
+  display: block;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
 ul li {
   list-style: none;
 }
@@ -284,7 +312,7 @@ ul.sidebar-menu {
 }
 
 #sidebar > ul > li > ul.sub {
-  display: none;
+  display: block;
 }
 
 #sidebar > ul > li.active > ul.sub,
@@ -322,16 +350,6 @@ ul.sidebar-menu li ul.sub li a:hover {
   background: transparent;
 }
 
-ul.sidebar-menu li ul.sub li.active a {
-  color: #4ecdc4;
-  -webkit-transition: all 0.3s ease;
-  -moz-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  -ms-transition: all 0.3s ease;
-  transition: all 0.3s ease;
-  display: block;
-}
-
 ul.sidebar-menu li {
   /*line-height: 20px !important;*/
   margin-bottom: 5px;
@@ -361,10 +379,20 @@ ul.sidebar-menu li a {
   transition: all 0.3s ease;
 }
 
-ul.sidebar-menu li a.active,
 ul.sidebar-menu li a:hover,
 ul.sidebar-menu li a:focus {
   background: #4ecdc4;
+  color: #fff;
+  display: block;
+
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+ul.sidebar-menu li a.active {
   color: #fff;
   display: block;
 
@@ -3286,9 +3314,6 @@ ul.chat-available-user li a:hover {
   padding: 40px 0;
 }
 
-.contact-form {
-}
-
 .contact-form label {
   color: #999;
 }
@@ -3411,9 +3436,9 @@ ul.chat-available-user li a:hover {
 
 .container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 40px;
-  width: 20%;
+  width: 100%;
 }
 
 .container::before,
@@ -3421,16 +3446,120 @@ ul.chat-available-user li a:hover {
   display: none;
 }
 
-.grid-item {
-  display: grid;
-  align-items: center;
-  padding: 10%;
-  height: 300px;
-  justify-content: center;
-  border: #000 solid 1px;
+.book {
+  text-align: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.book img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+.book h2 {
+  font-size: 16px;
+  margin-top: 10px;
+}
+.book p {
+  font-size: 14px;
+
+  margin-top: 5px;
+}
+.book a {
+  text-decoration: none;
+}
+.book a:hover {
+  text-decoration: none;
 }
 
 .titre-page {
   padding: 0%;
   color: white;
+}
+
+/* Style pour les sous-listes */
+ul.sidebar-menu li ul.menu-deroulant-commune,
+ul.sidebar-menu li ul.menu-deroulant-perso {
+  display: none;
+  padding-left: 32px;
+  padding-bottom: 10px;
+}
+
+ul.sidebar-menu li ul.menu-deroulant-commune .active,
+ul.sidebar-menu li ul.menu-deroulant-perso .active {
+  color: white;
+}
+
+ul.sidebar-menu li ul.menu-deroulant-commune li a:hover,
+ul.sidebar-menu li ul.menu-deroulant-perso li a:hover {
+  color: white;
+  background: transparent;
+}
+
+/* Style pour les liens des sous-listes */
+ul.sidebar-menu li ul.menu-deroulant-commune li a,
+ul.sidebar-menu li ul.menu-deroulant-perso li a {
+  text-decoration: none;
+  font-size: 12px;
+  padding: 6px 0;
+  line-height: 35px;
+  height: 35px;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  color: #aeb2b7;
+}
+
+.btn {
+  background-color: transparent;
+}
+
+.auteur::selection {
+  background: transparent;
+}
+
+.container-ges {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 40px;
+  width: 100%;
+}
+
+.ges-item {
+  text-align: center;
+  padding: 10px;
+  margin: 20px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.barre-recherche {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Style pour le champ de recherche */
+.barre-recherche input[type="text"] {
+  padding: 8px;
+  width: 300px;
+}
+
+/* Style pour le bouton de recherche */
+.barre-recherche input[type="submit"] {
+  padding: 8px 15px;
+  background-color: #4ecdc4;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+
+.livres-list {
+  padding-top: 15px;
 }

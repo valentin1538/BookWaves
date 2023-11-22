@@ -10,7 +10,7 @@ $conn = new mysqli($servername, $username, $password, $database);
 
 // Vérifiez la connexion
 if ($conn->connect_error) {
-    die("La connexion à la base de données a échoué : " . $conn->connect_error);
+  die("La connexion à la base de données a échoué : " . $conn->connect_error);
 }
 // Initialiser la session
 session_start();
@@ -28,258 +28,378 @@ $result = $conn->query($sql);
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bibliothèque</title>
-    <!-- Bootstrap core CSS -->
-    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!--external css-->
-    <link href="lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bibliothèque</title>
+  <!-- Bootstrap core CSS -->
+  <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!--external css-->
+  <link href="lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
   <!-- Custom styles for this template -->
   <link href="css/style.css" rel="stylesheet">
   <link href="css/style-responsive.css" rel="stylesheet">
   <script src="https://kit.fontawesome.com/cf0cc41982.js" crossorigin="anonymous"></script>
+
 </head>
 
 
 <body>
   <section id="container">
-      <!-- **********************************************************************************************************************************************************
+    <!-- **********************************************************************************************************************************************************
           TOP BAR CONTENT & NOTIFICATIONS
           *********************************************************************************************************************************************************** -->
-      <!--header start-->
-      <header class="header black-bg">
-        <!--logo start-->
-        <a href="../index.php" class="logo"><b><span>BOOK WAVES <?php echo isset($_SESSION['username']) ? ' / ' . $_SESSION['username'] : ''; ?></span></b></a>
-        <!--logo end-->
-        <div class="nav notify-row text-center" id="top_menu">
-          <!--  Categories start -->
-          <ul class="nav top-menu">
-            <!-- Ajout Livre Boutton start -->
-            <li id="header_ajout_livre_bar" class="dropdown">
-            
+    <!--header start-->
+    <header class="header black-bg">
+      <!--logo start-->
+      <a href="index.php" class="logo"><b><span>BOOK WAVES
+            <?php echo isset($_SESSION['username']) ? ' / ' . $_SESSION['username'] : ''; ?>
+          </span></b></a>
+      <!--logo end-->
+      <div class="nav notify-row text-center" id="top_menu">
+        <!--  Categories start -->
+        <ul class="nav top-menu">
+          <!-- Ajout Livre Boutton start -->
+          <li id="header_ajout_livre_bar" class="dropdown">
+
             <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
-            Ajouter
-            <i class="fa-solid fa-book-medical"></i>
-              </a>
-              <ul class="dropdown-menu extended notification">
+              Ajouter
+              <i class="fa-solid fa-book-medical"></i>
+            </a>
+            <ul class="dropdown-menu extended notification">
               <div class="notify-arrow notify-arrow-green"></div>
               <li>
-              <button id="add-book">Ajouter un livre</button>
+                <button id="add-book"><span class="label label-success"><i class="fa fa-plus"></i></span>
+                  Ajout depuis un dossier unique</button>
                 <input type="file" id="file-input" accept=".epub" style="display: none">
               </li>
             </ul>
           </li>
-            <li id="header_Editer_metadonnees_bar" class="dropdown">
-              <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
-                Editer les metadonnées
-                <i class="fa-solid fa-file-pen"></i>
-                  </a>
-                  <ul class="dropdown-menu extended notification">
-                  <div class="notify-arrow notify-arrow-green"></div>
-                  <li>
-                    <a href="index.html#">
-                      <span class="label label-success"><i class="fa fa-pen"></i></span>
-                      Editer les métadonnées d'un livre
-                      </a>
-                  </li>
-                </ul>
-            </li>
-            <li id="header_convertir_livre_bar" class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
-                Convertir
-                <i class="fa-solid fa-repeat"></i>
-                  </a>
-                <ul class="dropdown-menu extended notification">
-                  <div class="notify-arrow notify-arrow-green"></div>
-                  <li>
-                    <a href="index.html#">
-                      <span class="label label-warning"><i class="fa fa-arrow-right"></i></span>
-                      Convertir le format d'un livre
-                      </a>
-                  </li>
-                </ul>
-            </li>
-            <li id="header_convertir_livre_bar" class="dropdown">
+          <li id="header_convertir_livre_bar" class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
               Recupération des actualités
-                <i class="fa-solid fa-newspaper"></i>
-                  </a>
-                <ul class="dropdown-menu extended notification">
-                  <div class="notify-arrow notify-arrow-green"></div>
-                  <li>
-                    <a href="index.html#">
-                      <span class="label label-danger"><i class="fa fa-calendar"></i></span>
-                      Planifier le dl des actualités
-                      </a>
-                  </li>
-                </ul>
-            </li>
-          </ul>
-          <!-- notification end -->
-        </div>
-        <div class="top-menu">
-          <ul class="nav pull-right top-menu">
+              <i class="fa-solid fa-newspaper"></i>
+            </a>
+            <ul class="dropdown-menu extended notification">
+              <div class="notify-arrow notify-arrow-green"></div>
+              <li>
+                <a href="index.html#">
+                  <span class="label label-danger"><i class="fa fa-calendar"></i></span>
+                  Charger les actualités
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="top-menu">
+        <ul class="nav pull-right top-menu">
           <?php if (isset($_SESSION['username'])): ?>
             <!-- Utilisateur connecté -->
-            <li><a class="logout" href="./pages_cnx/logout.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Déconnexion</a></li>
+            <li><a class="logout"
+                href="./pages_cnx/logout.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Déconnexion</a>
+            </li>
           <?php else: ?>
             <!-- Utilisateur non connecté -->
             <li><a class="logout" href="./pages_cnx/login.php">Se Connecter</a></li>
           <?php endif; ?>
-          </ul>
-        </div>
-      </header>
-      <!--header end-->
-      <!-- **********************************************************************************************************************************************************
+        </ul>
+      </div>
+    </header>
+    <!--header end-->
+    <!-- **********************************************************************************************************************************************************
           MAIN SIDEBAR MENU
           *********************************************************************************************************************************************************** -->
-      <!--sidebar start-->
-      <aside>
-        <div id="sidebar" class="nav-collapse ">
-          <!-- sidebar menu start-->
-          <ul class="sidebar-menu" id="nav-accordion">
-          <li class="Formats">
-              <a href="index.php">
-                <i class="fa fa-book"></i>
-                <span>Livres</span>
+    <!--sidebar start-->
+    <aside>
+      <div id="sidebar" class="nav-collapse">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
+          <li class="sub-menu">
+            <a href="#" id="biblioCommuneLink" class="menu-link">
+              <i class="fa fa-book"></i>
+              <span>Bibliothèque Commune</span>
+            </a>
+            <ul id="menuDeroulantCommun" class="menu-deroulant-commune" style="display: block;">
+              <li class="auteur">
+                <a href="./index.php" class="active">
+                  <i class="fa fa-book-open"></i>
+                  <span>Livres</span>
                 </a>
-            </li>
-            <li class="Livres">
-              <a href="./pages/playlist.php">
-                <i class="fa fa-book-open"></i>
-                <span>Playlist</span>
+              </li>
+              <li class="auteur">
+                <a href="./pages_commune/auteurs_commune.php">
+                  <i class="fa fa-user-tie"></i>
+                  <span>Auteurs</span>
                 </a>
-            </li>
-            <li class="auteur">
-              <a href="index.php">
-                <i class="fa fa-user-tie"></i>
-                <span>Auteur</span>
+              </li>
+              <li class="editeur">
+                <a href="./pages_commune/editeurs_commune.php">
+                  <i class="fa fa-feather"></i>
+                  <span>Editeurs</span>
                 </a>
-            </li>
-            <li class="editeur">
-              <a href="index.php">
-                <i class="fa fa-feather"></i>
-                <span>Editeur</span>
+              </li>
+              <li class="Genres">
+                <a href="./pages_commune/genres_commune.php">
+                  <i class="fa fa-tags"></i>
+                  <span>Genres</span>
                 </a>
-            </li>
-            <li class="Genres">
-              <a href="index.php">
-                <i class="fa fa-tags"></i>
-                <span>Genres</span>
+              </li>
+            </ul>
+          </li>
+          <li class="sub-menu">
+            <a href="#" id="biblioPersoLink" class="menu-link">
+              <i class="fa fa-book"></i>
+              <span>Bibliothèque Perso</span>
+            </a>
+            <ul id="menuDeroulantPerso" class="menu-deroulant-perso">
+              <li class="auteur">
+                <a href="./pages_perso/livres_perso.php">
+                  <i class="fa fa-book-open"></i>
+                  <span>Livres</span>
                 </a>
-            </li>
-          </ul>
-          <!-- sidebar menu end-->
-        </div>
-      </aside>
-      <!--sidebar end-->
+              </li>
+              <li class="auteur">
+                <a href="./pages_perso/auteurs_perso.php">
+                  <i class="fa fa-user-tie"></i>
+                  <span>Auteurs</span>
+                </a>
+              </li>
+              <li class="editeur">
+                <a href="./pages_perso/editeurs_perso.php">
+                  <i class="fa fa-feather"></i>
+                  <span>Editeurs</span>
+                </a>
+              </li>
+              <li class="Genres">
+                <a href="./pages_perso/genres_perso.php">
+                  <i class="fa fa-tags"></i>
+                  <span>Genres</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="sub-menu">
+            <a href="./pages_autres/livresRecherche.php">
+              <i class="fa fa-globe"></i>
+              <span>Recherche d'Ebook</span>
+            </a>
+          </li>
+        </ul>
+        <!-- sidebar menu end-->
+      </div>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          var menuLinks = document.querySelectorAll(".menu-link");
+
+          menuLinks.forEach(function (link) {
+            link.addEventListener("click", function (event) {
+              event.preventDefault();
+              var menu = this.nextElementSibling;
+              menu.style.display = (menu.style.display === "none" || menu.style.display === "") ? "block" : "none";
+            });
+          });
+        });
+      </script>
+    </aside>
+    <!--sidebar end-->
+
 
     <!--main content start-->
     <section id="main-content">
-        <section class="wrapper">
-          <div class="row">
-            <div class="main-chart">
-              <!--CUSTOM CHART START -->
-              <div class="border-head">
-                <h3>MES LIVRES</h3>
-                <div class ="container book-list" id="book-list">
-                  <div class ="grid-item">
-                    <div class="darkblue-header">
-                      <p> LIVRE 1</p>
-                    </div>
-                    <p>Auteur : Aucun</p>
-                    <div class="pull-left">
-                      <h5><i class="fa fa-hdd-o"></i></h5>
-                    </div>
-                    <div class="pull-right">
-                      <h5>Format : Ebup</h5>
-                      </div>
-                  </div>
+      <section class="wrapper">
+        <div class="row">
+          <div class="main-chart">
+            <!--CUSTOM CHART START -->
+            <div class="border-head">
+              <h3>BIBLIOTHEQUE COMMUNE</h3>
+              <div id="metadata-form">
+
+                <h3>Formulaire des métadonnées</h3>
+                <!-- ... Lire les métadonné js ... -->
+                <script src="script.js"></script>
+                <!-- Champ de formulaire avec le label juste devant -->
+                <!-- Ajoutez ici les champs du formulaire pour les métadonnées -->
+                <div>
+                  <label for="TXT_Titre">Titre du livre :</label>
+                  <input type="text" id="TXT_Titre" name="TXT_Titre">
                 </div>
+                <div>
+                  <label for="TXT_Auteur">Nom du première auteur :</label>
+                  <input type="text" id="TXT_Auteur" name="TXT_Auteur">
+                </div>
+                <div>
+                  <label for="TXT_Editeur">Nom de l'éditeur :</label>
+                  <input type="text" id="TXT_Editeur" name="TXT_Editeur">
+                </div>
+                <div>
+                  <label for="TXT_Langue">Langue :</label>
+                  <input type="text" id="TXT_Langue" name="TXT_Langue">
+                </div>
+
+                <!-- Bouton avec fonction -->
+                <button onclick="modifierMetadonnees()">Modifier</button>
+                <button onclick="closeForm()">Fermer</button>
               </div>
-              <!--custom chart end-->
+
+              <?php
+
+
+              try {
+                $connexion = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+                $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                // Récupérer le terme de recherche depuis l'URL
+                $recherche = isset($_GET['recherche']) ? $_GET['recherche'] : '';
+
+                // Requête pour récupérer les livres filtrés par le terme de recherche
+                $requete = "SELECT livre.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue, livre.infos AS infos 
+                          FROM livre 
+                          JOIN auteur ON livre.idauteur = auteur.id 
+                          JOIN editeur ON livre.idediteur = editeur.id 
+                          JOIN genre ON livre.idgenre = genre.id 
+                          JOIN langue ON livre.idlangue = langue.id 
+                          WHERE livre.nom LIKE '%$recherche%'"; // Requête SQL pour la recherche
+              
+                $resultats = $connexion->query($requete);
+                $livres = $resultats->fetchAll(PDO::FETCH_ASSOC);
+              } catch (PDOException $e) {
+                echo "Erreur de connexion : " . $e->getMessage();
+              }
+
+              // Affichage du formulaire de recherche
+              echo '<form class="barre-recherche" action="" method="GET">';
+              echo '<input type="text" name="recherche" placeholder="Rechercher un livre" value="' . htmlentities($recherche) . '">';
+              echo '<input type="submit" value="Rechercher">';
+              echo '</form>';
+
+              // Affichage des livres filtrés
+              echo '<div class="container">';
+              foreach ($livres as $livre) {
+                echo '<div class="book">';
+                echo '<div class="title-bar">';
+                echo '<h2>' . $livre['nom'] . '</h2>';
+                echo '<div id="header_ajout_livre_bar" class="dropdown bars">';
+                echo '<a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">';
+                echo '<i class="fa-solid fa-bars"></i>';
+                echo '</a>';
+                echo '<ul class="dropdown-menu extended notification">';
+                echo '<div class="notify-arrow notify-arrow-green"></div>';
+                echo '<li>';
+                echo '<a href="#"><i class="fa fa-eye"></i> Visualiser</a>';
+                echo '</li>';
+                echo '<li>';
+                echo '<a href="#" onclick="lireMetadonnees(); return false;"><i class="fa fa-pencil"></i> Modifier</a>';
+                echo '</li>';
+                echo '<li>';
+                echo '<a href="#"><i class="fa fa-arrows-rotate"></i> Convertir</a>';
+                echo '</li>';
+                echo '<li>';
+                echo '<a href="#"><i class="fa fa-trash"></i> Supprimer</a>';
+                echo '</li>';
+                echo '</ul>';
+                echo '</div>';
+                echo '</div>';
+                echo '<p><strong>Auteur :</strong> ' . $livre['auteur'] . '</p>';
+                echo '<p><strong>Éditeur :</strong> ' . $livre['editeur'] . '</p>';
+                echo '<p><strong>Genre :</strong> ' . $livre['genre'] . '</p>';
+                echo '<p><strong>Langue :</strong> ' . $livre['langue'] . '</p>';
+                echo '</div>';
+              }
+              echo '</div>';
+              ?>
             </div>
-            <!-- /col-lg-3 -->
+            <!--custom chart end-->
           </div>
-          <!-- /row -->
-        </section>
+          <!-- /col-lg-3 -->
+        </div>
+        <!-- /row -->
       </section>
-      <!--main content end-->
+    </section>
+    <!--main content end-->
 
-    
+
     <script>
+      function openForm() {
+        var form = document.getElementById('metadata-form');
+        form.style.display = 'block';
+      }
 
-      const bookList = document.getElementById('book-list');
-      const addBookButton = document.getElementById('add-book');
-      const fileInput = document.getElementById('file-input');
-
-      const bookDetails = document.getElementById('book-details');
-      const titleInput = document.getElementById('title');
-      const authorInput = document.getElementById('author');
-      const saveDetailsButton = document.getElementById('save-details');
-      const closeDetailsButton = document.getElementById('close-details');
-      const loadBook = document.getElementById('charger-book')
-
-      addBookButton.addEventListener('click', () => {
-  fileInput.click();
-});
-
-fileInput.addEventListener('change', (event) => {
-  const files = event.target.files;
-  if (files.length > 0) {
-    const file = files[0];
-    const formData = new FormData();
-    formData.append('epubFile', file);
-
-    fetch('upload.php', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-      // Handle the response data here if needed
-      console.log(data);
-      // For example, you can display a success message to the user
-      alert('Livre ajouté avec succès !');
-    })
-    .catch(error => {
-      console.error('Erreur lors de l\'ajout du livre :', error);
-      // Display an error message to the user
-      alert('Erreur lors de l\'ajout du livre.');
-    });
-  }
-
-});
-
-loadBook.addEventListener('change', (event) =>{
+      function closeForm() {
+        document.getElementById('metadata-form').style.display = 'none';
+      }
+    </script>
+    <script>
+      function lireMetadonnees() {
 
 
+        const cheminAccesOPF = 'lib/Librairy/flaubert_correspondance_tome_III/OPS/content.opf'; // Remplacez ceci par le vrai chemin d'accès du fichier OPF
+
+        fetch(cheminAccesOPF)
+          .then(response => response.text())
+          .then(data => {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(data, "text/xml");
+
+            const title = xmlDoc.querySelector("dc\\:title, title").textContent;
+            const creator = xmlDoc.querySelector("dc\\:creator, creator").textContent;
+            const publisher = xmlDoc.querySelector("dc\\:publisher, publisher").textContent;
+            const language = xmlDoc.querySelector("dc\\:language, language").textContent;
+
+            document.getElementById('TXT_Titre').value = title;
+            document.getElementById('TXT_Auteur').value = creator;
+            document.getElementById('TXT_Editeur').value = publisher;
+            document.getElementById('TXT_Langue').value = language;
+
+            // Afficher le formulaire une fois les métadonnées chargées
+            document.getElementById('metadata-form').style.display = 'block';
+          })
+          .catch(error => {
+            console.error('Erreur lors de la récupération des métadonnées :', error);
+            // Gérer les erreurs lors de la récupération des métadonnées
+          });
+      }
+
+      function modifierMetadonnees() {
+        // Ajoutez d'autres champs de formulaire si nécessaire
+        const titre = document.getElementById('TXT_Titre').value;
+        const auteur = document.getElementById('TXT_Auteur').value;
 
 
+        // Création de l'objet de données à envoyer au serveur
+        const data = {
+          titre: titre,
+          auteur: auteur
+          // Ajoutez d'autres données si nécessaire
+        };
 
-});
-
-      bookList.addEventListener('click', (event) => {
-        if (event.target.classList.contains('edit-button')) {
-          bookDetails.style.display = 'block';
-          const bookId = event.target.closest('.book-item').dataset.id;
-          const bookItem = event.target.closest('.book-item');
-          const titleElement = bookItem.querySelector('h3');
-          const authorElement = bookItem.querySelector('p:nth-of-type(2)');
-          titleInput.value = titleElement.textContent;
-          authorInput.value = authorElement.textContent.split(':')[1].trim();
-        }
-
-        if (event.target.classList.contains('delete-button')) {
-          const bookItem = event.target.closest('.book-item');
-          bookList.removeChild(bookItem);
-        }
-      });
-
+        // Envoi des données au script PHP via une requête POST
+        fetch('modifier_metadonnees.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+          .then(response => {
+            if (response.ok) {
+              // Mettre à jour le formulaire avec les nouvelles métadonnées
+              alert('Métadonnées modifiées avec succès !');
+            } else {
+              throw new Error('La modification des métadonnées a échoué.');
+            }
+          })
+          .catch(error => {
+            console.error('Erreur lors de la modification des métadonnées :', error);
+            // Gérer les erreurs lors de la modification des métadonnées
+            alert('Erreur lors de la modification des métadonnées.');
+          });
+      }
 
     </script>
+
 
     <!-- js placed at the end of the document so the pages load faster -->
     <script src="lib/jquery/jquery.min.js"></script>
@@ -297,4 +417,5 @@ loadBook.addEventListener('change', (event) =>{
     <script src="lib/sparkline-chart.js"></script>
     <script src="lib/zabuto_calendar.js"></script>
 </body>
+
 </html>
