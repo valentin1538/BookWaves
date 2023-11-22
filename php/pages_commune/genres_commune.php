@@ -210,7 +210,7 @@ $result = $conn->query($sql);
                 <?php
                 
                 // Requête pour récupérer les genres
-                $queryGenres = "SELECT id, nom FROM genre";
+                $queryGenres = "SELECT id, nom FROM genre WHERE id != 1";
                 $resultGenres = $conn->query($queryGenres);
                 
                 if ($resultGenres && $resultGenres->num_rows > 0) {

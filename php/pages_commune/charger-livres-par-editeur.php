@@ -28,7 +28,7 @@ if (isset($_GET['editeurId'])) {
         JOIN auteur ON livre.idauteur = auteur.id 
         JOIN editeur ON livre.idediteur = editeur.id 
         JOIN genre ON livre.idgenre = genre.id 
-        JOIN langue ON livre.idlangue = langue.id  WHERE idediteur = $editeurId";
+        JOIN langue ON livre.idlangue = langue.id  WHERE idediteur = $editeurId ";
         $resultLivresediteur = $conn->query($queryLivresediteur);
 
         if ($resultLivresediteur && $resultLivresediteur->num_rows > 0) {

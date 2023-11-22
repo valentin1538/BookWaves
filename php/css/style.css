@@ -543,12 +543,15 @@ ul.top-menu > li > a:focus {
   border-bottom: 1px solid #ebebeb !important;
   font-size: 12px;
   list-style: none;
+  background-color: #4ecdc4;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .dropdown-menu.extended li a {
   padding: 15px 10px !important;
   width: 100%;
   display: inline-block;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .dropdown-menu.extended li a:hover {
@@ -3408,7 +3411,7 @@ ul.chat-available-user li a:hover {
 
 .container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
   gap: 40px;
   width: 100%;
 }
@@ -3442,6 +3445,7 @@ ul.chat-available-user li a:hover {
 }
 .book a {
   text-decoration: none;
+  color: #000;
 }
 .book a:hover {
   text-decoration: none;
@@ -3497,7 +3501,7 @@ ul.sidebar-menu li ul.menu-deroulant-perso li a {
 
 .container-ges {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
   gap: 40px;
   width: 100%;
 }
@@ -3534,4 +3538,15 @@ ul.sidebar-menu li ul.menu-deroulant-perso li a {
 
 .livres-list {
   padding-top: 15px;
+}
+
+.title-bar {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.title-bar h2 {
+  margin: 0 auto; /* Centre le titre h2 */
 }

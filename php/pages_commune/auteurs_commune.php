@@ -210,7 +210,7 @@ $result = $conn->query($sql);
                 <?php
                 
                 // Requête pour récupérer les editeurs
-                $queryauteurs = "SELECT id, nom FROM auteur";
+                $queryauteurs = "SELECT id, nom FROM auteur WHERE id != 1";
                 $resultauteurs = $conn->query($queryauteurs);
                 
                 if ($resultauteurs && $resultauteurs->num_rows > 0) {
