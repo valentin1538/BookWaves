@@ -39,7 +39,7 @@
                     header("Location: ../admin_ges/index_admin.php");
                     exit();
                 } elseif ($row["idprofil"] == 1) {
-                    header("Location: ../index.php");
+                    header("Location: ../pages_perso/livres_perso.php");
                     exit();
                 } elseif ($row["idprofil"] == 2) {
                     header("Location: ../pages_index/index_mod.php");

@@ -13,8 +13,12 @@ if ($conn->connect_error) {
     die("La connexion à la base de données a échoué : " . $conn->connect_error);
 }
  // Initialiser la session
-session_start();
-// Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
+ session_start();
+ // Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
+ if(!isset($_SESSION["username"])){
+   header("Location: ../pages_cnx/login.php");
+   exit(); 
+ }
 
 // Requête pour récupérer les données des tables
 $sql = "SELECT livre.id, livre.nom, livre.infos, auteur.nom as nom_auteur, editeur.nom as nom_editeur, genre.nom as nom_genre, langue.nom as nom_langue FROM livre

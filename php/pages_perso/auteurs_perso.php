@@ -13,7 +13,12 @@ if ($conn->connect_error) {
     die("La connexion à la base de données a échoué : " . $conn->connect_error);
 }
  // Initialiser la session
-session_start();
+ session_start();
+ // Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
+ if(!isset($_SESSION["username"])){
+   header("Location: ../pages_cnx/login.php");
+   exit(); 
+ }
 // Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
 
 // Requête pour récupérer les données des tables
