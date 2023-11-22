@@ -1,0 +1,82 @@
+le formulaire en question :
+
+<div id="metadata-form">
+ <h3>Formulaire des métadonnées</h3>
+            <!-- ... Lire les métadonné js ... -->
+            <script src="script.js"></script>
+            <!-- Champ de formulaire avec le label juste devant -->
+            <!-- Ajoutez ici les champs du formulaire pour les métadonnées -->
+            <div>
+              <label for="TXT_Titre">Titre du livre :</label>
+              <input type="text" id="TXT_Titre" name="TXT_Titre">
+            </div>
+            <div>
+              <label for="TXT_Auteur">Nom du première auteur :</label>
+              <input type="text" id="TXT_Auteur" name="TXT_Auteur">
+            </div>
+            <div>
+              <label for="TXT_Editeur">Nom de l'éditeur :</label>
+              <input type="text" id="TXT_Editeur" name="TXT_Editeur">
+            </div>
+            <div>
+              <label for="TXT_Langue">Langue :</label>
+              <input type="text" id="TXT_Langue" name="TXT_Langue">
+            </div>
+
+            <!-- Bouton avec fonction -->
+            <button onclick="modifierMetadonnees()">Modifier</button>
+            <button onclick="closeForm()">Fermer</button>
+          </div>
+
+
+le css du formulaire (metadata-form) que tu dois rename :
+
+/* Styles pour le formulaire pop-up */
+#metadata-form {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-width: 400px;
+  width: 100%;
+}
+
+#metadata-form h3 {
+  margin-bottom: 10px;
+}
+
+#metadata-form button {
+  display: block;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+le js du bouton fermer et ouvrir : 
+
+<script>
+      function openForm() {
+        var form = document.getElementById('metadata-form');
+        form.style.display = 'block';
+      }
+
+      function closeForm() {
+        var form = document.getElementById('metadata-form');
+        form.style.display = 'none';
+      }
+    </script> 
+
+et un lien exemple de mettre pour ouvrir le formulaire : 
+
+<a href="#"
+                  onclick="lireMetadonnees('Titre du livre', 'Nom de l\'auteur', 'Nom de l\'éditeur', 'Langue du livre')">Lire
+                  les métadonnées d'un livre <i class="fa fa-pen"></i></a>
