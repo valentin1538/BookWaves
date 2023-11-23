@@ -47,7 +47,7 @@ if (isset($_GET['auteurId'])) {
                 echo '<div class="title-bar">';
                 echo "<h2> $livreNom </h2>";
                 echo '<div id="header_ajout_livre_bar" class="dropdown bars">';
-                echo '<a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">';
+                echo '<a data-toggle="dropdown" class="dropdown-toggle" href="#">';
                 echo '<i class="fa-solid fa-bars"></i>';
                 echo '</a>';
                 echo '<ul class="dropdown-menu extended notification">';

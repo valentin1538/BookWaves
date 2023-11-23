@@ -58,16 +58,16 @@ $result = $conn->query($sql);
           <!--  Categories start -->
           <ul class="nav top-menu">
             <!-- Ajout Livre Boutton start -->
-            <li id="header_ajout_livre_bar" class="dropdown">
+            <li id="header_ajout_livre_bar" class="dropdown bars">
             
             <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
               Ajouter
               <i class="fa-solid fa-book-medical"></i>
             </a>
               <ul class="dropdown-menu extended notification">
-                <div class="notify-arrow notify-arrow-green"></div>
+                <div class="notify-arrow notify-arrow-grey"></div>
                 <li>
-                  <button id="add-book"><span class="label label-success"><i class="fa fa-plus"></i></span>
+                  <button id="add-book"><i class="fa fa-plus"></i>
                       Ajout depuis un dossier unique</button>
                   <input type="file" id="file-input" accept=".epub" style="display: none">
                 </li>
@@ -209,9 +209,7 @@ $result = $conn->query($sql);
               <!--CUSTOM CHART START -->
               <div class="border-head">
                 <h3>BIBLIOTHEQUE COMMUNE</h3>
-                  <?php
-
-
+                <?php
                   try {
                       $connexion = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
                       $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -220,43 +218,48 @@ $result = $conn->query($sql);
                       $recherche = isset($_GET['recherche']) ? $_GET['recherche'] : '';
 
                       // Requête pour récupérer les livres filtrés par le terme de recherche
-                      $requete = "SELECT livre.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue, livre.infos AS infos 
-                          FROM livre 
-                          JOIN auteur ON livre.idauteur = auteur.id 
-                          JOIN editeur ON livre.idediteur = editeur.id 
-                          JOIN genre ON livre.idgenre = genre.id 
-                          JOIN langue ON livre.idlangue = langue.id 
-                          WHERE livre.nom LIKE '%$recherche%'"; // Requête SQL pour la recherche
+                      $requete = "SELECT livre.id AS id, livre.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue, livre.infos AS infos 
+                                  FROM livre 
+                                  JOIN auteur ON livre.idauteur = auteur.id 
+                                  JOIN editeur ON livre.idediteur = editeur.id 
+                                  JOIN genre ON livre.idgenre = genre.id 
+                                  JOIN langue ON livre.idlangue = langue.id 
+                                  WHERE livre.nom LIKE :recherche";
 
-                      $resultats = $connexion->query($requete);
-                      $livres = $resultats->fetchAll(PDO::FETCH_ASSOC);
+                      $stmt = $connexion->prepare($requete);
+                      $stmt->bindValue(':recherche', "%$recherche%", PDO::PARAM_STR);
+                      $stmt->execute();
+
+                      $livres = $stmt->fetchAll(PDO::FETCH_ASSOC);
                   } catch (PDOException $e) {
                       echo "Erreur de connexion : " . $e->getMessage();
                   }
 
                   // Affichage du formulaire de recherche
-                  echo '<form class="barre-recherche" action="" method="GET">';
-                  echo '<input type="text" name="recherche" placeholder="Rechercher un livre" value="' . htmlentities($recherche) . '">';
-                  echo '<input type="submit" value="Rechercher">';
-                  echo '</form>';
+                  $formulaireRecherche = '
+                      <form class="barre-recherche" action="" method="GET">
+                          <input type="text" name="recherche" placeholder="Rechercher un livre" value="' . htmlspecialchars($recherche) . '">
+                          <input type="submit" value="Rechercher">
+                      </form>';
+                  echo $formulaireRecherche;
 
                   // Affichage des livres filtrés
                   echo '<div class="container">';
                   foreach ($livres as $livre) {
                     echo '<div class="book">';
                     echo '<div class="title-bar">';
-                    echo '<h2>' . $livre['nom'] . '</h2>';
+                    echo '<h2>' . (isset($livre['nom']) ? htmlspecialchars($livre['nom']) : 'Inconnu') . '</h2>';
                     echo '<div id="header_ajout_livre_bar" class="dropdown bars">';
                     echo '<a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">';
                     echo '<i class="fa-solid fa-bars"></i>';
                     echo '</a>';
                     echo '<ul class="dropdown-menu extended notification">';
-                    echo '<div class="notify-arrow notify-arrow-green"></div>';
+                    echo '<div class="notify-arrow notify-arrow-grey"></div>';
                     echo '<li>';
                     echo '<a href="#"><i class="fa fa-eye"></i> Visualiser</a>';
                     echo '</li>';
                     echo '<li>';
-                    echo '<a href="#"><i class="fa fa-pencil"></i> Modifier</a>';
+                    echo '<a href="#"><i class="fa fa-pencil"></i> Modifier le livre : '. (isset($livre['id']) ? $livre['id'] : 'Inconnu') .'</a>';
                     echo '</li>';
                     echo '<li>';
                     echo '<a href="#"><i class="fa fa-arrows-rotate"></i> Convertir</a>';
@@ -267,10 +270,10 @@ $result = $conn->query($sql);
                     echo '</ul>';
                     echo '</div>';
                     echo '</div>';
-                    echo '<p><strong>Auteur :</strong> ' . $livre['auteur'] . '</p>';
-                    echo '<p><strong>Éditeur :</strong> ' . $livre['editeur'] . '</p>';
-                    echo '<p><strong>Genre :</strong> ' . $livre['genre'] . '</p>';
-                    echo '<p><strong>Langue :</strong> ' . $livre['langue'] . '</p>';
+                    echo '<p><strong>Auteur :</strong> ' . (isset($livre['auteur']) ? htmlspecialchars($livre['auteur']) : 'Inconnu') . '</p>';
+                    echo '<p><strong>Éditeur :</strong> ' . (isset($livre['editeur']) ? htmlspecialchars($livre['editeur']) : 'Inconnu') . '</p>';
+                    echo '<p><strong>Genre :</strong> ' . (isset($livre['genre']) ? htmlspecialchars($livre['genre']) : 'Inconnu') . '</p>';
+                    echo '<p><strong>Langue :</strong> ' . (isset($livre['langue']) ? htmlspecialchars($livre['langue']) : 'Inconnu') . '</p>';
                     echo '</div>';
                   }
                   echo '</div>';

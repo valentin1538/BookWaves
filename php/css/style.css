@@ -522,11 +522,16 @@ ul.top-menu > li > a:focus {
 
 .dropdown-menu.extended li p {
   background-color: #f1f2f7;
-  color: #666666;
+  color: #b6b6b6;
   margin: 0;
   padding: 10px;
   border-radius: 4px 4px 0px 0px;
   -webkit-border-radius: 4px 4px 0px 0px;
+}
+
+.dropdown-menu.extended li p.grey {
+  background-color: #2f323a;
+  color: #fff;
 }
 
 .dropdown-menu.extended li p.green {
@@ -543,7 +548,8 @@ ul.top-menu > li > a:focus {
   border-bottom: 1px solid #ebebeb !important;
   font-size: 12px;
   list-style: none;
-  background-color: #4ecdc4;
+  background-color: #2f323a;
+  color: #b6b6b6;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -620,6 +626,7 @@ ul.top-menu > li > a:focus {
   float: right;
   right: 0;
   left: auto;
+  border-radius: 5px;
 }
 
 .dropdown-menu.extended.logout > li {
@@ -740,6 +747,12 @@ ul.top-menu > li > a:focus {
   border-color: transparent transparent #4ecdc4;
   border-bottom-color: #4ecdc4 !important;
   border-top-color: #4ecdc4 !important;
+}
+
+.notify-arrow-grey {
+  border-color: transparent transparent #2f323a;
+  border-bottom-color: #2f323a !important;
+  border-top-color: #2f323a !important;
 }
 
 /*--sidebar toggle---*/
@@ -3549,4 +3562,8 @@ ul.sidebar-menu li ul.menu-deroulant-perso li a {
 
 .title-bar h2 {
   margin: 0 auto; /* Centre le titre h2 */
+}
+
+#header_ajout_livre_bar {
+  border-radius: 10px;
 }

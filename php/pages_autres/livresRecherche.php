@@ -276,11 +276,9 @@ $result = $conn->query($sql);
                 <div class="border-head">
                 <h3>Recherche de Livres</h3>
 
-                <form method="GET">
-                    <input type="text" id="recherche" name="recherche">
-                    <button type="submit" class="btn">
-                        <i class="fa fa-magnifying-glass"></i>
-                    </button>
+                <form method="GET" class="barre-recherche">
+                    <input type="text" name="recherche" placeholder="Rechercher sur internet">
+                    <input type="submit" value="Rechercher">
                     
                 </form>
 
