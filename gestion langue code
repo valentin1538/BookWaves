@@ -1,0 +1,80 @@
+<!--main content start-->
+<section id="main-content">
+    <section class="wrapper">
+        <div class="row">
+            <div class="main-chart">
+                <!--CUSTOM CHART START -->
+                <div class="border-head">
+                    <h3>LANGUES</h3>
+                    <div class="container">
+                        <?php
+
+                        // Requête pour récupérer les langues
+                        $queryLangues = "SELECT id, nom FROM langue WHERE id != 1";
+                        $resultLangues = $conn->query($queryLangues);
+
+                        if ($resultLangues && $resultLangues->num_rows > 0) {
+                            while ($rowLangue = $resultLangues->fetch_assoc()) {
+                                $langueId = $rowLangue['id'];
+                                $langueNom = $rowLangue['nom'];
+
+                                echo '<div class="book">';
+                                echo "<a href='#' class='langue-link' data-langue-id='$langueId'>$langueNom</a>";
+                                echo '</div>';
+                            }
+                        } else {
+                            echo "Aucune langue trouvée dans la base de données.";
+                        }
+
+                        echo '</div>';
+
+                        // Affiche la liste des livres de la langue sélectionnée
+                        echo '<div class="livres-list" id="livres-list">';
+                        echo '</div>';
+
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <!-- /col-lg-3 -->
+        </div>
+        <!-- /row -->
+    </section>
+</section>
+<!--main content end-->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var langueLinks = document.querySelectorAll('.langue-link');
+        var livresList = document.getElementById('livres-list');
+
+        langueLinks.forEach(function (link) {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+                var langueId = link.getAttribute('data-langue-id');
+                chargerLivresParLangue(langueId);
+            });
+        });
+
+        function chargerLivresParLangue(langueId) {
+            // Exécute une requête AJAX pour charger les livres de la langue sélectionnée
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'charger-livres-par-langue.php?langueId=' + langueId, true);
+
+            xhr.onload = function () {
+                if (xhr.status >= 200 && xhr.status < 400) {
+                    // La requête a réussi, mettez à jour la liste des livres
+                    livresList.innerHTML = xhr.responseText;
+                } else {
+                    console.error('La requête a échoué.');
+                }
+            };
+
+            xhr.onerror = function () {
+                console.error('Erreur réseau.');
+            };
+
+            xhr.send();
+        }
+    });
+</script>
