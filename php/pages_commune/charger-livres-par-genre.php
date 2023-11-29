@@ -23,7 +23,7 @@ if (isset($_GET['genreId'])) {
         $genreName = $rowGenreName['nom'];
 
         // Requête pour récupérer les livres du genre spécifié
-        $queryLivresGenre = "SELECT livre.id AS id, livre.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue, livre.infos AS infos 
+        $queryLivresGenre = "SELECT livre.id AS id, livre.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue
         FROM livre 
         JOIN auteur ON livre.idauteur = auteur.id 
         JOIN editeur ON livre.idediteur = editeur.id 
@@ -41,7 +41,6 @@ if (isset($_GET['genreId'])) {
                 $livreEditeur = $rowLivre['editeur'];
                 $livreGenre = $rowLivre['genre'];
                 $livreLangues = $rowLivre['langue'];
-                $livreInfos = $rowLivre['infos'];
 
                 echo '<div class="book">';
                 echo '<div class="title-bar">';

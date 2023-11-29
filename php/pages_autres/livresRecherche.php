@@ -40,7 +40,6 @@ $result = $conn->query($sql);
     <link href="../lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <!-- Custom styles for this template -->
     <link href="../css/style.css" rel="stylesheet">
-    <link href="../css/styleRL.css" rel="stylesheet">
     <link href="../css/style-responsive.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/cf0cc41982.js" crossorigin="anonymous"></script>
     <style>
