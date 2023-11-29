@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE ncx PUBLIC "-//NISO//DTD ncx 2005-1//EN" "http://www.daisy.org/z3986/2005/ncx-2005-1.dtd">
+
+<ncx version="2005-1" xmlns="http://www.daisy.org/z3986/2005/ncx/">
+  <head>
+    <meta name="dtb:uid" content="urn:uuid:091B2D34-7727-1014-8866-8B195578C622" />
+    <meta name="dtb:depth" content="1" />
+    <meta name="dtb:totalPageCount" content="0" />
+    <meta name="dtb:maxPageNumber" content="0" />
+  </head>
+  <docTitle>
+    <text>Les Crânes d’or</text>
+  </docTitle>
+  <docAuthor>
+    <text>Frank L. Packard</text>
+  </docAuthor>
+  <navMap>
+    <navPoint id="CHAPITRE PREMIER TELLE UNE VIPÈRE" playOrder="1" class="">
+      <navLabel>
+        <text>CHAPITRE PREMIER TELLE UNE VIPÈRE</text>
+      </navLabel>
+      <content src="book_0001.xhtml#auto-toc0" />
+    </navPoint>
+    <navPoint id="CHAPITRE II LE POIDS DU PASSÉ" playOrder="2" class="">
+      <navLabel>
+        <text>CHAPITRE II LE POIDS DU PASSÉ</text>
+      </navLabel>
+      <content src="book_0002.xhtml#auto-toc1" />
+    </navPoint>
+    <navPoint id="CHAPITRE III LE PREMIER MEURTRE" playOrder="3" class="">
+      <navLabel>
+        <text>CHAPITRE III LE PREMIER MEURTRE</text>
+      </navLabel>
+      <content src="book_0003.xhtml#auto-toc2" />
+    </navPoint>
+    <navPoint id="CHAPITRE IV LE CRI" playOrder="4" class="">
+      <navLabel>
+        <text>CHAPITRE IV LE CRI</text>
+      </navLabel>
+      <content src="book_0004.xhtml#auto-toc3" />
+    </navPoint>
+    <navPoint id="CHAPITRE V LA PANIQUE" playOrder="5" class="">
+      <navLabel>
+        <text>CHAPITRE V LA PANIQUE</text>
+      </navLabel>
+      <content src="book_0005.xhtml#auto-toc4" />
+    </navPoint>
+    <navPoint id="CHAPITRE VI CHINOISERIES" playOrder="6" class="">
+      <navLabel>
+        <text>CHAPITRE VI CHINOISERIES</text>
+      </navLabel>
+      <content src="book_0006.xhtml#auto-toc5" />
+    </navPoint>
+    <navPoint id="CHAPITRE VII LE SORT EN EST JETÉ" playOrder="7" class="">
+      <navLabel>
+        <text>CHAPITRE VII LE SORT EN EST JETÉ</text>
+      </navLabel>
+      <content src="book_0007.xhtml#auto-toc6" />
+    </navPoint>
+    <navPoint id="CHAPITRE VIII EMBUSQUÉ" playOrder="8" class="">
+      <navLabel>
+        <text>CHAPITRE VIII EMBUSQUÉ</text>
+      </navLabel>
+      <content src="book_0008.xhtml#auto-toc7" />
+    </navPoint>
+    <navPoint id="CHAPITRE IX L’IMPOSTEUR" playOrder="9" class="">
+      <navLabel>
+        <text>CHAPITRE IX L’IMPOSTEUR</text>
+      </navLabel>
+      <content src="book_0009.xhtml#auto-toc8" />
+    </navPoint>
+    <navPoint id="CHAPITRE X QUELQUES PIÈCES DU PUZZLE" playOrder="10" class="">
+      <navLabel>
+        <text>CHAPITRE X QUELQUES PIÈCES DU PUZZLE</text>
+      </navLabel>
+      <content src="book_0010.xhtml#auto-toc9" />
+    </navPoint>
+    <navPoint id="CHAPITRE XI DEVANT LA PORTE" playOrder="11" class="">
+      <navLabel>
+        <text>CHAPITRE XI DEVANT LA PORTE</text>
+      </navLabel>
+      <content src="book_0011.xhtml#auto-toc10" />
+    </navPoint>
+    <navPoint id="CHAPITRE XII LA MAISON INHABITÉE" playOrder="12" class="">
+      <navLabel>
+        <text>CHAPITRE XII LA MAISON INHABITÉE</text>
+      </navLabel>
+      <content src="book_0012.xhtml#auto-toc11" />
+    </navPoint>
+    <navPoint id="CHAPITRE XIII LE SAUVETAGE" playOrder="13" class="">
+      <navLabel>
+        <text>CHAPITRE XIII LE SAUVETAGE</text>
+      </navLabel>
+      <content src="book_0013.xhtml#auto-toc12" />
+    </navPoint>
+    <navPoint id="CHAPITRE XIV ALLIÉS" playOrder="14" class="">
+      <navLabel>
+        <text>CHAPITRE XIV ALLIÉS</text>
+      </navLabel>
+      <content src="book_0014.xhtml#auto-toc13" />
+    </navPoint>
+    <navPoint id="CHAPITRE XV LA MAISON DE CARTES" playOrder="15" class="">
+      <navLabel>
+        <text>CHAPITRE XV LA MAISON DE CARTES</text>
+      </navLabel>
+      <content src="book_0015.xhtml#auto-toc14" />
+    </navPoint>
+    <navPoint id="CHAPITRE XVI LE TUEUR" playOrder="16" class="">
+      <navLabel>
+        <text>CHAPITRE XVI LE TUEUR</text>
+      </navLabel>
+      <content src="book_0016.xhtml#auto-toc15" />
+    </navPoint>
+    <navPoint id="CHAPITRE XVII LE TROISIÈME COUP DE DÉS" playOrder="17" class="">
+      <navLabel>
+        <text>CHAPITRE XVII LE TROISIÈME COUP DE DÉS</text>
+      </navLabel>
+      <content src="book_0017.xhtml#auto-toc16" />
+    </navPoint>
+    <navPoint id="CHAPITRE XVIII UNE NUIT À BATAÏ" playOrder="18" class="">
+      <navLabel>
+        <text>CHAPITRE XVIII UNE NUIT À BATAÏ</text>
+      </navLabel>
+      <content src="book_0018.xhtml#auto-toc17" />
+    </navPoint>
+    <navPoint id="CHAPITRE XIX CONDAMNÉS" playOrder="19" class="">
+      <navLabel>
+        <text>CHAPITRE XIX CONDAMNÉS</text>
+      </navLabel>
+      <content src="book_0019.xhtml#auto-toc18" />
+    </navPoint>
+    <navPoint id="CHAPITRE XX LA BAIE DES BATEAUX PERDUS" playOrder="20" class="">
+      <navLabel>
+        <text>CHAPITRE XX LA BAIE DES BATEAUX PERDUS</text>
+      </navLabel>
+      <content src="book_0020.xhtml#auto-toc19" />
+    </navPoint>
+    <navPoint id="CHAPITRE XXI LE DERNIER MORCEAU DU PUZZLE" playOrder="21" class="">
+      <navLabel>
+        <text>CHAPITRE XXI LE DERNIER MORCEAU DU PUZZLE</text>
+      </navLabel>
+      <content src="book_0021.xhtml#auto-toc20" />
+    </navPoint>
+    <navPoint id="À propos de cette édition électronique" playOrder="22" class="">
+      <navLabel>
+        <text>À propos de cette édition électronique</text>
+      </navLabel>
+      <content src="book_0022.xhtml#auto-toc21" />
+    </navPoint>
+  </navMap>
+</ncx>
