@@ -241,7 +241,7 @@ $result = $conn->query($sql);
                 $recherche = isset($_GET['recherche']) ? $_GET['recherche'] : '';
 
                 // Requête pour récupérer les livres filtrés par le terme de recherche
-                $requete = "SELECT livre.id AS id, livre.lienfiles AS lien,livre.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue
+                $requete = "SELECT livre.id AS id, livre.lienfiles AS lien, livre.lienfolder AS nomfichier, livre.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue
                                   FROM livre 
                                   JOIN auteur ON livre.idauteur = auteur.id 
                                   JOIN editeur ON livre.idediteur = editeur.id 
@@ -279,10 +279,10 @@ $result = $conn->query($sql);
                 echo '<ul class="dropdown-menu extended notification">';
                 echo '<div class="notify-arrow notify-arrow-grey"></div>';
                 echo '<li>';
-                echo '<a href="./pages_autres/visualiser.php?lien=' . urlencode($livre['lien']) . '"><i class="fa fa-eye"></i> Visualiser</a>';
+                echo '<a href="./pages_autres/visualiser.php?nomfichier=' . urlencode($livre['nomfichier']) . '"><i class="fa fa-eye"></i> Visualiser</a>';
                 echo '</li>';
                 echo '<li>';
-                echo '<a href="#"><i class="fa fa-pencil"></i> Modifier le livre : ' . (isset($livre['id']) ? $livre['id'] : 'Inconnu') . '</a>';
+                echo '<a href="#" onclick="lireMetadonnees(\'' . htmlspecialchars($livre['lien']) . '\',\'' . htmlspecialchars($livre['id']) . '\' )"><i class="fa fa-pencil"></i> Modifier le livre : ' . (isset($livre['id']) ? htmlspecialchars($livre['id']) : 'Inconnu') . '</a>';
                 echo '</li>';
                 echo '<li>';
                 echo '<a href="#"><i class="fa fa-arrows-rotate"></i> Convertir</a>';
@@ -312,16 +312,143 @@ $result = $conn->query($sql);
     </section>
     <!--main content end-->
 
+    <div id="metadata-form">
+
+      <h3>Formulaire des métadonnées</h3>
+      <!-- ... Lire les métadonné js ... -->
+      <script src="script.js"></script>
+      <!-- Champ de formulaire avec le label juste devant -->
+      <!-- Ajoutez ici les champs du formulaire pour les métadonnées -->
+      <div>
+        <label for="TXT_Titre">Titre du livre :</label>
+        <input type="text" id="TXT_Titre" name="TXT_Titre">
+      </div>
+      <div>
+        <label for="TXT_Auteur">Nom du première auteur :</label>
+        <input type="text" id="TXT_Auteur" name="TXT_Auteur">
+      </div>
+      <div>
+        <label for="TXT_Editeur">Nom de l'éditeur : </label>
+        <input type="text" id="TXT_Editeur" name="TXT_Editeur">
+      </div>
+      <div>
+        <label for="TXT_Genre">Nom du Genre : </label>
+        <input type="text" id="TXT_Genre" name="TXT_Genre">
+      </div>
+      <div>
+        <label for="TXT_Langue">Langue :</label>
+        <input type="text" id="TXT_Langue" name="TXT_Langue">
+      </div>
+
+      <!-- Bouton avec fonction -->
+      <button onclick="modifierMetadonnees()">Modifier</button>
+      <button onclick="closeForm()">Fermer</button>
+    </div>
+
     <script>
       function confirmDelete(bookId) {
         var confirmation = confirm("Êtes-vous sûr de vouloir supprimer ce livre ?");
 
         if (confirmation) {
-          window.location.href = 'deletebook.php?id=' + bookId;
+          window.location.href = './php_sql/deletebook.php?id=' + bookId;
         } else {
           // L'utilisateur a annulé la suppression
           // Vous pouvez ajouter un message ou effectuer d'autres actions si nécessaire
         }
+      }
+
+      function openForm() {
+        var form = document.getElementById('metadata-form');
+        form.style.display = 'block';
+      }
+
+      function closeForm() {
+        document.getElementById('metadata-form').style.display = 'none';
+      }
+
+      let lienGlobal = ''; // Variable globale pour stocker la valeur de lien
+      let IdGlobal = 0;
+
+      function lireMetadonnees(lien, id) {
+        lienGlobal = lien;
+        IdGlobal = id;
+        console.log(lienGlobal);
+        const cheminAccesOPF = `./lib/Librairy/${lien}?${Date.now()}`
+
+
+        fetch(cheminAccesOPF)
+          .then(response => response.text())
+          .then(data => {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(data, "text/xml");
+
+            const title = xmlDoc.querySelector("dc\\:title, title").textContent;
+            const creator = xmlDoc.querySelector("dc\\:creator, creator").textContent;
+            const editeur = xmlDoc.querySelector("dc\\:publisher, publisher").textContent;
+            const langue = xmlDoc.querySelector("dc\\:language, language").textContent;
+            const genre = xmlDoc.querySelector("dc\\:subject, subject").textContent;
+
+
+            document.getElementById('TXT_Titre').value = title;
+            document.getElementById('TXT_Auteur').value = creator;
+            document.getElementById('TXT_Editeur').value = editeur;
+            document.getElementById('TXT_Langue').value = langue;
+            document.getElementById('TXT_Genre').value = genre;
+
+
+
+            // Afficher le formulaire une fois les métadonnées chargées
+            document.getElementById('metadata-form').style.display = 'block';
+          })
+          .catch(error => {
+            console.error('Erreur lors de la récupération des métadonnées :', error);
+            // Gérer les erreurs lors de la récupération des métadonnées
+          });
+      }
+
+      function modifierMetadonnees() {
+        console.log(lienGlobal);
+        console.log(IdGlobal);
+        const titre = document.getElementById('TXT_Titre').value;
+        const auteur = document.getElementById('TXT_Auteur').value;
+        const editeur = document.getElementById('TXT_Editeur').value;
+        const langue = document.getElementById('TXT_Langue').value;
+        const genre = document.getElementById('TXT_Genre').value;
+
+        console.log(titre, auteur, editeur, langue);
+
+        const data = {
+          id: IdGlobal,
+          titre: titre,
+          auteur: auteur,
+          editeur: editeur,
+          langue: langue,
+          genre: genre,
+          lienGlobal: lienGlobal // Ajout de la variable lienfile
+          // Ajoutez d'autres données si nécessaire
+        };
+
+        // Envoi des données à modifier_metadonneesFichier.php
+        fetch('./fonctions_php/modifier_metadonneesFichier.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+          .then(response => {
+            if (response.ok) {
+              console.log('Mise à jour du fichier réussie !');
+            } else {
+              throw new Error('La mise à jour du fichier a échoué.');
+            }
+          })
+          .catch(error => {
+            console.error('Erreur lors de la mise à jour du fichier :', error);
+          })
+          .finally(() => {
+            document.getElementById('metadata-form').style.display = 'none';
+          });
       }
     </script>
 
@@ -465,7 +592,7 @@ $result = $conn->query($sql);
 
         // Ajoutez d'autres métadonnées si nécessaire
 
-        fetch('insert_metadatapj.php', {
+        fetch('./php_sql/insert_metadatapj.php', {
           method: 'POST',
           body: formData
         })

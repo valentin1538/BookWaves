@@ -3567,3 +3567,33 @@ ul.sidebar-menu li ul.menu-deroulant-perso li a {
 #header_ajout_livre_bar {
   border-radius: 10px;
 }
+
+/* Styles pour le formulaire pop-up */
+#metadata-form {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-width: 400px;
+  width: 100%;
+}
+
+#metadata-form h3 {
+  margin-bottom: 10px;
+}
+
+#metadata-form button {
+  display: block;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}

@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html>
+<?php
+$lienepub = isset($_GET['nomfichier']) ? $_GET['nomfichier'] : '';
+?>
 
 <head>
   <meta charset="UTF-8">
@@ -199,7 +202,8 @@
                   params && params.get("loc") ? params.get("loc") : undefined;
 
                 // Load the opf
-                var book = ePub(url || "../lib/Librairy/packard_les_cranes_d_or/packard_les_cranes_d_or.epub");
+                var lienEpub = '<?php echo $lienepub; ?>'; // Récupération du lien du livre depuis PHP
+                var book = ePub(url || "../lib/Librairy/" + lienEpub + "/" + lienEpub + ".epub");
                 var rendition = book.renderTo("viewer", {
                   width: "100%",
                   height: "100%",
