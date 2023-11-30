@@ -91,7 +91,16 @@
 </head>
 <body>
 
+
 <div class="container">
+
+<div class="notification">
+    <span class="bell" onclick="showTodayBooks()">🔔</span>
+    <div id="todayBooks" class="hidden">
+        <!-- Les livres du jour seront affichés ici -->
+    </div>
+</div>
+
     <h1>Actualités d'ebooks</h1>
 
     <form method="GET">
@@ -260,6 +269,52 @@ if (isset($_GET['searchTerm']) && !empty($_GET['searchTerm']) && isset($_GET['cr
 }
 
 ?>
+
+<script>
+    function showTodayBooks() {
+        // Obtenez la date d'aujourd'hui au format YYYY-MM-DD
+        const today = new Date().toISOString().split('T')[0];
+
+        // Faites une requête à votre API pour obtenir les livres publiés aujourd'hui
+        const api_url = `https://www.googleapis.com/books/v1/volumes?q=publishedDate:${today}&langRestrict=fr&orderBy=newest&printType=books&filter=partial&projection=lite`;
+
+        fetch(api_url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.items && data.items.length > 0) {
+                    // Générez le HTML pour afficher les livres
+                    let booksHTML = "<div class='books'>";
+                    data.items.forEach(item => {
+                        const volumeInfo = item.volumeInfo;
+                        booksHTML += "<div class='book'>";
+                        booksHTML += `<h2><a href='${volumeInfo.infoLink}' target='_blank'>${volumeInfo.title}</a></h2>`;
+                        if (volumeInfo.authors && volumeInfo.authors.length > 0) {
+                            booksHTML += "<p>Auteur(s): " + volumeInfo.authors.join(", ") + "</p>";
+                        } else {
+                            booksHTML += "<p>Auteur(s): Information non disponible</p>";
+                        }
+                        booksHTML += "<p>Date de publication: " + (volumeInfo.publishedDate ? new Date(volumeInfo.publishedDate).toLocaleDateString('fr-FR') : '') + "</p>";
+                        booksHTML += "</div>";
+                    });
+                    booksHTML += "</div>";
+
+                    // Affichez les livres dans la notification
+                    document.getElementById('todayBooks').innerHTML = booksHTML;
+                    document.getElementById('todayBooks').classList.remove('hidden');
+                } else {
+                    // S'il n'y a pas de livres publiés aujourd'hui
+                    document.getElementById('todayBooks').innerHTML = "Aucun livre publié aujourd'hui.";
+                    document.getElementById('todayBooks').classList.remove('hidden');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des données:', error);
+                document.getElementById('todayBooks').innerHTML = "Erreur lors de la récupération des données.";
+                document.getElementById('todayBooks').classList.remove('hidden');
+            });
+    }
+</script>
+
 
 </div>
 </body>
