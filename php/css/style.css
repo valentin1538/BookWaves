@@ -3597,3 +3597,93 @@ ul.sidebar-menu li ul.menu-deroulant-perso li a {
   border: none;
   cursor: pointer;
 }
+
+.parent-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#containerx {
+  width: 90%; /* Augmentez la largeur du container selon vos besoins */
+  max-width: 1000px; /* Ajustez la largeur maximale selon vos besoins */
+  padding: 40px; /* Augmentez la marge intérieure selon vos besoins */
+  border: 1px solid #2f323a;
+  background: #2f323a;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  border-radius: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+#containerx input {
+  border-radius: 10px;
+}
+/* Full-width inputs */
+#containerx input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #2f323a;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+#containerx input[type="submit"] {
+  background-color: #eaeaea;
+  color: #eaeaea;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+#containerx input[type="submit"]:hover {
+  background-color: w#eaeaea;
+  color: #eaeaea;
+  border: 1px solid #2f323a;
+}
+
+.containerhhh {
+  width: 90%; /* Augmentez la largeur du container selon vos besoins */
+  max-width: 1000px; /* Ajustez la largeur maximale selon vos besoins */
+  padding: 40px; /* Augmentez la marge intérieure selon vos besoins */
+  border: 1px solid #2f323a;
+  background: #2f323a;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  border-radius: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.profile-image {
+  width: 180px; /* Augmentez la largeur selon vos besoins */
+  height: 180px; /* Augmentez la hauteur selon vos besoins */
+  border-radius: 50%;
+  object-fit: cover;
+  margin-left: 220px; /* Ajustez la marge pour déplacer davantage vers la droite */
+  cursor: pointer;
+}
+
+.profile-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Ajout de cette ligne pour espacer les éléments */
+}
+
+.profile-details {
+  flex-grow: 1;
+  margin-right: 40px; /* Ajout de cette ligne pour créer un espace entre les éléments */
+}
+
+.profile-container {
+  margin-left: 20px; /* Ajout de cette ligne pour créer un espace entre les éléments */
+}
