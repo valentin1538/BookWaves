@@ -99,6 +99,7 @@ $result = $conn->query($sql);
       <ul class="nav pull-right top-menu">
         <?php if (isset($_SESSION['username'])): ?>
           <!-- Utilisateur connecté -->
+          <li><a class="logout" href="../pages_profil/profil.php">Profil</a></li>
           <li><a class="logout"
               href="../pages_cnx/logout.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Se Déconnecter</a>
           </li>

@@ -23,11 +23,11 @@ if (!isset($_SESSION["username"])) {
 $_SESSION['redirect_url'] = $_SERVER['REQUEST_URI'];
 
 // Requête pour récupérer les données des tables
-$sql = "SELECT livre.id, livre.nom, livre.infos, auteur.nom as nom_auteur, editeur.nom as nom_editeur, genre.nom as nom_genre, langue.nom as nom_langue FROM livre
-        INNER JOIN auteur ON livre.idauteur = auteur.id
-        INNER JOIN editeur ON livre.idediteur = editeur.id
-        INNER JOIN genre ON livre.idgenre = genre.id
-        INNER JOIN langue ON livre.idlangue = langue.id";
+$sql = "SELECT livreperso.id, livreperso.nom, auteur.nom as nom_auteur, editeur.nom as nom_editeur, genre.nom as nom_genre, langue.nom as nom_langue FROM livreperso
+        INNER JOIN auteur ON livreperso.idauteur = auteur.id
+        INNER JOIN editeur ON livreperso.idediteur = editeur.id
+        INNER JOIN genre ON livreperso.idgenre = genre.id
+        INNER JOIN langue ON livreperso.idlangue = langue.id";
 
 $result = $conn->query($sql);
 ?>
@@ -120,9 +120,10 @@ $result = $conn->query($sql);
         <ul class="nav pull-right top-menu">
           <?php if (isset($_SESSION['username'])): ?>
             <!-- Utilisateur connecté -->
-            <li><a class="logout" href="./pages_profil/profil.php">Profil</a></li>
+            <li><a class="logout" href="../pages_profil/profil.php">Profil</a></li>
             <li><a class="logout"
-                href="./pages_cnx/logout.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Déconnexion</a>
+                href="../pages_cnx/logout.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Se
+                Déconnecter</a>
             </li>
           <?php else: ?>
             <!-- Utilisateur non connecté -->
@@ -247,13 +248,13 @@ $result = $conn->query($sql);
                 $recherche = isset($_GET['recherche']) ? $_GET['recherche'] : '';
 
                 // Requête pour récupérer les livres filtrés par le terme de recherche
-                $requete = "SELECT livre.id AS id, livre.lienfiles AS lien, livre.lienfolder AS nomfichier, livre.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue
-                                  FROM livre 
-                                  JOIN auteur ON livre.idauteur = auteur.id 
-                                  JOIN editeur ON livre.idediteur = editeur.id 
-                                  JOIN genre ON livre.idgenre = genre.id 
-                                  JOIN langue ON livre.idlangue = langue.id 
-                                  WHERE livre.nom LIKE :recherche";
+                $requete = "SELECT livreperso.id AS id, livreperso.lienfiles AS lien, livreperso.lienfolder AS nomfichier, livreperso.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue
+                                  FROM livreperso
+                                  JOIN auteur ON livreperso.idauteur = auteur.id 
+                                  JOIN editeur ON livreperso.idediteur = editeur.id 
+                                  JOIN genre ON livreperso.idgenre = genre.id 
+                                  JOIN langue ON livreperso.idlangue = langue.id 
+                                  WHERE livreperso.nom LIKE :recherche";
 
                 $stmt = $connexion->prepare($requete);
                 $stmt->bindValue(':recherche', "%$recherche%", PDO::PARAM_STR);
@@ -285,7 +286,7 @@ $result = $conn->query($sql);
                 echo '<ul class="dropdown-menu extended notification">';
                 echo '<div class="notify-arrow notify-arrow-grey"></div>';
                 echo '<li>';
-                echo '<a href="../pages_autres/visualiser.php?nomfichier=' . urlencode($livre['nomfichier']) . '"><i class="fa fa-eye"></i> Visualiser</a>';
+                echo '<a href="../pages_autres/visualiser_perso.php?nomfichier=' . urlencode($livre['nomfichier']) . '"><i class="fa fa-eye"></i> Visualiser</a>';
                 echo '</li>';
                 echo '<li>';
                 echo '<a href="#" onclick="lireMetadonnees(\'' . htmlspecialchars($livre['lien']) . '\',\'' . htmlspecialchars($livre['id']) . '\' )"><i class="fa fa-pencil"></i> Modifier le livre : ' . (isset($livre['id']) ? htmlspecialchars($livre['id']) : 'Inconnu') . '</a>';
@@ -354,7 +355,7 @@ $result = $conn->query($sql);
         var confirmation = confirm("Êtes-vous sûr de vouloir supprimer ce livre ?");
 
         if (confirmation) {
-          window.location.href = '../php_sql/deletebook.php?id=' + bookId + '&from=' + encodeURIComponent(currentUrl);
+          window.location.href = '../php_sql/delete_book_users.php?id=' + bookId + '&from=' + encodeURIComponent(currentUrl);
         } else {
           // L'utilisateur a annulé la suppression
           // Vous pouvez ajouter un message ou effectuer d'autres actions si nécessaire
@@ -596,7 +597,7 @@ $result = $conn->query($sql);
 
         // Ajoutez d'autres métadonnées si nécessaire
 
-        fetch('../php_sql/insert_metadatapj.php', {
+        fetch('../php_sql/insert_book_users.php', {
           method: 'POST',
           body: formData
         })

@@ -57,33 +57,14 @@ $result = $conn->query($sql);
             <?php echo isset($_SESSION['username']) ? ' / ' . $_SESSION['username'] : ''; ?>
           </span></b></a>
       <!--logo end-->
-      <div class="nav notify-row text-center" id="top_menu">
-        <!--  Categories start -->
-        <ul class="nav top-menu">
-          <li id="header_convertir_livre_bar" class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
-              Recupération des actualités
-              <i class="fa-solid fa-newspaper"></i>
-            </a>
-            <ul class="dropdown-menu extended notification">
-              <div class="notify-arrow notify-arrow-green"></div>
-              <li>
-                <a href="index.html#">
-                  <span class="label label-danger"><i class="fa fa-calendar"></i></span>
-                  Charger les actualités
-                </a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
       <div class="top-menu">
         <ul class="nav pull-right top-menu">
           <?php if (isset($_SESSION['username'])): ?>
             <!-- Utilisateur connecté -->
             <li><a class="logout" href="./pages_profil/profil.php">Profil</a></li>
             <li><a class="logout"
-                href="./pages_cnx/logout.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Déconnexion</a>
+                href="./pages_cnx/logout.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Se
+                Déconnecter</a>
             </li>
           <?php else: ?>
             <!-- Utilisateur non connecté -->
@@ -269,6 +250,8 @@ $result = $conn->query($sql);
       </section>
     </section>
     <!--main content end-->
+
+
 
     <!-- js placed at the end of the document so the pages load faster -->
     <script src="lib/jquery/jquery.min.js"></script>

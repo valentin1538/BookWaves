@@ -23,7 +23,7 @@ if (isset($_GET['editeurId'])) {
         $editeurName = $rowediteurName['nom'];
 
         // Requête pour récupérer les livres du editeur spécifié
-        $queryLivresediteur = "SELECT livre.id AS id, livre.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue 
+        $queryLivresediteur = "SELECT livre.id AS id, livre.lienfolder AS nomfichier, livre.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue 
         FROM livre 
         JOIN auteur ON livre.idauteur = auteur.id 
         JOIN editeur ON livre.idediteur = editeur.id 
@@ -41,10 +41,12 @@ if (isset($_GET['editeurId'])) {
                 $livreEditeur = $rowLivre['editeur'];
                 $livreGenre = $rowLivre['genre'];
                 $livreLangues = $rowLivre['langue'];
+                $livreNomFichier = $rowLivre['nomfichier'];
 
                 echo '<div class="book">';
                 echo '<div class="title-bar">';
-                echo "<h2> $livreNom </h2>";
+
+                echo '<h2>' . (isset($livreNom) ? htmlspecialchars($livreNom) : 'Inconnu') . '</h2>';
                 echo '<div id="header_ajout_livre_bar" class="dropdown bars">';
                 echo '<a data-toggle="dropdown" class="dropdown-toggle" href="#">';
                 echo '<i class="fa-solid fa-bars"></i>';
@@ -52,24 +54,15 @@ if (isset($_GET['editeurId'])) {
                 echo '<ul class="dropdown-menu extended notification">';
                 echo '<div class="notify-arrow notify-arrow-green"></div>';
                 echo '<li>';
-                echo '<a href="#"><i class="fa fa-eye"></i> Visualiser</a>';
-                echo '</li>';
-                echo '<li>';
-                echo '<a href="#"><i class="fa fa-pencil"></i> Modifier</a>';
-                echo '</li>';
-                echo '<li>';
-                echo '<a href="#"><i class="fa fa-arrows-rotate"></i> Convertir</a>';
-                echo '</li>';
-                echo '<li>';
-                echo '<a href="#"><i class="fa fa-trash"></i> Supprimer</a>';
+                echo '<a href="../pages_autres/visualiser.php?nomfichier=' . urlencode($livreNomFichier) . '"><i class="fa fa-eye"></i> Visualiser</a>';
                 echo '</li>';
                 echo '</ul>';
                 echo '</div>';
                 echo '</div>';
-                echo "<p><strong>Auteur :</strong> $livreAuteur </p>";
-                echo "<p><strong>Éditeur :</strong> $livreEditeur </p>";
-                echo "<p><strong>Genre :</strong> $livreGenre </p>";
-                echo "<p><strong>Langue :</strong> $livreLangues </p>";
+                echo '<p><strong>Auteur :</strong>' . (isset($livreAuteur) ? htmlspecialchars($livreAuteur) : 'Inconnu') . '</p>';
+                echo '<p><strong>Éditeur :</strong>' . (isset($livreEditeur) ? htmlspecialchars($livreEditeur) : 'Inconnu') . '</p>';
+                echo '<p><strong>Genre :</strong>' . (isset($livreGenre) ? htmlspecialchars($livreGenre) : 'Inconnu') . '</p>';
+                echo '<p><strong>Langue :</strong>' . (isset($livreLangues) ? htmlspecialchars($livreLangues) : 'Inconnu') . '</p>';
                 echo '</div>';
             }
             echo '</div>';

@@ -263,6 +263,9 @@ $result = $conn->query($sql);
         var auteurLinks = document.querySelectorAll('.auteur-link');
         var livresList = document.getElementById('livres-list');
 
+        var currentPageLink = document.querySelector('.menu-deroulant-commune .active a');
+        var currentPageCategory = currentPageLink ? currentPageLink.getAttribute('href').replace('./', '') : '';
+
         auteurLinks.forEach(function (link) {
           link.addEventListener('click', function (event) {
             event.preventDefault();
@@ -271,10 +274,10 @@ $result = $conn->query($sql);
           });
         });
 
-        function chargerLivresParediteur(auteurId) {
+        function chargerLivresParediteur(auteurId, category) {
           // Exécute une requête AJAX pour charger les livres du editeur sélectionné
           var xhr = new XMLHttpRequest();
-          xhr.open('GET', 'charger-livres-par-auteur.php?auteurId=' + auteurId, true);
+          xhr.open('GET', 'charger-livres-par-auteur.php?auteurId=' + auteurId + '&category=' + category, true)
 
           xhr.onload = function () {
             if (xhr.status >= 200 && xhr.status < 400) {

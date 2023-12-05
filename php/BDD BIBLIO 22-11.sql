@@ -36,9 +36,9 @@ nom VARCHAR(35)
 #CREATION DE LA TABLE LIVRE
 CREATE TABLE livre (
 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-nom VARCHAR(75),
-lienfiles VARCHAR(250),
-lienfolder Varchar(250),
+nom VARCHAR(750),
+lienfiles VARCHAR(750),
+lienfolder Varchar(750),
 idauteur INT,
 idediteur INT,
 idgenre INT,
@@ -55,9 +55,9 @@ FOREIGN KEY (idcollection) REFERENCES collection(id)
 CREATE TABLE livreperso (
 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 idpersonne INT,
-nom VARCHAR(75),
-lienimage VARCHAR(250),
-lienepub VARCHAR(250),
+nom VARCHAR(750),
+lienfiles VARCHAR(750),
+lienfolder Varchar(750),
 idauteur INT,
 idediteur INT,
 idgenre INT,
@@ -147,29 +147,8 @@ INSERT INTO profil VALUES (4 ,'Administrateur');
 
 #INSERTION LIVRE
 INSERT INTO livre(nom,idauteur,idediteur,idgenre,idlangue,idcollection) VALUES ('NO_NAME','NULL','NULL','NULL','NULL','NULL');
-#Insertion des livres
-INSERT INTO livre(nom,idauteur,idediteur,idgenre,idlangue,idcollection) VALUES
-('ONE PIECE T.1',2,2,2,1,2),
-('ONE PIECE T.2',2,2,2,1,2),
-('ONE PIECE T.3',2,2,2,1,2),
-('ONE PIECE T.4',2,2,2,1,2),
-('ONE PIECE T.5',2,2,2,1,2),
-('ONE PIECE T.6',2,2,2,1,2),
-('TWO PIECE',2,2,2,1,2),
 
-('Comment se faire des amis',3,3,3,1,1),
-('Tintin au pays des Soviets',4,4,4,1,1)
-;
 
-INSERT INTO collection(nom,infos,idediteur) VALUES
-
-('inconnu','inconnu',1),
-('ONE PIECE','L histoire suit principalement l équipage de Chapeau de paille, mené par son capitaine Monkey D. Luffy, 
-un jeune homme ayant mangé le fruit du Gum Gum et dont le rêve est de devenir le Roi des pirates.',2),
-('TWO PIECE','L histoire suit principalement l équipage de Chapeau de paille, mené par son capitaine Monkey D. Loufi, 
-un jeune homme ayant mangé le fruit du Gum Gum et dont le rêve est de devenir le Roi des pirates.',2),
-('Tintin','Le T',4)
-;
 
 
 

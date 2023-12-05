@@ -56,42 +56,6 @@ $result = $conn->query($sql);
             <?php echo isset($_SESSION['username']) ? ' / ' . $_SESSION['username'] : ''; ?>
           </span></b></a>
       <!--logo end-->
-      <!--  Categories start -->
-      <div class="nav notify-row text-center" id="top_menu">
-        <!--  Categories start -->
-        <ul class="nav top-menu">
-          <!-- Ajout Livre Boutton start -->
-          <li id="header_ajout_livre_bar" class="dropdown">
-
-            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-              Ajouter
-              <i class="fa-solid fa-book-medical"></i>
-            </a>
-            <ul class="dropdown-menu extended notification">
-              <div class="notify-arrow notify-arrow-green"></div>
-              <li>
-                <button id="add-book"><span class="label label-success"><i class="fa fa-plus"></i></span>
-                  Ajout depuis un dossier unique</button>
-                <input type="file" id="file-input" accept=".epub" style="display: none">
-              </li>
-            </ul>
-          <li id="header_convertir_livre_bar" class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-              Recupération des actualités
-              <i class="fa-solid fa-newspaper"></i>
-            </a>
-            <ul class="dropdown-menu extended notification">
-              <div class="notify-arrow notify-arrow-green"></div>
-              <li>
-                <a href="#">
-                  <span class="label label-danger"><i class="fa fa-calendar"></i></span>
-                  Charger les actualités
-                </a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
       <ul class="nav pull-right top-menu">
         <?php if (isset($_SESSION['username'])): ?>
           <!-- Utilisateur connecté -->
@@ -286,20 +250,11 @@ $result = $conn->query($sql);
     </script>
 
     <!-- js placed at the end of the document so the pages load faster -->
-    <script src="lib/jquery/jquery.min.js"></script>
+    <script src="../lib/jquery/jquery.min.js"></script>
 
-    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-    <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="lib/jquery.scrollTo.min.js"></script>
-    <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
-    <script src="lib/jquery.sparkline.js"></script>
-    <!--common script for all pages-->
-    <script src="lib/common-scripts.js"></script>
-    <script type="text/javascript" src="lib/gritter/js/jquery.gritter.js"></script>
-    <script type="text/javascript" src="lib/gritter-conf.js"></script>
-    <!--script for this page-->
-    <script src="lib/sparkline-chart.js"></script>
-    <script src="lib/zabuto_calendar.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+    <script class="include" type="text/javascript" src="../lib/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="../lib/jquery.scrollTo.min.js"></script>
 
 
 </body>

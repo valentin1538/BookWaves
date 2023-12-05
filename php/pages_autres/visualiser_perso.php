@@ -96,7 +96,7 @@ $lienepub = isset($_GET['nomfichier']) ? $_GET['nomfichier'] : '';
               <i class="fa fa-book"></i>
               <span>Bibliothèque Commune</span>
             </a>
-            <ul id="menuDeroulantCommun" class="menu-deroulant-commune" style="display: block;">
+            <ul id="menuDeroulantCommun" class="menu-deroulant-commune">
               <li class=" auteur">
                 <a href="../index.php">
                   <i class="fa fa-book-open"></i>
@@ -128,39 +128,39 @@ $lienepub = isset($_GET['nomfichier']) ? $_GET['nomfichier'] : '';
               <i class="fa fa-book"></i>
               <span>Bibliothèque Perso</span>
             </a>
-            <ul id="menuDeroulantPerso" class="menu-deroulant-perso">
-              <li class="auteur">
-                <a href="../pages_perso/livres_perso.php">
-                  <i class="fa fa-book-open"></i>
-                  <span>Livres</span>
-                </a>
-              </li>
-              <li class="auteur">
-                <a href="../pages_perso/auteurs_perso.php">
-                  <i class="fa fa-user-tie"></i>
-                  <span>Auteurs</span>
-                </a>
-              </li>
-              <li class="editeur">
-                <a href="../pages_perso/editeurs_perso.php">
-                  <i class="fa fa-feather"></i>
-                  <span>Editeurs</span>
-                </a>
-              </li>
-              <li class="Genres">
-                <a href="../pages_perso/genres_perso.php">
-                  <i class="fa fa-tags"></i>
-                  <span>Genres</span>
-                </a>
-              </li>
-            </ul>
+            <ul id="menuDeroulantPerso" class="menu-deroulant-perso" style="display: block;>
+            <li class=" auteur">
+              <a href="../pages_perso/livres_perso.php" class="active">
+                <i class="fa fa-book-open"></i>
+                <span>Livres</span>
+              </a>
           </li>
-          <li class="sub-menu">
-            <a href="../pages_autres/livresRecherche.php">
-              <i class="fa fa-globe"></i>
-              <span>Recherche d'Ebook</span>
+          <li class="auteur">
+            <a href="../pages_perso/auteurs_perso.php">
+              <i class="fa fa-user-tie"></i>
+              <span>Auteurs</span>
             </a>
           </li>
+          <li class="editeur">
+            <a href="../pages_perso/editeurs_perso.php">
+              <i class="fa fa-feather"></i>
+              <span>Editeurs</span>
+            </a>
+          </li>
+          <li class="Genres">
+            <a href="../pages_perso/genres_perso.php">
+              <i class="fa fa-tags"></i>
+              <span>Genres</span>
+            </a>
+          </li>
+        </ul>
+        </li>
+        <li class="sub-menu">
+          <a href="../pages_autres/livresRecherche.php">
+            <i class="fa fa-globe"></i>
+            <span>Recherche d'Ebook</span>
+          </a>
+        </li>
         </ul>
         <!-- sidebar menu end-->
       </div>
