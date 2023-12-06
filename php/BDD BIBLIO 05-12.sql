@@ -2,7 +2,6 @@
 #Objectif : Création d'un site web de gestion d'ebooks
 #Création d'une base de données Biblio pour la gestion des ebooks par une bibliothèque fictive 
 
-
 DROP DATABASE IF EXISTS Biblio;
 CREATE DATABASE Biblio; 
 USE Biblio; 
@@ -24,6 +23,17 @@ create table users(
     urlpfp VARCHAR(250),
     FOREIGN KEY (idprofil) REFERENCES profil(id)
     );
+
+#CREATION DE LA TABLE DE GESTION DES LECTURES
+CREATE TABLE lecture(
+idpersonne INT,
+idlivre INT, 
+lu BOOL, 
+avancement DECIMAL,
+PRIMARY KEY (idpersonne,idlivre),
+FOREIGN KEY (idpersonne) REFERENCES personne(id),
+FOREIGN KEY(idlivre) REFERENCES livre(id)
+);
 
 
 #CREATION DE LA TABLE DE GESTION DES PROFILS
@@ -71,6 +81,17 @@ FOREIGN KEY (idlangue) REFERENCES langue(id),
 FOREIGN KEY (idcollection) REFERENCES collection(id)
 );
 
+CREATE TABLE avis(
+idpersonne INT,
+idlivre INT,
+note DECIMAL,
+commentaire VARCHAR(250),
+PRIMARY KEY (idpersonne,idlivre),
+FOREIGN KEY (idpersonne) REFERENCES personne(id),
+FOREIGN KEY(idlivre) REFERENCES livre(id)
+
+);
+
 
 #CREATION DE LA TABLE AUTEUR
 CREATE TABLE auteur (
@@ -105,23 +126,38 @@ nom VARCHAR(75)
 #CREATION TABLE COLLECTION EDITEUR
 CREATE TABLE collection(
 id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-nom VARCHAR (75),
+nom VARCHAR (250),
 infos VARCHAR(250),
 idediteur INT,
 FOREIGN KEY (idediteur) REFERENCES editeur(id)
 );
 
-
-#CREATION DE LA TABLE PERSONNAGE AUTEUR
-CREATE TABLE personnage(
+CREATE TABLE forum(
 id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-nom VARCHAR(75),
-idauteur INT,
-idcollection INT,
-FOREIGN KEY (idcollection) REFERENCES collection(id),
-FOREIGN KEY (idauteur) REFERENCES auteur(id)
+nom VARCHAR(250),
+description VARCHAR(250),
+lienimage VARCHAR(250)
 );
 
+CREATE TABLE sujet(
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+nom VARCHAR(250),
+idforum INT,
+idpersonne INT,
+  date_dernier_message DATETIME,
+FOREIGN KEY (idpersonne) REFERENCES personne(id),
+FOREIGN KEY (idforum) REFERENCES forum(id)
+);
+
+CREATE TABLE message(
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+contenu VARCHAR(250),
+  date_creation DATETIME,
+idsujet int,
+idpersonne INT,
+FOREIGN KEY (idpersonne) REFERENCES personne(id),
+FOREIGN KEY (idsujet) REFERENCES sujet(id)
+);
 
 ###############################
 ###############################
@@ -130,12 +166,44 @@ FOREIGN KEY (idauteur) REFERENCES auteur(id)
 ###############################
 
 
+INSERT INTO forum (nom, description, lienimage) VALUES 
+('Fonctionnement de BookWaves', 'Retrouvez différentes aides à l utilisation de notre site BookWaves', 'image1.jpg'),
+('Forums sur les livres', 'Discutez librement au sujet de vos livres préferés', 'image2.jpg'),
+('Discussions libres', 'Sujets divers', 'image3.jpg'),
+('Questions et aide communautaire', 'Forum d entraide entre utilisateurs de BookWaves', 'image4.jpg');
+
+
+INSERT INTO sujet (nom, idforum, idpersonne) VALUES 
+('Comment ajouter des livres ?', 1, 1),
+('Comment lire des livres en ligne ?', 1, 1),
+('Comment ajouter des livres ?', 1, 1),
+('Comment lire des livres en ligne ?', 1, 1),
+('Comment ajouter des livres ?', 1, 1),
+('Comment lire des livres en ligne ?', 1, 1),
+('Comment ajouter des livres ?', 1, 1),
+('Comment lire des livres en ligne ?', 1, 1),
+('Comment ajouter des livres ?', 1, 1),
+('Comment lire des livres en ligne ?', 1, 1),
+
+('Meilleur arc de one piece ?', 2, 1),
+('Comment ...? ', 3, 1),
+('Je n arrive pas à visualiser mes livres', 4, 1);
+
+
+INSERT INTO message (contenu, date_creation, idsujet, idpersonne) VALUES 
+('Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1','1998-01-23 12:45:56', 1 , 3),
+('Message 2 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1Message 1 - Sujet 1', 1,'1998-01-23 12:45:56', 3),
+('Message 1 - Sujet 2', '1998-01-23 12:45:56',  2, 2),
+('Message 1 - Sujet 3', '1998-01-23 12:45:56', 3, 3),
+('Message 2 - Sujet 3', '1998-01-23 12:45:56' , 3, 4);
+
+
+
 #INSERTION UTILISATEUR ADMINISTRATEUR
 INSERT INTO users (id,username,email,password,idprofil)  VALUES (1 ,'valentin','valentin@gmail.com',SHA2('valentin', 256),4);
 INSERT INTO users (id,username,email,password,idprofil)  VALUES (2 ,'hugo','hugo@gmail.com',SHA2('hugo', 256),3);
 INSERT INTO users (id,username,email,password,idprofil)  VALUES (3 ,'tim','tim@gmail.com',SHA2('tim', 256),2);
 INSERT INTO users (id,username,email,password,idprofil)  VALUES (4 ,'achille','achille@gmail.com',SHA2('achille', 256),1);
-INSERT INTO users (id,username,email,password,idprofil)  VALUES (5 ,'brandon','brandon@gmail.com',SHA2('brandon', 256),1);
 
 
 #INSERTION DES PROFILS 
@@ -146,10 +214,15 @@ INSERT INTO profil VALUES (3 ,'DBA');
 INSERT INTO profil VALUES (4 ,'Administrateur');
 
 
-#INSERTION LIVRE
-INSERT INTO livre(nom,lienfiles,lienfolder,idauteur,idediteur,idgenre,idlangue,idcollection) VALUES ('NO_NAME','NO_PATH','NO_PATH','NULL','NULL','NULL','NULL','NULL');
+INSERT INTO collection(nom,infos,idediteur) VALUES
 
-
+('inconnu','inconnu',1),
+('ONE PIECE','L histoire suit principalement l équipage de Chapeau de paille, mené par son capitaine Monkey D. Luffy, 
+un jeune homme ayant mangé le fruit du Gum Gum et dont le rêve est de devenir le Roi des pirates.',2),
+('TWO PIECE','L histoire suit principalement l équipage de Chapeau de paille, mené par son capitaine Monkey D. Loufi, 
+un jeune homme ayant mangé le fruit du Gum Gum et dont le rêve est de devenir le Roi des pirates.',2),
+('Tintin','Le T',4)
+;
 
 
 
@@ -162,16 +235,6 @@ INSERT INTO auteur(nom) VALUES
 ('Eichiro Oda'),
 ('Carnegie Dale'),
 ('Hergé')
-;
-
-
-#INSERTION PERSONNAGES
-#Insertion des auteurs
-INSERT INTO personnage(nom,idauteur,idcollection) VALUES 
-('Luffy', 2,2),
-('Loufi', 2,3),
-('Tintin', 4, 4),
-('Milou', 4, 4)
 ;
 
 
@@ -200,5 +263,4 @@ INSERT INTO genre(nom) VALUES
 #INSERTION LANGUE
 INSERT INTO langue(nom) VALUES
 ('Français'),
-('Anglais')
-;
+('Anglais');
