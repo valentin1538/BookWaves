@@ -447,7 +447,7 @@ $result = $conn->query($sql);
           const file = findOpfFile(files);
 
           if (file) {
-            folderPath = file.webkitRelativePath.split('/').slice(0, -2).join('/'); // Mise à jour de folderPath
+            folderPath = file.webkitRelativePath.split('/')[0]; // Mise à jour de folderPath
             const reader = new FileReader();
 
             reader.onload = async function (e) {

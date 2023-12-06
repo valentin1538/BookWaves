@@ -161,6 +161,12 @@ $lienepub = isset($_GET['nomfichier']) ? $_GET['nomfichier'] : '';
             <span>Recherche d'Ebook</span>
           </a>
         </li>
+        <li class="sub-menu">
+          <a href="../pages_forum/forum.php">
+            <i class="fa fa-rectangle-list"></i>
+            <span>Forums</span>
+          </a>
+        </li>
         </ul>
         <!-- sidebar menu end-->
       </div>

@@ -135,6 +135,7 @@ INSERT INTO users (id,username,email,password,idprofil)  VALUES (1 ,'valentin','
 INSERT INTO users (id,username,email,password,idprofil)  VALUES (2 ,'hugo','hugo@gmail.com',SHA2('hugo', 256),3);
 INSERT INTO users (id,username,email,password,idprofil)  VALUES (3 ,'tim','tim@gmail.com',SHA2('tim', 256),2);
 INSERT INTO users (id,username,email,password,idprofil)  VALUES (4 ,'achille','achille@gmail.com',SHA2('achille', 256),1);
+INSERT INTO users (id,username,email,password,idprofil)  VALUES (5 ,'brandon','brandon@gmail.com',SHA2('brandon', 256),1);
 
 
 #INSERTION DES PROFILS 
@@ -146,7 +147,7 @@ INSERT INTO profil VALUES (4 ,'Administrateur');
 
 
 #INSERTION LIVRE
-INSERT INTO livre(nom,idauteur,idediteur,idgenre,idlangue,idcollection) VALUES ('NO_NAME','NULL','NULL','NULL','NULL','NULL');
+INSERT INTO livre(nom,lienfiles,lienfolder,idauteur,idediteur,idgenre,idlangue,idcollection) VALUES ('NO_NAME','NO_PATH','NO_PATH','NULL','NULL','NULL','NULL','NULL');
 
 
 

@@ -148,6 +148,12 @@ $result = $conn->query($sql);
                             <span>Recherche d'Ebook</span>
                         </a>
                     </li>
+                    <li class="sub-menu">
+                        <a href="../pages_forum/forum.php">
+                            <i class="fa fa-rectangle-list"></i>
+                            <span>Forums</span>
+                        </a>
+                    </li>
                 </ul>
                 <!-- sidebar menu end-->
             </div>
@@ -214,6 +220,7 @@ $result = $conn->query($sql);
             </section>
         </section>
         <!--main content end-->
+
         <!-- Sidebar for Book Info -->
         <aside id="bookInfoSidebar" class="book-info-sidebar">
             <!-- Le contenu des informations du livre sera affiché ici -->

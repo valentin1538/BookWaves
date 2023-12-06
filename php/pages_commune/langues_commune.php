@@ -185,6 +185,12 @@ $result = $conn->query($sql);
                             <span>Recherche d'Ebook</span>
                         </a>
                     </li>
+                    <li class="sub-menu">
+                        <a>
+                            <i class="fa fa-rectangle-list"></i>
+                            <span>Forums / Connectez vous</span>
+                        </a>
+                    </li>
                 </ul>
                 <!-- sidebar menu end-->
             </div>

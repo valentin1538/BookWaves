@@ -3730,3 +3730,192 @@ input[type="password"] {
     180deg
   ); /* Faites tourner la flèche vers le bas lorsque la sidebar est ouverte */
 }
+
+#ajoutMessageForm {
+  max-width: 500px;
+  margin: 20px 0;
+}
+
+#ajoutMessageForm textarea {
+  width: 100%;
+  height: 100px;
+  border-radius: 5px;
+}
+
+#ajoutMessageForm input[type="submit"] {
+  background-color: #4ecdc4;
+  border-radius: 5px;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+.message-container {
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 10px;
+  overflow: hidden; /* pour contenir les éléments flottants */
+}
+
+.profile-info {
+  float: left; /* pour aligner la photo à gauche */
+  margin-right: 10px;
+}
+
+.user-info {
+  overflow: hidden; /* pour contenir les éléments flottants */
+}
+
+.user-info p {
+  margin: 0;
+  font-size: 12px; /* ajustez selon vos préférences */
+}
+
+.message-content {
+  margin-top: 5px; /* ajustez selon vos préférences */
+
+  word-wrap: break-word;
+}
+.message-content p {
+  word-wrap: break-word;
+}
+.message-container img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.forum {
+  max-width: 800px;
+  margin: auto;
+}
+.sujet-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sujet {
+  border: 1px solid black;
+  margin-bottom: 10px;
+  padding: 10px;
+  display: flex;
+  background-color: white;
+  border-radius: 15px;
+}
+
+.sujet a {
+  text-decoration: none;
+  color: #333;
+}
+
+.sujet:hover {
+  background-color: #f0f0f0; /* Change the hover background color as desired */
+}
+
+.sujet form {
+  flex: 1; /* Take up remaining space in the container */
+  display: flex;
+  align-items: center; /* Center the form content vertically */
+}
+
+.sujet form input[type="text"] {
+  flex: 1; /* Take up remaining space in the form */
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+.bleh {
+  display: inline-block; /* Pour que le bouton s'affiche sur la même ligne que le texte */
+  background-color: #ff6961; /* Couleur de fond du bouton */
+  color: #ffffff; /* Couleur du texte du bouton */
+  border: none; /* Supprimer la bordure par défaut du bouton */
+  padding: 5px 10px; /* Ajouter un peu de marge autour du texte du bouton */
+  cursor: pointer; /* Ajouter un indicateur de curseur au survol du bouton */
+  border-radius: 5px; /* Ajouter des coins arrondis */
+}
+
+.sujet form button {
+  padding: 8px 12px;
+  background-color: #4ecdc4; /* Change the button color as desired */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Add space between the "Créer" button and the content */
+.sujet form button + * {
+  margin-left: 10px;
+}
+.center-forum {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f4f4f4;
+}
+.forum-box {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sujet-item {
+  width: 350px;
+  height: 75px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.sujet-item:hover {
+  transform: scale(1.05);
+}
+
+.sujet-item h2 {
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.sujet-item p {
+  flex-grow: 1;
+  color: #333;
+  margin-top: 10px;
+}
+
+.forum-item {
+  width: 350px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.forum-item:hover {
+  transform: scale(1.05);
+}
+
+.forum-item h2 {
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.forum-item p {
+  flex-grow: 1;
+  color: #333;
+  margin-top: 10px;
+}

@@ -188,6 +188,12 @@ $result = $conn->query($sql);
               <span>Recherche d'Ebook</span>
             </a>
           </li>
+          <li class="sub-menu">
+            <a href="../pages_forum/forum.php">
+              <i class="fa fa-rectangle-list"></i>
+              <span>Forums</span>
+            </a>
+          </li>
         </ul>
         <!-- sidebar menu end-->
       </div>
@@ -228,7 +234,7 @@ $result = $conn->query($sql);
                     $editeurId = $rowediteur['id'];
                     $editeurName = $rowediteur['nom'];
 
-                    echo '<div class="book">';
+                    echo '<div class="book" >';
                     echo "<a href='#' class='editeur-link' data-editeur-id='$editeurId'>$editeurName</a>";
                     echo '</div>';
                   }

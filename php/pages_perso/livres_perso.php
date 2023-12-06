@@ -211,6 +211,12 @@ $result = $conn->query($sql);
               <span>Recherche d'Ebook</span>
             </a>
           </li>
+          <li class="sub-menu">
+            <a href="../pages_forum/forum.php">
+              <i class="fa fa-rectangle-list"></i>
+              <span>Forums</span>
+            </a>
+          </li>
         </ul>
         <!-- sidebar menu end-->
       </div>
@@ -293,7 +299,7 @@ $result = $conn->query($sql);
                 echo '<a href="../pages_autres/visualiser_perso.php?nomfichier=' . urlencode($livre['nomfichier']) . '"><i class="fa fa-eye"></i> Visualiser</a>';
                 echo '</li>';
                 echo '<li>';
-                echo '<a href="#" onclick="lireMetadonnees(\'' . htmlspecialchars($livre['lien']) . '\',\'' . htmlspecialchars($livre['id']) . '\' )"><i class="fa fa-pencil"></i> Modifier le livre : ' . (isset($livre['id']) ? htmlspecialchars($livre['id']) : 'Inconnu') . '</a>';
+                echo '<a href="#" onclick="lireMetadonnees(\'' . htmlspecialchars($livre['lien']) . '\',\'' . htmlspecialchars($livre['langue']) . '\',\'' . htmlspecialchars($livre['id']) . '\',\'' . htmlspecialchars($livre['auteur']) . '\',\'' . htmlspecialchars($livre['nom']) . '\',\'' . htmlspecialchars($livre['editeur']) . '\',\'' . htmlspecialchars($livre['genre']) . '\' )"><i class="fa fa-pencil"></i> Modifier le livre : ' . (isset($livre['id']) ? htmlspecialchars($livre['id']) : 'Inconnu') . '</a>';
                 echo '</li>';
                 echo '<li>';
                 echo '<a href="#"><i class="fa fa-arrows-rotate"></i> Convertir</a>';
@@ -320,35 +326,143 @@ $result = $conn->query($sql);
     </section>
     <!--main content end-->
 
-    <div id="metadata-form">
+    <?php
+    // Informations de connexion à la base de données
+    $servername = "localhost"; // Remplacez par le nom de votre serveur de base de données
+    $username = "root"; // Remplacez par votre nom d'utilisateur de base de données
+    $password = ""; // Remplacez par votre mot de passe de base de données
+    $database = "Biblio"; // Remplacez par le nom de votre base de données
+    
+    try {
+      // Création de la connexion à la base de données
+      $connexion = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+      // Définition des attributs de PDO pour gérer les erreurs
+      $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+      // Récupération des auteurs
+      $query_auteurs = "SELECT id, nom FROM auteur";
+      $result_auteurs = $connexion->query($query_auteurs);
+      $auteurs = $result_auteurs->fetchAll(PDO::FETCH_ASSOC);
+
+      // Récupération des éditeurs
+      $query_editeurs = "SELECT id, nom FROM editeur";
+      $result_editeurs = $connexion->query($query_editeurs);
+      $editeurs = $result_editeurs->fetchAll(PDO::FETCH_ASSOC);
+
+      // Récupération des genres
+      $query_genres = "SELECT id, nom FROM genre";
+      $result_genres = $connexion->query($query_genres);
+      $genres = $result_genres->fetchAll(PDO::FETCH_ASSOC);
+
+      // Récupération des langues
+      $query_langues = "SELECT id, nom FROM langue";
+      $result_langues = $connexion->query($query_langues);
+      $langues = $result_langues->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+      // En cas d'erreur de connexion à la base de données
+      echo "Erreur de connexion : " . $e->getMessage();
+    }
+    ?>
+
+    <div id="metadata-form">
       <h3>Formulaire des métadonnées</h3>
-      <!-- Champ de formulaire avec le label juste devant -->
-      <!-- Ajoutez ici les champs du formulaire pour les métadonnées -->
+
       <div>
         <label for="TXT_Titre">Titre du livre :</label>
         <input type="text" id="TXT_Titre" name="TXT_Titre">
       </div>
       <div>
-        <label for="TXT_Auteur">Nom du première auteur :</label>
-        <input type="text" id="TXT_Auteur" name="TXT_Auteur">
+        <label for="TXT_Auteur">Nom de l'auteur actuel :</label>
+        <imput type="text" id="TXT_Auteur" name="TXT_Auteur">
       </div>
       <div>
-        <label for="TXT_Editeur">Nom de l'éditeur : </label>
-        <input type="text" id="TXT_Editeur" name="TXT_Editeur">
-      </div>
-      <div>
-        <label for="TXT_Genre">Nom du Genre : </label>
-        <input type="text" id="TXT_Genre" name="TXT_Genre">
-      </div>
-      <div>
-        <label for="TXT_Langue">Langue :</label>
-        <input type="text" id="TXT_Langue" name="TXT_Langue">
+        <label for="selectAuteur">Modification Auteur :</label>
+        <select id="selectAuteur" name="selectAuteur">
+          <?php foreach ($auteurs as $auteur): ?>
+            <option value="<?php echo $auteur['id']; ?>">
+              <?php echo $auteur['nom']; ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
       </div>
 
-      <!-- Bouton avec fonction -->
+      <div>
+        <label for="TXT_Editeur">Nom de l'Éditeur actuel :</label>
+        <imput type="text" id="TXT_Editeur" name="TXT_Editeur">
+      </div>
+      <div>
+        <label for="selectEditeur">Modification Editeur :</label>
+        <select id="selectEditeur" name="selectEditeur">
+          <?php foreach ($editeurs as $editeur): ?>
+            <option value="<?php echo $editeur['id']; ?>">
+              <?php echo $editeur['nom']; ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+
+      <div>
+        <label for="TXT_Genre">Nom du Genre actuel :</label>
+        <imput type="text" id="TXT_Genre" name="TXT_Genre">
+      </div>
+      <div>
+        <label for="selectGenre">Modification du Genre :</label>
+        <select id="selectGenre" name="selectGenre">
+          <?php foreach ($genres as $genre): ?>
+            <option value="<?php echo $genre['id']; ?>">
+              <?php echo $genre['nom']; ?>
+            </option>
+          <?php endforeach; ?>
+          <br>
+        </select>
+      </div>
+
+      <div>
+        <label for="TXT_Langue">Nom de la Langue actuel :</label>
+        <imput type="text" id="TXT_Langue" name="TXT_Langue">
+      </div>
+      <div>
+        <label for="selectLangue">Modification de la Langue :</label>
+        <select id="selectLangue" name="selectLangue">
+          <?php foreach ($langues as $langue): ?>
+            <option value="<?php echo $langue['id']; ?>">
+              <?php echo $langue['nom']; ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <script>
+        document.getElementById('selectAuteur').addEventListener('change', function () {
+          const selectedOption = this.options[this.selectedIndex];
+          const nomAuteur = selectedOption.textContent;
+          document.getElementById('TXT_Auteur').value = nomAuteur;
+        });
+
+        document.getElementById('selectEditeur').addEventListener('change', function () {
+          const selectedOption = this.options[this.selectedIndex];
+          const nomEditeur = selectedOption.textContent;
+          document.getElementById('TXT_Editeur').value = nomEditeur;
+        });
+
+        document.getElementById('selectGenre').addEventListener('change', function () {
+          const selectedOption = this.options[this.selectedIndex];
+          const nomGenre = selectedOption.textContent;
+          document.getElementById('TXT_Genre').value = nomGenre;
+        });
+
+        document.getElementById('selectLangue').addEventListener('change', function () {
+          const selectedOption = this.options[this.selectedIndex];
+          const nomLangue = selectedOption.textContent;
+          document.getElementById('TXT_Langue').value = nomLangue;
+        });
+      </script>
       <button onclick="modifierMetadonnees()">Modifier</button>
       <button onclick="closeForm()">Fermer</button>
+    </div>
+
+
+    <button onclick="modifierMetadonnees()">Modifier</button>
+    <button onclick="closeForm()">Fermer</button>
     </div>
 
     <!-- Sidebar for Book Info -->
@@ -445,53 +559,48 @@ $result = $conn->query($sql);
       let lienGlobal = ''; // Variable globale pour stocker la valeur de lien
       let IdGlobal = 0;
 
-      function lireMetadonnees(lien, id) {
+      function lireMetadonnees(lien, langue, id, auteur, nom, editeur, genre) {
         lienGlobal = lien;
         IdGlobal = id;
-        console.log(lienGlobal);
-        const cheminAccesOPF = `../lib/Librairy/${lien}?${Date.now()}`
 
 
-        fetch(cheminAccesOPF)
-          .then(response => response.text())
-          .then(data => {
-            const parser = new DOMParser();
-            const xmlDoc = parser.parseFromString(data, "text/xml");
+        document.getElementById('TXT_Titre').value = nom || '';
 
-            const title = xmlDoc.querySelector("dc\\:title, title").textContent;
-            const creator = xmlDoc.querySelector("dc\\:creator, creator").textContent;
-            const editeur = xmlDoc.querySelector("dc\\:publisher, publisher").textContent;
-            const langue = xmlDoc.querySelector("dc\\:language, language").textContent;
-            const genre = xmlDoc.querySelector("dc\\:subject, subject").textContent;
+        // Récupération de l'élément label
+        let labelAuteur = document.getElementById('TXT_Auteur');
+        labelAuteur.textContent = auteur || '';
 
+        let labelEditeur = document.getElementById('TXT_Editeur');
+        labelEditeur.textContent = editeur || '';
 
-            document.getElementById('TXT_Titre').value = title;
-            document.getElementById('TXT_Auteur').value = creator;
-            document.getElementById('TXT_Editeur').value = editeur;
-            document.getElementById('TXT_Langue').value = langue;
-            document.getElementById('TXT_Genre').value = genre;
+        let labelGenre = document.getElementById('TXT_Genre');
+        labelGenre.textContent = genre || '';
+
+        let labelLangue = document.getElementById('TXT_Langue');
+        labelLangue.textContent = langue || '';
+        // Afficher le formulaire une fois les métadonnées chargées
+        document.getElementById('metadata-form').style.display = 'block';
 
 
-
-            // Afficher le formulaire une fois les métadonnées chargées
-            document.getElementById('metadata-form').style.display = 'block';
-          })
-          .catch(error => {
-            console.error('Erreur lors de la récupération des métadonnées :', error);
-            // Gérer les erreurs lors de la récupération des métadonnées
-          });
       }
 
       function modifierMetadonnees() {
-        console.log(lienGlobal);
-        console.log(IdGlobal);
         const titre = document.getElementById('TXT_Titre').value;
-        const auteur = document.getElementById('TXT_Auteur').value;
-        const editeur = document.getElementById('TXT_Editeur').value;
-        const langue = document.getElementById('TXT_Langue').value;
-        const genre = document.getElementById('TXT_Genre').value;
+        const auteur = document.getElementById('selectAuteur').value;
+        const editeur = document.getElementById('selectEditeur').value;
+        const langue = document.getElementById('selectLangue').value;
+        const genre = document.getElementById('selectGenre').value;
 
-        console.log(titre, auteur, editeur, langue);
+        // Récupération des noms correspondant aux ID sélectionnés
+        const auteurNom = document.getElementById('selectAuteur').options[document.getElementById('selectAuteur').selectedIndex].text;
+        const editeurNom = document.getElementById('selectEditeur').options[document.getElementById('selectEditeur').selectedIndex].text;
+        const langueNom = document.getElementById('selectLangue').options[document.getElementById('selectLangue').selectedIndex].text;
+        const genreNom = document.getElementById('selectGenre').options[document.getElementById('selectGenre').selectedIndex].text;
+
+        console.log('Nom de l\'auteur sélectionné :', auteurNom);
+        console.log('Nom de l\'éditeur sélectionné :', editeurNom);
+        console.log('Nom de la langue sélectionnée :', langueNom);
+        console.log('Nom du genre sélectionné :', genreNom);
 
         const data = {
           id: IdGlobal,
@@ -500,7 +609,11 @@ $result = $conn->query($sql);
           editeur: editeur,
           langue: langue,
           genre: genre,
-          lienGlobal: lienGlobal // Ajout de la variable lienfile
+          lienGlobal: lienGlobal,
+          auteurNom: auteurNom, // Ajout des noms correspondants aux ID sélectionnés
+          editeurNom: editeurNom,
+          langueNom: langueNom,
+          genreNom: genreNom
           // Ajoutez d'autres données si nécessaire
         };
 
@@ -515,12 +628,28 @@ $result = $conn->query($sql);
           .then(response => {
             if (response.ok) {
               console.log('Mise à jour du fichier réussie !');
+              // Appel de la nouvelle page PHP pour effectuer des modifications dans la base de données
+              return fetch('../php_sql/modifier_metadonneesBDD.php', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data) // Vous pouvez envoyer les mêmes données ou adapter en fonction de vos besoins
+              });
             } else {
               throw new Error('La mise à jour du fichier a échoué.');
             }
           })
+          .then(response => {
+            if (response.ok) {
+              console.log('Mise à jour dans la base de données réussie !');
+              window.location.reload();
+            } else {
+              throw new Error('La mise à jour dans la base de données a échoué.');
+            }
+          })
           .catch(error => {
-            console.error('Erreur lors de la mise à jour du fichier :', error);
+            console.error('Erreur lors de la mise à jour :', error);
           })
           .finally(() => {
             document.getElementById('metadata-form').style.display = 'none';
@@ -584,7 +713,7 @@ $result = $conn->query($sql);
           const file = findOpfFile(files);
 
           if (file) {
-            folderPath = file.webkitRelativePath.split('/').slice(0, -2).join('/'); // Mise à jour de folderPath
+            folderPath = file.webkitRelativePath.split('/')[0]; // Mise à jour de folderPath
             const reader = new FileReader();
 
             reader.onload = async function (e) {

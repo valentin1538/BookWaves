@@ -4,10 +4,10 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 // Récupérer les valeurs des métadonnées à partir des données
 $titre = $data['titre'];
-$auteur = $data['auteur'];
-$editeur = $data['editeur'];
-$langue = $data['langue'];
-$genre = $data['genre'];
+$auteur = $data['auteurNom'];
+$editeur = $data['editeurNom'];
+$langue = $data['langueNom'];
+$genre = $data['genreNom'];
 $lienGlobal = $data['lienGlobal']; // Récupération de la valeur de lienfile
 
 // Chemin vers le fichier OPF en fonction de la valeur de lienfile
