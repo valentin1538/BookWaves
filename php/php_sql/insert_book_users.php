@@ -4,6 +4,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nom = $_POST['nom'] ?? '';
     $filesPath = $_POST['lienfiles'] ?? '';
     $folderPath = $_POST['lienfolder'] ?? '';
+    $sessionId = $_POST['sessionId'] ?? '';
     $auteur = $_POST['auteur'] ?? '';
     $langue = $_POST['langue'] ?? '';
     $genre = $_POST['genre'] ?? '';
@@ -72,8 +73,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     // Insérer le livre en utilisant les IDs récupérés
-    $insert_livre_query = "INSERT INTO livreperso (nom ,lienfiles, lienfolder, idauteur, idediteur, idgenre, idlangue) 
-                           VALUES ('$nom', '$filesPath', '$folderPath',$id_auteur, $id_editeur, $id_genre, $id_langue)";
+    $insert_livre_query = "INSERT INTO livreperso (idpersonne ,nom ,lienfiles, lienfolder, idauteur, idediteur, idgenre, idlangue) 
+                           VALUES ('$sessionId','$nom', '$filesPath', '$folderPath',$id_auteur, $id_editeur, $id_genre, $id_langue)";
 
     if ($conn->query($insert_livre_query) === TRUE) {
         echo "Nouvel enregistrement créé avec succès.";

@@ -10,6 +10,7 @@ if ($conn->connect_error) {
     die("La connexion à la base de données a échoué : " . $conn->connect_error);
 }
 
+session_start();
 // Vérifiez si le paramètre genreId est présent dans la requête GET
 if (isset($_GET['genreId'])) {
     $genreId = $_GET['genreId'];
@@ -18,17 +19,22 @@ if (isset($_GET['genreId'])) {
     $queryGenreName = "SELECT nom FROM genre WHERE id = $genreId";
     $resultGenreName = $conn->query($queryGenreName);
 
+    // Récupérez l'id de la personne connectée depuis la session
+    $idPersonneConnectee = $_SESSION["id"];
+
     if ($resultGenreName && $resultGenreName->num_rows > 0) {
         $rowGenreName = $resultGenreName->fetch_assoc();
         $genreName = $rowGenreName['nom'];
 
         // Requête pour récupérer les livres du genre spécifié
-        $queryLivresGenre = "SELECT livre.id AS id, livre.nom AS nom, livre.lienfolder AS nomfichier, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue
-        FROM livre 
-        JOIN auteur ON livre.idauteur = auteur.id 
-        JOIN editeur ON livre.idediteur = editeur.id 
-        JOIN genre ON livre.idgenre = genre.id 
-        JOIN langue ON livre.idlangue = langue.id  WHERE idgenre = $genreId";
+        $queryLivresGenre = "SELECT livreperso.id AS id, livreperso.nom AS nom, livreperso.lienfolder AS nomfichier, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue
+        FROM livreperso 
+        JOIN auteur ON livreperso.idauteur = auteur.id 
+        JOIN editeur ON livreperso.idediteur = editeur.id 
+        JOIN genre ON livreperso.idgenre = genre.id 
+        JOIN langue ON livreperso.idlangue = langue.id  
+        WHERE idgenre = $genreId
+        AND livreperso.idpersonne = $idPersonneConnectee";
         $resultLivresGenre = $conn->query($queryLivresGenre);
 
         if ($resultLivresGenre && $resultLivresGenre->num_rows > 0) {
@@ -58,10 +64,7 @@ if (isset($_GET['genreId'])) {
                 echo '</ul>';
                 echo '</div>';
                 echo '</div>';
-                echo '<p><strong>Auteur :</strong>' . (isset($livreAuteur) ? htmlspecialchars($livreAuteur) : 'Inconnu') . '</p>';
-                echo '<p><strong>Éditeur :</strong>' . (isset($livreEditeur) ? htmlspecialchars($livreEditeur) : 'Inconnu') . '</p>';
-                echo '<p><strong>Genre :</strong>' . (isset($livreGenre) ? htmlspecialchars($livreGenre) : 'Inconnu') . '</p>';
-                echo '<p><strong>Langue :</strong>' . (isset($livreLangues) ? htmlspecialchars($livreLangues) : 'Inconnu') . '</p>';
+                echo '<button class="btn-info" onclick="showBookInfo(' . urlencode($livreId) . ')">Info</button>';
                 echo '</div>';
             }
             echo '</div>';

@@ -58,10 +58,7 @@ if (isset($_GET['genreId'])) {
                 echo '</ul>';
                 echo '</div>';
                 echo '</div>';
-                echo '<p><strong>Auteur :</strong>' . (isset($livreAuteur) ? htmlspecialchars($livreAuteur) : 'Inconnu') . '</p>';
-                echo '<p><strong>Éditeur :</strong>' . (isset($livreEditeur) ? htmlspecialchars($livreEditeur) : 'Inconnu') . '</p>';
-                echo '<p><strong>Genre :</strong>' . (isset($livreGenre) ? htmlspecialchars($livreGenre) : 'Inconnu') . '</p>';
-                echo '<p><strong>Langue :</strong>' . (isset($livreLangues) ? htmlspecialchars($livreLangues) : 'Inconnu') . '</p>';
+                echo '<button class="btn-info" onclick="showBookInfo(' . urlencode($livreId) . ')">Info</button>';
                 echo '</div>';
             }
             echo '</div>';

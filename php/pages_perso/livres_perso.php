@@ -247,6 +247,9 @@ $result = $conn->query($sql);
                 // Récupérer le terme de recherche depuis l'URL
                 $recherche = isset($_GET['recherche']) ? $_GET['recherche'] : '';
 
+                // Récupérez l'id de la personne connectée depuis la session
+                $idPersonneConnectee = $_SESSION["id"];
+
                 // Requête pour récupérer les livres filtrés par le terme de recherche
                 $requete = "SELECT livreperso.id AS id, livreperso.lienfiles AS lien, livreperso.lienfolder AS nomfichier, livreperso.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue
                                   FROM livreperso
@@ -254,7 +257,8 @@ $result = $conn->query($sql);
                                   JOIN editeur ON livreperso.idediteur = editeur.id 
                                   JOIN genre ON livreperso.idgenre = genre.id 
                                   JOIN langue ON livreperso.idlangue = langue.id 
-                                  WHERE livreperso.nom LIKE :recherche";
+                                  WHERE livreperso.nom LIKE :recherche
+                                  AND livreperso.idpersonne = $idPersonneConnectee";
 
                 $stmt = $connexion->prepare($requete);
                 $stmt->bindValue(':recherche', "%$recherche%", PDO::PARAM_STR);
@@ -300,10 +304,7 @@ $result = $conn->query($sql);
                 echo '</ul>';
                 echo '</div>';
                 echo '</div>';
-                echo '<p><strong>Auteur :</strong> ' . (isset($livre['auteur']) ? htmlspecialchars($livre['auteur']) : 'Inconnu') . '</p>';
-                echo '<p><strong>Éditeur :</strong> ' . (isset($livre['editeur']) ? htmlspecialchars($livre['editeur']) : 'Inconnu') . '</p>';
-                echo '<p><strong>Genre :</strong> ' . (isset($livre['genre']) ? htmlspecialchars($livre['genre']) : 'Inconnu') . '</p>';
-                echo '<p><strong>Langue :</strong> ' . (isset($livre['langue']) ? htmlspecialchars($livre['langue']) : 'Inconnu') . '</p>';
+                echo '<button class="btn-info" onclick="showBookInfo(' . $livre['id'] . ')">Info</button>';
                 echo '</div>';
               }
 
@@ -349,6 +350,76 @@ $result = $conn->query($sql);
       <button onclick="modifierMetadonnees()">Modifier</button>
       <button onclick="closeForm()">Fermer</button>
     </div>
+
+    <!-- Sidebar for Book Info -->
+    <aside id="bookInfoSidebar" class="book-info-sidebar">
+      <!-- Le contenu des informations du livre sera affiché ici -->
+
+
+    </aside>
+
+    <script>
+      function showBookInfo(bookId) {
+        // Utilisez AJAX pour récupérer les informations du livre du serveur
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+              // Parsez les données JSON reçues du serveur
+              var bookInfo = JSON.parse(xhr.responseText);
+
+              // Construisez le contenu HTML avec les informations du livre
+              var bookInfoHTML = `
+                    <div class="info-content">
+                    <h2 style = "text-align: center;">${bookInfo.nom}</h2>
+                    <p><strong>Auteur:</strong> ${bookInfo.auteur}</p>
+                    <p><strong>Editeur:</strong> ${bookInfo.editeur}</p>
+                    <p><strong>Genre:</strong> ${bookInfo.genre}</p>
+                    <p><strong>Langue:</strong> ${bookInfo.langue}</p>
+                    <!-- Ajoutez d'autres informations du livre ici -->
+                    </div>
+                    <!-- Ajoutez une flèche (ou une icône) visible en permanence à gauche de la sidebar -->
+                    <div id="expandArrow" onclick="toggleBookInfo()">
+                      <!-- Utilisez une icône de flèche, par exemple, une flèche vers la droite -->
+                      <i class="fa fa-chevron-left"></i>
+                    </div>
+                `;
+
+              // Affichez le contenu dans la section latérale
+              document.getElementById('bookInfoSidebar').innerHTML = bookInfoHTML;
+
+              // Faites en sorte que la section latérale soit visible
+              var arrow = document.getElementById('expandArrow');
+              document.getElementById('bookInfoSidebar').style.width = '300px';
+              document.getElementById('main-content').style.marginRight = '300px';
+              arrow.classList.add('open');
+            } else {
+              console.error('Erreur lors de la récupération des informations du livre.');
+            }
+          }
+        };
+
+        // Envoyez une requête GET vers votre script PHP qui récupère les informations du livre
+        xhr.open('GET', '../pages_autres/get_book_info_perso.php?id=' + bookId, true);
+        xhr.send();
+      }
+
+      function toggleBookInfo() {
+        var sidebar = document.getElementById('bookInfoSidebar');
+        var arrow = document.getElementById('expandArrow');
+
+        // Si la sidebar est ouverte, la fermer ; sinon, l'ouvrir
+        if (sidebar.style.width === '0px' || sidebar.style.width === '') {
+          sidebar.style.width = '250px'; // Réglez la largeur souhaitée de la sidebar
+          arrow.classList.add('open'); // Ajoutez une classe pour styliser la flèche en tant qu'ouverte
+        } else {
+          sidebar.style.width = '0';
+          arrow.classList.remove('open'); // Retirez la classe pour styliser la flèche en tant que fermée
+          arrow.style.left = '50px';
+          document.getElementById('main-content').style.marginRight = '0';
+        }
+      }
+    </script>
 
     <script>
       function confirmDelete(bookId, currentUrl) {
@@ -538,6 +609,8 @@ $result = $conn->query($sql);
               const folderWithoutSubfolders = folderPath.split('/').slice(0, -2).join('/');
               document.getElementById('lienfolder').textContent = `Lienfolder : ${folderPath}`;
 
+
+
               // Extraire le chemin de la couverture à partir de la balise meta
               // Afficher la couverture s'il y a un chemin
               insertIntoDatabase(title, creator, language, subject, publisher, filesPath, folderPath);
@@ -583,11 +656,13 @@ $result = $conn->query($sql);
       function insertIntoDatabase(title, creator, language, subject, publisher, filesPath, folderWithoutSubfolders) {
         // Extraire le chemin du dossier sans la suite du chemin
 
-
+        const sessionId = <?php echo $_SESSION['id']; ?>;
+        console.log(sessionId);
         console.log('Chemin du dossier :', folderWithoutSubfolders);
         console.log('Chemin du fichier complet :', filesPath);
         const formData = new FormData();
         formData.append('nom', title);
+        formData.append('sessionId', sessionId);
         formData.append('auteur', creator);
         formData.append('langue', language);
         formData.append('genre', subject);
