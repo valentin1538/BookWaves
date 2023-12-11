@@ -257,7 +257,7 @@ $result = $conn->query($sql);
                 $idPersonneConnectee = $_SESSION["id"];
 
                 // Requête pour récupérer les livres filtrés par le terme de recherche
-                $requete = "SELECT livreperso.id AS id, livreperso.lienfiles AS lien, livreperso.lienfolder AS nomfichier, livreperso.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue
+                $requete = "SELECT livreperso.id AS id, livreperso.lienfiles AS lien, livreperso.lienfolder AS nomfichier, livreperso.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue, livreperso.source AS source
                                   FROM livreperso
                                   JOIN auteur ON livreperso.idauteur = auteur.id 
                                   JOIN editeur ON livreperso.idediteur = editeur.id 
@@ -288,6 +288,10 @@ $result = $conn->query($sql);
               foreach ($livres as $livre) {
                 echo '<div class="book">';
                 echo '<div class="title-bar">';
+                if ($livre['source'] == 1) {
+                  // Si la source est la bibliothèque commune, affichez le logo
+                  echo '<i class="fa-solid fa-book"></i>';
+                }
                 echo '<h2>' . (isset($livre['nom']) ? htmlspecialchars($livre['nom']) : 'Inconnu') . '</h2>';
                 echo '<div id="header_ajout_livre_bar" class="dropdown bars">';
                 echo '<a data-toggle="dropdown" class="dropdown-toggle" href="livres_perso.php#">';
@@ -312,6 +316,7 @@ $result = $conn->query($sql);
                 echo '</div>';
                 echo '<button class="btn-info" onclick="showBookInfo(' . $livre['id'] . ')">Info</button>';
                 echo '</div>';
+
               }
 
               echo '</div>';
@@ -367,17 +372,21 @@ $result = $conn->query($sql);
     <div id="metadata-form">
       <h3>Formulaire des métadonnées</h3>
 
-      <div>
+      <div class="form-group">
         <label for="TXT_Titre">Titre du livre :</label>
         <input type="text" id="TXT_Titre" name="TXT_Titre">
       </div>
-      <div>
-        <label for="TXT_Auteur">Nom de l'auteur actuel :</label>
-        <imput type="text" id="TXT_Auteur" name="TXT_Auteur">
+
+      <div class="form-group Auteur-Bouton">
+        <label for="TXT_Auteur">Nom de l'Auteur actuel :</label>
+        <label id="TXT_Auteur" name="TXT_Auteur"></label>
+        <input type="text" id="nouvelAuteur" placeholder="Nouvel auteur">
+        <button id="ajouterAuteur" onclick="ajouterAuteur()">Ajouter</button>
       </div>
-      <div>
+
+      <div class="form-group">
         <label for="selectAuteur">Modification Auteur :</label>
-        <select id="selectAuteur" name="selectAuteur">
+        <select id="selectAuteur" name="selectAuteur" value="TXT_Auteur">
           <?php foreach ($auteurs as $auteur): ?>
             <option value="<?php echo $auteur['id']; ?>">
               <?php echo $auteur['nom']; ?>
@@ -386,11 +395,14 @@ $result = $conn->query($sql);
         </select>
       </div>
 
-      <div>
+      <div class="form-group Editeur-Bouton">
         <label for="TXT_Editeur">Nom de l'Éditeur actuel :</label>
-        <imput type="text" id="TXT_Editeur" name="TXT_Editeur">
+        <label id="TXT_Editeur" name="TXT_Editeur"></label>
+        <input type="text" id="nouvelEditeur" placeholder="Nouvel éditeur">
+        <button id="ajouterEditeur" onclick="ajouterEditeur()">Ajouter</button>
       </div>
-      <div>
+
+      <div class="form-group">
         <label for="selectEditeur">Modification Editeur :</label>
         <select id="selectEditeur" name="selectEditeur">
           <?php foreach ($editeurs as $editeur): ?>
@@ -401,11 +413,14 @@ $result = $conn->query($sql);
         </select>
       </div>
 
-      <div>
+      <div class="form-group Genre-Bouton">
         <label for="TXT_Genre">Nom du Genre actuel :</label>
-        <imput type="text" id="TXT_Genre" name="TXT_Genre">
+        <label id="TXT_Genre" name="TXT_Genre"></label>
+        <input type="text" id="nouvelGenre" placeholder="Nouveau genre">
+        <button id="ajouterGenre" onclick="ajouterGenre()">Ajouter</button>
       </div>
-      <div>
+
+      <div class="form-group">
         <label for="selectGenre">Modification du Genre :</label>
         <select id="selectGenre" name="selectGenre">
           <?php foreach ($genres as $genre): ?>
@@ -413,15 +428,17 @@ $result = $conn->query($sql);
               <?php echo $genre['nom']; ?>
             </option>
           <?php endforeach; ?>
-          <br>
         </select>
       </div>
 
-      <div>
-        <label for="TXT_Langue">Nom de la Langue actuel :</label>
-        <imput type="text" id="TXT_Langue" name="TXT_Langue">
+      <div class="form-group Langue-Bouton">
+        <label for="TXT_Langue">Nom de la Langue actuelle :</label>
+        <label id="TXT_Langue" name="TXT_Langue"></label>
+        <input type="text" id="nouvelLangue" placeholder="Nouvelle langue">
+        <button id="ajouterLangue" onclick="ajouterLangue()">Ajouter</button>
       </div>
-      <div>
+
+      <div class="form-group">
         <label for="selectLangue">Modification de la Langue :</label>
         <select id="selectLangue" name="selectLangue">
           <?php foreach ($langues as $langue): ?>
@@ -456,13 +473,12 @@ $result = $conn->query($sql);
           document.getElementById('TXT_Langue').value = nomLangue;
         });
       </script>
-      <button onclick="modifierMetadonnees()">Modifier</button>
-      <button onclick="closeForm()">Fermer</button>
-    </div>
 
 
-    <button onclick="modifierMetadonnees()">Modifier</button>
-    <button onclick="closeForm()">Fermer</button>
+      <div class="bouttons">
+        <button onclick="modifierMetadonnees()">Modifier</button>
+        <button onclick="closeForm()">Fermer</button>
+      </div>
     </div>
 
     <!-- Sidebar for Book Info -->
@@ -563,27 +579,56 @@ $result = $conn->query($sql);
         lienGlobal = lien;
         IdGlobal = id;
 
-
         document.getElementById('TXT_Titre').value = nom || '';
+        document.getElementById('TXT_Auteur').textContent = auteur || '';
+        document.getElementById('TXT_Editeur').textContent = editeur || '';
+        document.getElementById('TXT_Genre').textContent = genre || '';
+        document.getElementById('TXT_Langue').textContent = langue || '';
 
-        // Récupération de l'élément label
-        let labelAuteur = document.getElementById('TXT_Auteur');
-        labelAuteur.textContent = auteur || '';
-
-        let labelEditeur = document.getElementById('TXT_Editeur');
-        labelEditeur.textContent = editeur || '';
-
-        let labelGenre = document.getElementById('TXT_Genre');
-        labelGenre.textContent = genre || '';
-
-        let labelLangue = document.getElementById('TXT_Langue');
-        labelLangue.textContent = langue || '';
-        // Afficher le formulaire une fois les métadonnées chargées
         document.getElementById('metadata-form').style.display = 'block';
 
-
+        // Code qui permet d'avoir comme valeur de base dans ma listeBox la même valeur de mon TXT
+        // Auteur
+        const selectAuteur = document.getElementById('selectAuteur');
+        const auteurValue = document.getElementById('TXT_Auteur').textContent.trim();
+        for (let i = 0; i < selectAuteur.options.length; i++) {
+          const optionText = selectAuteur.options[i].text.trim();
+          if (optionText === auteurValue) {
+            selectAuteur.selectedIndex = i;
+            break;
+          }
+        }
+        // Editeur
+        const selectEditeur = document.getElementById('selectEditeur');
+        const editeurValue = document.getElementById('TXT_Editeur').textContent.trim();
+        for (let i = 0; i < selectEditeur.options.length; i++) {
+          const optionText = selectEditeur.options[i].text.trim();
+          if (optionText === editeurValue) {
+            selectEditeur.selectedIndex = i;
+            break;
+          }
+        }
+        // Genre
+        const selectGenre = document.getElementById('selectGenre');
+        const genreValue = document.getElementById('TXT_Genre').textContent.trim();
+        for (let i = 0; i < selectGenre.options.length; i++) {
+          const optionText = selectGenre.options[i].text.trim();
+          if (optionText === genreValue) {
+            selectGenre.selectedIndex = i;
+            break;
+          }
+        }
+        // Langue
+        const selectLangue = document.getElementById('selectLangue');
+        const langueValue = document.getElementById('TXT_Langue').textContent.trim();
+        for (let i = 0; i < selectLangue.options.length; i++) {
+          const optionText = selectLangue.options[i].text.trim();
+          if (optionText === langueValue) {
+            selectLangue.selectedIndex = i;
+            break;
+          }
+        }
       }
-
       function modifierMetadonnees() {
         const titre = document.getElementById('TXT_Titre').value;
         const auteur = document.getElementById('selectAuteur').value;
@@ -610,7 +655,7 @@ $result = $conn->query($sql);
           langue: langue,
           genre: genre,
           lienGlobal: lienGlobal,
-          auteurNom: auteurNom, // Ajout des noms correspondants aux ID sélectionnés
+          auteurNom: auteurNom,
           editeurNom: editeurNom,
           langueNom: langueNom,
           genreNom: genreNom
@@ -643,7 +688,6 @@ $result = $conn->query($sql);
           .then(response => {
             if (response.ok) {
               console.log('Mise à jour dans la base de données réussie !');
-              window.location.reload();
             } else {
               throw new Error('La mise à jour dans la base de données a échoué.');
             }
@@ -654,6 +698,91 @@ $result = $conn->query($sql);
           .finally(() => {
             document.getElementById('metadata-form').style.display = 'none';
           });
+      }
+      // Fonction pour envoyer les données au serveur via AJAX
+      function ajouterAuteur() {
+        // Récupérer la valeur du champ nouvelAuteur
+        var nouvelAuteur = document.getElementById('nouvelAuteur').value.trim();
+
+        // Vérifier si le champ nouvelAuteur n'est pas vide
+        if (nouvelAuteur !== '') {
+          // Effectuer une requête pour insérer le nouvel auteur dans la base de données
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '../php_sql/ajoutAuteur.php'); // Créez un fichier PHP pour gérer l'ajout d'auteur
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+          xhr.onload = function () {
+            // Traiter la réponse de la requête ici si nécessaire
+            alert("Nouvel auteur ajouté avec succès !");
+            // Rafraîchir la page ou effectuer d'autres actions si nécessaire
+            window.location.reload(); // Recharge la page pour afficher le nouvel auteur
+          };
+          xhr.send('nouvelAuteur=' + encodeURIComponent(nouvelAuteur)); // Envoyer la valeur au script PHP
+        } else {
+          alert("Veuillez saisir le nom de l'auteur à ajouter.");
+        }
+      }
+      function ajouterEditeur() {
+        // Récupérer la valeur du champ nouvelEditeur
+        var nouvelEditeur = document.getElementById('nouvelEditeur').value.trim();
+
+        // Vérifier si le champ nouvelEditeur n'est pas vide
+        if (nouvelEditeur !== '') {
+          // Effectuer une requête pour insérer le nouvel editeur dans la base de données
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '../php_sql/ajoutEditeur.php'); // Créez un fichier PHP pour gérer l'ajout d'editeur
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+          xhr.onload = function () {
+            // Traiter la réponse de la requête ici si nécessaire
+            alert("Nouvel editeur ajouté avec succès !");
+            // Rafraîchir la page ou effectuer d'autres actions si nécessaire
+            window.location.reload(); // Recharge la page pour afficher le nouvel editeur
+          };
+          xhr.send('nouvelEditeur=' + encodeURIComponent(nouvelEditeur)); // Envoyer la valeur au script PHP
+        } else {
+          alert("Veuillez saisir le nom de l'editeur à ajouter.");
+        }
+      }
+      function ajouterGenre() {
+        // Récupérer la valeur du champ nouvelGenre
+        var nouvelGenre = document.getElementById('nouvelGenre').value.trim();
+
+        // Vérifier si le champ nouvelGenre n'est pas vide
+        if (nouvelGenre !== '') {
+          // Effectuer une requête pour insérer le nouvel genre dans la base de données
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '../php_sql/ajoutGenre.php'); // Créez un fichier PHP pour gérer l'ajout d'genre
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+          xhr.onload = function () {
+            // Traiter la réponse de la requête ici si nécessaire
+            alert("Nouvel genre ajouté avec succès !");
+            // Rafraîchir la page ou effectuer d'autres actions si nécessaire
+            window.location.reload(); // Recharge la page pour afficher le nouvel genre
+          };
+          xhr.send('nouvelGenre=' + encodeURIComponent(nouvelGenre)); // Envoyer la valeur au script PHP
+        } else {
+          alert("Veuillez saisir le nom du genre à ajouter.");
+        }
+      }
+      function ajouterLangue() {
+        // Récupérer la valeur du champ nouvelLangue
+        var nouvelLangue = document.getElementById('nouvelLangue').value.trim();
+
+        // Vérifier si le champ nouvelLangue n'est pas vide
+        if (nouvelLangue !== '') {
+          // Effectuer une requête pour insérer le nouvel langue dans la base de données
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '../php_sql/ajoutLangue.php'); // Créez un fichier PHP pour gérer l'ajout de la langue
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+          xhr.onload = function () {
+            // Traiter la réponse de la requête ici si nécessaire
+            alert("Nouvel langue ajouté avec succès !");
+            // Rafraîchir la page ou effectuer d'autres actions si nécessaire
+            window.location.reload(); // Recharge la page pour afficher le nouvel langue
+          };
+          xhr.send('nouvelLangue=' + encodeURIComponent(nouvelLangue)); // Envoyer la valeur au script PHP
+        } else {
+          alert("Veuillez saisir le nom du genre à ajouter.");
+        }
       }
     </script>
 

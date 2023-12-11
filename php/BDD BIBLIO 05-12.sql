@@ -65,6 +65,7 @@ FOREIGN KEY (idcollection) REFERENCES collection(id)
 CREATE TABLE livreperso (
 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 idpersonne INT,
+source INT,
 nom VARCHAR(750),
 lienfiles VARCHAR(750),
 lienfolder Varchar(750),
@@ -236,7 +237,7 @@ INSERT INTO auteur(nom) VALUES
 ('Carnegie Dale'),
 ('Hergé')
 ;
-
+
 
 #INSERTION EDITEUR
 #Insertion par défaut

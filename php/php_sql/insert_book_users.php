@@ -25,7 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("La connexion a échoué : " . $conn->connect_error);
     }
 
+    $sqlCheckPersonalLibrary = "SELECT * FROM livreperso WHERE idpersonne = $sessionId AND nom = '$nom' AND lienfiles = '$filesPath'";
+    $resultCheckPersonalLibrary = $conn->query($sqlCheckPersonalLibrary);
 
+    if ($resultCheckPersonalLibrary->num_rows > 0) {
+        http_response_code(400);
+        exit("Le livre est déjà dans votre bibliothèque personnelle.");
+    }
 
     // Fonction pour obtenir l'ID ou ajouter une entrée dans une table
     function get_id_or_insert($conn, $table, $column, $value, $extra_fields = [])

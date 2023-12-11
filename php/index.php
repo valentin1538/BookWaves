@@ -235,10 +235,13 @@ $result = $conn->query($sql);
                 echo '<li>';
                 echo '<a href="./pages_autres/visualiser.php?nomfichier=' . urlencode($livre['nomfichier']) . '"><i class="fa fa-eye"></i> Visualiser</a>';
                 echo '</li>';
+                echo '<li>';
+                echo '<a href="#" onclick="addToPersonalLibrary(' . $livre['id'] . ')">Ajouter à ma bilbiothèque</a>';
+                echo '</li>';
                 echo '</ul>';
                 echo '</div>';
                 echo '</div>';
-                echo '<button class="btn-info" onclick="showBookInfo(' . $livre['id'] . ')">Info</button>';
+                echo '<button class="btn-info" onclick="ShowBookInfo(' . $livre['id'] . ')">Info</button>';
                 echo '</div>';
               }
 
@@ -262,7 +265,7 @@ $result = $conn->query($sql);
     </aside>
 
     <script>
-      function showBookInfo(bookId) {
+      function ShowBookInfo(bookId) {
         // Utilisez AJAX pour récupérer les informations du livre du serveur
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
@@ -322,23 +325,39 @@ $result = $conn->query($sql);
           document.getElementById('main-content').style.marginRight = '0';
         }
       }
+
+      function addToPersonalLibrary(bookId) {
+        // Utilisez AJAX pour envoyer la demande d'ajout
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+              // Affichez un message de confirmation
+              alert('Livre ajouté à votre bibliothèque personnelle avec succès!');
+            }
+            if (xhr.status === 400) {
+              // Affichez un message d'erreur en cas d'échec
+              alert('Ce livre est déjà dans votre bibliothèque personnelle.');
+            }
+            if (xhr.status === 401) {
+              // Affichez un message d'erreur en cas d'échec
+              alert('Vous devez vous connecté pour pouvoir ajouter ce livre dans votre bibliothèque personnelle.');
+            }
+          }
+        };
+
+        // Envoyez une requête POST au script PHP côté serveur
+        xhr.open('POST', './php_sql/add_to_personal_library.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send('bookId=' + bookId);
+      }
+
     </script>
 
     <!-- js placed at the end of the document so the pages load faster -->
     <script src="lib/jquery/jquery.min.js"></script>
 
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-    <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="lib/jquery.scrollTo.min.js"></script>
-    <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
-    <script src="lib/jquery.sparkline.js"></script>
-    <!--common script for all pages-->
-    <script src="lib/common-scripts.js"></script>
-    <script type="text/javascript" src="lib/gritter/js/jquery.gritter.js"></script>
-    <script type="text/javascript" src="lib/gritter-conf.js"></script>
-    <!--script for this page-->
-    <script src="lib/sparkline-chart.js"></script>
-    <script src="lib/zabuto_calendar.js"></script>
 </body>
 
 </html>
