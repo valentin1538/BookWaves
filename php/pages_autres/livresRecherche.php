@@ -14,7 +14,10 @@ if ($conn->connect_error) {
 }
 // Initialiser la session
 session_start();
-
+if (!isset($_SESSION["username"])) {
+    header("Location: ../pages_cnx/login.php");
+    exit();
+}
 ?>
 <?php
 
@@ -135,43 +138,6 @@ $result = $conn->query($sql);
                         <?php echo isset($_SESSION['username']) ? ' / ' . $_SESSION['username'] : ''; ?>
                     </span></b></a>
             <!--logo end-->
-            <!--  Categories start -->
-            <div class="nav notify-row text-center" id="top_menu">
-                <!--  Categories start -->
-                <ul class="nav top-menu">
-                    <!-- Ajout Livre Boutton start -->
-                    <li id="header_ajout_livre_bar" class="dropdown">
-
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            Ajouter
-                            <i class="fa-solid fa-book-medical"></i>
-                        </a>
-                        <ul class="dropdown-menu extended notification">
-                            <div class="notify-arrow notify-arrow-green"></div>
-                            <li>
-                                <button id="add-book"><span class="label label-success"><i
-                                            class="fa fa-plus"></i></span>
-                                    Ajout depuis un dossier unique</button>
-                                <input type="file" id="file-input" accept=".epub" style="display: none">
-                            </li>
-                        </ul>
-                    <li id="header_convertir_livre_bar" class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            Recupération des actualités
-                            <i class="fa-solid fa-newspaper"></i>
-                        </a>
-                        <ul class="dropdown-menu extended notification">
-                            <div class="notify-arrow notify-arrow-green"></div>
-                            <li>
-                                <a href="#">
-                                    <span class="label label-danger"><i class="fa fa-calendar"></i></span>
-                                    Charger les actualités
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
             <ul class="nav pull-right top-menu">
                 <?php if (isset($_SESSION['username'])): ?>
                     <!-- Utilisateur connecté -->
@@ -298,113 +264,358 @@ $result = $conn->query($sql);
                         <div class="border-head">
                             <h3>Recherche de Livres</h3>
 
-                            <form method="GET" class="barre-recherche">
-                                <input type="text" name="recherche" placeholder="Rechercher sur internet">
-                                <input type="submit" value="Rechercher">
+                            <script>
+                                function showTodayBooks() {
+                                    const today = new Date().toISOString().split('T')[0];
+                                    const api_url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${today}&langRestrict=fr&orderBy=newest&printType=books&filter=partial&projection=lite`;
 
+                                    fetch(api_url)
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.items && data.items.length > 0) {
+                                                let booksHTML = "<div class='books'>";
+                                                data.items.forEach(item => {
+                                                    const volumeInfo = item.volumeInfo;
+                                                    const publishedDate = volumeInfo.publishedDate ? volumeInfo.publishedDate : '';
+                                                    if (publishedDate.includes(today)) {
+                                                        booksHTML += "<div class='book'>";
+                                                        booksHTML += `<h2><a href='${volumeInfo.infoLink}' target='_blank'>${volumeInfo.title}</a></h2>`;
+                                                        if (volumeInfo.authors && volumeInfo.authors.length > 0) {
+                                                            booksHTML += "<p>Auteur(s): " + volumeInfo.authors.join(", ") + "</p>";
+                                                        } else {
+                                                            booksHTML += "<p>Auteur(s): Information non disponible</p>";
+                                                        }
+                                                        booksHTML += "<p>Date de publication: " + (publishedDate ? new Date(publishedDate).toLocaleDateString('fr-FR') : '') + "</p>";
+                                                        booksHTML += "</div>";
+                                                    }
+                                                });
+                                                booksHTML += "</div>";
+
+                                                document.getElementById('todayBooks').innerHTML = booksHTML;
+                                                document.getElementById('todayBooks').classList.remove('hidden');
+                                            } else {
+                                                document.getElementById('todayBooks').innerHTML = "Aucun livre publié aujourd'hui.";
+                                                document.getElementById('todayBooks').classList.remove('hidden');
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error('Erreur lors de la récupération des données:', error);
+                                            document.getElementById('todayBooks').innerHTML = "Erreur lors de la récupération des données.";
+                                            document.getElementById('todayBooks').classList.remove('hidden');
+                                        });
+                                }
+                            </script>
+
+                            <div class="container">
+
+                                <div class="notification">
+                                    <span class="bell" onclick="showTodayBooks()">🔔</span>
+                                    <div id="todayBooks" class="hidden">
+                                        <!-- Les livres du jour seront affichés ici -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <form method="GET">
+                                <label for="searchTerm">Rechercher :</label>
+                                <input type="text" id="searchTerm" name="searchTerm">
+
+                                <label for="criteria">Critère :</label>
+                                <input type="radio" id="criteria_books" name="criteria" value="books">
+                                <label for="criteria_books">Livres</label>
+
+                                <input type="radio" id="criteria_author" name="criteria" value="author">
+                                <label for="criteria_author">Auteur</label>
+
+                                <input type="radio" id="criteria_publisher" name="criteria" value="publisher"
+                                    onclick="showPublisherSearch()">
+                                <label for="criteria_publisher">Éditeur</label>
+
+                                <div id="publisherSearch" style="display: none;">
+                                    <label for="searchPublisherTerm">Rechercher un éditeur :</label>
+                                    <input type="text" id="searchPublisherTerm" name="searchPublisherTerm">
+                                </div>
+
+                                <input type="submit" value="Rechercher">
                             </form>
 
                             <?php
 
-
-                            if (isset($_GET['recherche']) && !empty($_GET['recherche'])) {
-                                $searchTerm = $_GET['recherche'];
-                                $recherche = urlencode($searchTerm);
-                                // Récupérer la date du 1er janvier de cette année
+                            function searchByAuthor($searchTerm)
+                            {
                                 $date = date('Y') . "-01-01";
-                                $api_url = "https://www.googleapis.com/books/v1/volumes?q=intitle:$recherche&langRestrict=fr&orderBy=newest&printType=books&filter=partial&projection=lite&publishedDate=$date";
+                                $searchTerm = urlencode($searchTerm);
+                                $api_url = "https://www.googleapis.com/books/v1/volumes?q=inauthor:{$searchTerm}&langRestrict=fr&orderBy=newest&printType=books&filter=partial&projection=lite&publishedDate={$date}";
 
                                 $response = file_get_contents($api_url);
 
                                 if ($response === false) {
-                                    echo "Erreur lors de la récupération des données.";
+                                    return "Erreur lors de la récupération des données.";
                                 } else {
                                     $data = json_decode($response, true);
 
                                     if (isset($data['items'])) {
-                                        echo "<p style='padding-left: 10px;'>Résultats pour la recherche : '$searchTerm'</p>";
-
                                         $books = $data['items'];
-                                        echo "<div class='container'>";
-                                        $printedTitles = []; // Tableau pour stocker les titres déjà imprimés
+
+                                        $rechercheResult = "<div class='books'>";
                                         foreach ($books as $item) {
                                             $volumeInfo = $item['volumeInfo'];
-                                            // Vérifier si le titre a déjà été imprimé
-                                            if (!in_array($volumeInfo['title'], $printedTitles, true)) {
-                                                echo "<div class='book'>";
-                                                if (isset($volumeInfo['imageLinks']) && isset($volumeInfo['imageLinks']['thumbnail'])) {
-                                                    echo "<img src='" . $volumeInfo['imageLinks']['thumbnail'] . "' alt='Couverture Livre'>";
+
+                                            // Vérifiez si la clé 'title' existe avant de l'utiliser
+                                            if (isset($volumeInfo['title'])) {
+                                                $rechercheResult .= "<div class='book'>";
+
+                                                // Récupération de l'URL de la première de couverture
+                                                $thumbnail = isset($volumeInfo['imageLinks']['thumbnail']) ? $volumeInfo['imageLinks']['thumbnail'] : '';
+
+                                                // Affichage de l'image de couverture si disponible
+                                                if (!empty($thumbnail)) {
+                                                    $rechercheResult .= "<img src='" . $thumbnail . "' alt='Couverture du livre'>";
+                                                }
+
+                                                // Construire le lien vers la page Google Play Books pour chaque livre
+                                                $playStoreLink = isset($item['id']) ? "https://play.google.com/store/books/details?id={$item['id']}&source=gbs_api" : '';
+                                                if (!empty($playStoreLink)) {
+                                                    $rechercheResult .= "<h2><a href='" . $playStoreLink . "' target='_blank'>" . $volumeInfo['title'] . "</a></h2>";
                                                 } else {
-                                                    echo "<img src='https://via.placeholder.com/150x200' alt='Couverture Livre'>";
+                                                    $rechercheResult .= "<h2>" . $volumeInfo['title'] . "</h2>";
                                                 }
-                                                echo "<h2>" . $volumeInfo['title'] . "</h2>";
-                                                if (isset($volumeInfo['authors'])) {
-                                                    echo "<p>Auteur(s): " . implode(", ", $volumeInfo['authors']) . "</p>";
-                                                }
-                                                if (isset($volumeInfo['publishedDate'])) {
-                                                    $date = date("d-m-Y", strtotime($volumeInfo['publishedDate']));
-                                                    echo "<p>Date de publication: " . $date . "</p>";
-                                                }
-                                                if (isset($volumeInfo['previewLink'])) {
-                                                    echo "<p><a href='" . $volumeInfo['previewLink'] . "' target='_blank'>Voir sur Google Books</a></p>";
-                                                }
-                                                if (isset($item['saleInfo']['buyLink'])) {
-                                                    echo "<h3>Où acheter:</h3> <a href='" . $item['saleInfo']['buyLink'] . "'><img src='logo google.png' alt='Google Logo'></a> ";
 
-
-                                                    if (isset($item['saleInfo']['listPrice']['amount']) && isset($item['saleInfo']['listPrice']['currencyCode'])) {
-                                                        echo "<h3>" . $item['saleInfo']['listPrice']['amount'] . " " . $item['saleInfo']['listPrice']['currencyCode'] . "<h3>" . "<br>";
-                                                    } else {
-                                                        echo "Prix non disponible<br>";
-                                                    }
+                                                if (isset($volumeInfo['authors']) && is_array($volumeInfo['authors'])) {
+                                                    $rechercheResult .= "<p>Auteur(s): " . implode(", ", $volumeInfo['authors']) . "</p>";
                                                 } else {
-                                                    echo "<h3>Non disponible à l'achat dans la bibliothèque ebook Google.</h3>";
-                                                    echo "<br>";
+                                                    $rechercheResult .= "<p>Auteur(s): Information non disponible</p>";
                                                 }
 
-
-                                                echo "</div>";
-                                                $printedTitles[] = $volumeInfo['title']; // Ajouter le titre à la liste des titres imprimés
+                                                $rechercheResult .= "<p>Date de publication: " . (isset($volumeInfo['publishedDate']) ? date("d-m-Y", strtotime($volumeInfo['publishedDate'])) : '') . "</p>";
+                                                // Ajouter d'autres détails si nécessaire
+                                                $rechercheResult .= "</div>";
                                             }
                                         }
-                                        echo "</div>";
+                                        $rechercheResult .= "</div>";
+
+                                        return $rechercheResult;
                                     } else {
-                                        echo "Aucun livre trouvé pour la recherche : '$searchTerm'";
+                                        return "Aucun livre trouvé pour la recherche.";
                                     }
                                 }
-                            } elseif (empty($_GET['recherche']) && isset($_SESSION['previousResults'])) {
-                                unset($_SESSION['previousResults']);
                             }
+
+
+                            function searchBooks($searchTerm)
+                            {
+                                $encodedSearchTerm = rawurlencode($searchTerm);
+                                $api_url = "https://www.googleapis.com/books/v1/volumes?q=intitle:{$encodedSearchTerm}&langRestrict=fr&orderBy=newest&printType=books&filter=partial&projection=lite";
+
+                                $response = file_get_contents($api_url);
+
+                                if ($response === false) {
+                                    return "Erreur lors de la récupération des données.";
+                                } else {
+                                    $data = json_decode($response, true);
+
+                                    if (isset($data['items'])) {
+                                        $books = $data['items'];
+
+                                        $rechercheResult = "<div class='books'>";
+                                        foreach ($books as $item) {
+                                            $volumeInfo = $item['volumeInfo'];
+
+                                            $rechercheResult .= "<div class='book'>";
+
+                                            // Récupération de l'URL de la première de couverture
+                                            $thumbnail = isset($volumeInfo['imageLinks']['thumbnail']) ? $volumeInfo['imageLinks']['thumbnail'] : '';
+
+                                            // Affichage de l'image de couverture si disponible
+                                            if (!empty($thumbnail)) {
+                                                $rechercheResult .= "<img src='" . $thumbnail . "' alt='Couverture du livre'>";
+                                            }
+
+                                            // Ajoutez un lien autour du titre du livre
+                                            $rechercheResult .= "<h2><a href='" . $volumeInfo['infoLink'] . "' target='_blank'>" . $volumeInfo['title'] . "</a></h2>";
+
+                                            // Vérification de la clé 'authors' avant de l'utiliser
+                                            if (isset($volumeInfo['authors']) && is_array($volumeInfo['authors'])) {
+                                                $rechercheResult .= "<p>Auteur(s): " . implode(", ", $volumeInfo['authors']) . "</p>";
+                                            } else {
+                                                $rechercheResult .= "<p>Auteur(s): Information non disponible</p>";
+                                            }
+
+                                            $rechercheResult .= "<p>Date de publication: " . (isset($volumeInfo['publishedDate']) ? date("d-m-Y", strtotime($volumeInfo['publishedDate'])) : '') . "</p>";
+                                            // Ajoutez d'autres détails du livre si nécessaire
+                                            $rechercheResult .= "</div>";
+                                        }
+                                        $rechercheResult .= "</div>";
+
+                                        return $rechercheResult;
+                                    } else {
+                                        return "Aucun livre trouvé pour la recherche.";
+                                    }
+                                }
+                            }
+
+
+                            function searchByPublisher($searchTerm)
+                            {
+                                $date = date('Y') . "-01-01";
+                                $searchTerm = urlencode($searchTerm);
+                                $api_url = "https://www.googleapis.com/books/v1/volumes?q=inpublisher:{$searchTerm}&langRestrict=fr&orderBy=newest&printType=books&filter=partial&projection=lite&publishedDate={$date}";
+
+
+                                $response = file_get_contents($api_url);
+
+                                if ($response === false) {
+                                    return "Erreur lors de la récupération des données.";
+                                } else {
+                                    $data = json_decode($response, true);
+
+                                    if (isset($data['items'])) {
+                                        $books = $data['items'];
+
+                                        $rechercheResult = "<div class='books'>";
+                                        foreach ($books as $item) {
+                                            $volumeInfo = $item['volumeInfo'];
+
+                                            $rechercheResult .= "<div class='book'>";
+
+                                            // Récupération de l'URL de la première de couverture
+                                            $thumbnail = isset($volumeInfo['imageLinks']['thumbnail']) ? $volumeInfo['imageLinks']['thumbnail'] : '';
+
+                                            // Affichage de l'image de couverture si disponible
+                                            if (!empty($thumbnail)) {
+                                                $rechercheResult .= "<img src='" . $thumbnail . "' alt='Couverture du livre'>";
+                                            }
+
+                                            // Construire le lien vers la page Google Play Books pour chaque livre
+                                            $playStoreLink = isset($item['id']) ? "https://play.google.com/store/books/details?id={$item['id']}&source=gbs_api" : '';
+                                            if (!empty($playStoreLink)) {
+                                                $rechercheResult .= "<h2><a href='" . $playStoreLink . "' target='_blank'>" . $volumeInfo['title'] . "</a></h2>";
+                                            } else {
+                                                $rechercheResult .= "<h2>" . $volumeInfo['title'] . "</h2>";
+                                            }
+
+                                            // Vérification de la clé 'editors' avant de l'utiliser
+                                            if (isset($volumeInfo['editors']) && is_array($volumeInfo['editors'])) {
+                                                $rechercheResult .= "<p>Editeur(s): " . implode(", ", $volumeInfo['editors']) . "</p>";
+                                            } else {
+                                                $rechercheResult .= "<p>Editeur(s): " . urldecode($searchTerm) . "</p>";
+                                            }
+
+                                            $rechercheResult .= "<p>Date de publication: " . (isset($volumeInfo['publishedDate']) ? date("d-m-Y", strtotime($volumeInfo['publishedDate'])) : '') . "</p>";
+                                            // Ajoutez d'autres détails si nécessaire
+                                            $rechercheResult .= "</div>";
+                                        }
+                                        $rechercheResult .= "</div>";
+
+                                        return $rechercheResult;
+                                    } else {
+                                        return "Aucun livre trouvé pour la recherche.";
+                                    }
+                                }
+                            }
+
+
+                            if (isset($_GET['searchTerm']) && !empty($_GET['searchTerm']) && isset($_GET['criteria']) && !empty($_GET['criteria'])) {
+                                $criteria = $_GET['criteria'];
+                                $searchTerm = $_GET['searchTerm'];
+                                $rechercheResult = '';
+
+                                switch ($criteria) {
+                                    case "author":
+                                        $rechercheResult = searchByAuthor($searchTerm);
+                                        break;
+                                    case "books":
+                                        $rechercheResult = searchBooks($searchTerm);
+                                        break;
+                                    case "publisher":
+                                        $rechercheResult = searchByPublisher($searchTerm);
+                                        break;
+                                    // Ajoutez d'autres cas pour les critères supplémentaires si nécessaire.
+                                    default:
+                                        $rechercheResult = "Critère de recherche invalide.";
+                                }
+
+                                echo $rechercheResult;
+                            }
+
                             ?>
+
+                            <script>
+
+                                function searchByCollectionAndPublisher($collectionTerm, $publisherTerm) {
+                                    $date = date('Y'). "-01-01";
+                                    $collectionTerm = urlencode($collectionTerm);
+                                    $publisherTerm = urlencode($publisherTerm);
+                                    $api_url = "https://www.googleapis.com/books/v1/volumes?q={$collectionTerm}+inauthor:{$publisherTerm}&langRestrict=fr&orderBy=newest&printType=books&filter=partial&projection=lite&publishedDate={$date}";
+
+                                    $response = file_get_contents($api_url);
+
+                                    if ($response === false) {
+                                        return "Erreur lors de la récupération des données.";
+                                    } else {
+                                        $data = json_decode($response, true);
+
+                                        if (isset($data['items'])) {
+                                            $books = $data['items'];
+
+                                            $rechercheResult = "<div class='books'>";
+                                            foreach($books as $item) {
+                                                $volumeInfo = $item['volumeInfo'];
+
+                                                $rechercheResult.= "<div class='book'>";
+                                                // Ajout du lien autour du titre du livre si 'infoLink' est disponible
+                                                if (isset($volumeInfo['infoLink'])) {
+                                                    $rechercheResult.= "<h2><a href='".$volumeInfo['infoLink']. "' target='_blank'>".$volumeInfo['title']. "</a></h2>";
+                                                } else {
+                                                    $rechercheResult.= "<h2>".$volumeInfo['title']. "</h2>";
+                                                }
+
+                                                if (isset($volumeInfo['authors']) && is_array($volumeInfo['authors'])) {
+                                                    $rechercheResult.= "<p>Auteur(s): ".implode(", ", $volumeInfo['authors']). "</p>";
+                                                } else {
+                                                    $rechercheResult.= "<p>Auteur(s): Information non disponible</p>";
+                                                }
+
+                                                $rechercheResult.= "<p>Date de publication: ". (isset($volumeInfo['publishedDate']) ? date("d-m-Y", strtotime($volumeInfo['publishedDate'])) : ''). "</p>";
+                                                $rechercheResult.= "</div>";
+                                            }
+                                            $rechercheResult.= "</div>";
+
+                                            return $rechercheResult;
+                                        } else {
+                                            return "Aucun livre trouvé pour la recherche.";
+                                        }
+                                    }
+                                }
+
+                                function showPublisherSearch() {
+                                    document.getElementById('publisherSearch').style.display = 'block';
+                                }
+
+                                // Fonction pour cacher la barre de recherche de l'éditeur au chargement de la page
+                                window.onload = function () {
+                                    document.getElementById('publisherSearch').style.display = 'none';
+                                }
+
+                                // Détecter le changement de sélection du radio bouton pour Éditeur
+                                document.getElementById('criteria_publisher').addEventListener('change', function () {
+                                    if (this.checked) {
+                                        showPublisherSearch();
+                                    }
+                                });
+
+
+
+
+                            </script>
+
+
                         </div>
-                    </div>
-                    <!--custom chart end-->
-                </div>
-                <!-- /col-lg-3 -->
-                </div>
-                <!-- /row -->
-            </section>
-        </section>
-        <!--main content end-->
 
-        <script>
-        </script>
+                        <!-- js placed at the end of the document so the pages load faster -->
+                        <script src="../lib/jquery/jquery.min.js"></script>
 
-        <!-- js placed at the end of the document so the pages load faster -->
-        <script src="../lib/jquery/jquery.min.js"></script>
-
-        <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
-        <script class="include" type="text/javascript" src="../lib/jquery.dcjqaccordion.2.7.js"></script>
-        <script src="../lib/jquery.scrollTo.min.js"></script>
-        <script src="../lib/jquery.nicescroll.js" type="text/javascript"></script>
-        <script src="../lib/jquery.sparkline.js"></script>
-        <!--common script for all pages-->
-        <script src="../lib/common-scripts.js"></script>
-        <script type="text/javascript" src="../lib/gritter/js/jquery.gritter.js"></script>
-        <script type="text/javascript" src="../lib/gritter-conf.js"></script>
-        <!--script for this page-->
-        <script src="../lib/sparkline-chart.js"></script>
-        <script src="../lib/zabuto_calendar.js"></script>
+                        <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 </html>

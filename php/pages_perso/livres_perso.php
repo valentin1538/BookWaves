@@ -688,6 +688,7 @@ $result = $conn->query($sql);
           .then(response => {
             if (response.ok) {
               console.log('Mise à jour dans la base de données réussie !');
+              window.location.reload();
             } else {
               throw new Error('La mise à jour dans la base de données a échoué.');
             }

@@ -66,7 +66,7 @@ $result = $conn->query("SELECT * FROM forum");
         <!--header start-->
         <header class="header black-bg">
             <!--logo start-->
-            <a href="index.php" class="logo"><b><span>BOOK WAVES / LISTE DES FORUMS
+            <a href="../index.php" class="logo"><b><span>BOOK WAVES / LISTE DES FORUMS
                         <?php echo isset($_SESSION['username']) ? ' / ' . $_SESSION['username'] : ''; ?>
                     </span></b></a>
             <!--logo end-->
@@ -84,7 +84,8 @@ $result = $conn->query("SELECT * FROM forum");
                     <?php if (isset($_SESSION['username'])): ?>
                         <!-- Utilisateur connecté -->
                         <li><a class="logout"
-                                href="../pages_cnx/logout.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Déconnexion</a>
+                                href="../pages_cnx/logout.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Se
+                                Déconnecter</a></li>
                         </li>
                     <?php else: ?>
                         <!-- Utilisateur non connecté -->
@@ -184,29 +185,36 @@ $result = $conn->query("SELECT * FROM forum");
         </aside>
         <!--sidebar end-->
 
+        <!--main content start-->
         <section id="main-content">
+            <section class="wrapper">
+                <div class="row">
+                    <div class="main-chart">
+                        <!--CUSTOM CHART START -->
+                        <div class="border-head">
+                            <?php
+                            $result = $conn->query("SELECT * FROM forum");
 
-
-
-
-            <div class="center-forum">
-                <?php
-                $result = $conn->query("SELECT * FROM forum");
-
-                echo "<div class='forum-box'>";
-                while ($row = $result->fetch_assoc()) {
-                    echo "<div class='forum-item'>";
-                    echo "<a href='sujets.php?idforum=" . $row['id'] . "'>";
-                    echo "<h2>" . $row['nom'] . "</h2>";
-                    echo "<p>Description : " . $row['description'] . "</p>";
-                    echo "</a>";
-                    echo "</div>";
-                }
-                echo "</div>";
-                ?>
-            </div>
-
+                            echo "<div class='forum-box'>";
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<div class='forum-item'>";
+                                echo "<a href='sujets.php?idforum=" . $row['id'] . "'>";
+                                echo "<h2>" . $row['nom'] . "</h2>";
+                                echo "<p>Description : " . $row['description'] . "</p>";
+                                echo "</a>";
+                                echo "</div>";
+                            }
+                            echo "</div>";
+                            ?>
+                        </div>
+                        <!--custom chart end-->
+                    </div>
+                    <!-- /col-lg-3 -->
+                </div>
+                <!-- /row -->
+            </section>
         </section>
+        <!--main content end-->
 
 
         <script>

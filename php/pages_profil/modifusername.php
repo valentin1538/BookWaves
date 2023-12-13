@@ -174,7 +174,7 @@ if (isset($_POST['updateProfileImage'])) {
                                         $userData = $userResult->fetch_assoc();
                                         $_SESSION['username'] = $userData['username'];
                                         $_SESSION['email'] = $userData['email'];
-                                        echo '<script>redirectToPage("../pages_perso/profil.php");</script>';
+                                        echo '<script>redirectToPage("./profil.php");</script>';
                                     }
 
                                 }

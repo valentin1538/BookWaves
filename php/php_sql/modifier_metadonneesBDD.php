@@ -24,7 +24,7 @@ $idLangue = $data['langue'];
 $idGenre = $data['genre'];
 
 // Mettre à jour le titre du livre dans la table 'livre'
-$sqlTitre = "UPDATE livre SET nom = '$titre' WHERE id = '$idLivre'";
+$sqlTitre = "UPDATE livreperso SET nom = '$titre' WHERE id = '$idLivre'";
 if ($conn->query($sqlTitre) === TRUE) {
     echo "Titre du livre mis à jour avec succès.";
 } else {
@@ -32,7 +32,7 @@ if ($conn->query($sqlTitre) === TRUE) {
 }
 
 // Mettre à jour l'auteur du livre dans la table 'livre'
-$sqlAuteur = "UPDATE livre SET idauteur = '$idAuteur' WHERE id = '$idLivre'";
+$sqlAuteur = "UPDATE livreperso SET idauteur = '$idAuteur' WHERE id = '$idLivre'";
 if ($conn->query($sqlAuteur) === TRUE) {
     echo "Auteur du livre mis à jour avec succès.";
 } else {
@@ -40,7 +40,7 @@ if ($conn->query($sqlAuteur) === TRUE) {
 }
 
 // Mettre à jour l'éditeur du livre dans la table 'livre'
-$sqlEditeur = "UPDATE livre SET idediteur = '$idEditeur' WHERE id = '$idLivre'";
+$sqlEditeur = "UPDATE livreperso SET idediteur = '$idEditeur' WHERE id = '$idLivre'";
 if ($conn->query($sqlEditeur) === TRUE) {
     echo "Éditeur du livre mis à jour avec succès.";
 } else {
@@ -48,7 +48,7 @@ if ($conn->query($sqlEditeur) === TRUE) {
 }
 
 // Mettre à jour la langue du livre dans la table 'livre'
-$sqlLangue = "UPDATE livre SET idlangue = '$idLangue' WHERE id = '$idLivre'";
+$sqlLangue = "UPDATE livreperso SET idlangue = '$idLangue' WHERE id = '$idLivre'";
 if ($conn->query($sqlLangue) === TRUE) {
     echo "Langue du livre mise à jour avec succès.";
 } else {
@@ -56,7 +56,7 @@ if ($conn->query($sqlLangue) === TRUE) {
 }
 
 // Mettre à jour le genre du livre dans la table 'livre'
-$sqlGenre = "UPDATE livre SET idgenre = '$idGenre' WHERE id = '$idLivre'";
+$sqlGenre = "UPDATE livreperso SET idgenre = '$idGenre' WHERE id = '$idLivre'";
 if ($conn->query($sqlGenre) === TRUE) {
     echo "Genre du livre mis à jour avec succès.";
 } else {

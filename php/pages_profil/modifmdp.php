@@ -26,7 +26,11 @@ if (($_SESSION["idprofil"]) != 1) {
     header("Location: ../pages_cnx/login.php");
     exit();
 }
+
+$idmodif = ($_SESSION['id']);
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -108,6 +112,7 @@ if (($_SESSION["idprofil"]) != 1) {
                         <div class="profile-actions">
 
 
+
                             <!-- Ajouter une section pour la modification du mot de passe -->
                             <div id="containerx">
                                 <form class="box" action="" method="post" name="updatePasswordForm">
@@ -126,52 +131,53 @@ if (($_SESSION["idprofil"]) != 1) {
                                         <input type="submit" name="updatePasswordSubmit" value="Mettre à jour"
                                             style='color:black' class="box-button" />
                                     </div>
-                                </form>
+                                    <?php
+                                    // Traitement de la modification du mot de passe
+                                    if (isset($_POST['updatePasswordSubmit'])) {
+                                        // Vérifiez que les champs de mot de passe sont définis
+                                        if (isset($_POST['oldPassword'], $_POST['newPassword'])) {
+                                            $userIdToUpdate = ($_SESSION['id']);
+                                            $oldPassword = hash('sha256', $_POST['oldPassword']); // Crypte l'ancien mot de passe
+                                            $newPassword = hash('sha256', $_POST['newPassword']); // Crypte le nouveau mot de passe
+                                    
+                                            // Requête pour récupérer le mot de passe stocké dans la base de données
+                                            $getUserPasswordQuery = "SELECT password FROM users WHERE id = '$userIdToUpdate'";
+                                            $getUserPasswordResult = $conn->query($getUserPasswordQuery);
 
-                                <?php
-                                // Traitement de la modification du mot de passe
-                                if (isset($_POST['updatePasswordSubmit'])) {
-                                    // Vérifiez que les champs de mot de passe sont définis
-                                    if (isset($_POST['oldPassword'], $_POST['newPassword'])) {
-                                        $userIdToUpdate = ($_SESSION['id']);
-                                        $oldPassword = hash('sha256', $_POST['oldPassword']); // Crypte l'ancien mot de passe
-                                        $newPassword = hash('sha256', $_POST['newPassword']); // Crypte le nouveau mot de passe
-                                
-                                        // Requête pour récupérer le mot de passe stocké dans la base de données
-                                        $getUserPasswordQuery = "SELECT password FROM users WHERE id = '$userIdToUpdate'";
-                                        $getUserPasswordResult = $conn->query($getUserPasswordQuery);
+                                            if ($getUserPasswordResult->num_rows > 0) {
+                                                $userData = $getUserPasswordResult->fetch_assoc();
+                                                $storedPassword = $userData['password'];
 
-                                        if ($getUserPasswordResult->num_rows > 0) {
-                                            $userData = $getUserPasswordResult->fetch_assoc();
-                                            $storedPassword = $userData['password'];
+                                                // Vérifiez que l'ancien mot de passe correspond
+                                                if ($oldPassword === $storedPassword) {
+                                                    // Requête pour mettre à jour le mot de passe
+                                                    $updatePasswordQuery = "UPDATE users SET password='$newPassword' WHERE id = '$userIdToUpdate'";
+                                                    $updatePasswordResult = $conn->query($updatePasswordQuery);
 
-                                            // Vérifiez que l'ancien mot de passe correspond
-                                            if ($oldPassword === $storedPassword) {
-                                                // Requête pour mettre à jour le mot de passe
-                                                $updatePasswordQuery = "UPDATE users SET password='$newPassword' WHERE id = '$userIdToUpdate'";
-                                                $updatePasswordResult = $conn->query($updatePasswordQuery);
+                                                    if ($updatePasswordResult) {
 
-                                                if ($updatePasswordResult) {
-                                                    // Redirigez l'utilisateur vers une nouvelle page
-                                                    header("Location: ./profil.php");
-                                                    exit(); // Assurez-vous de terminer le script après la redirection
+                                                        echo "Votre mot de passe a été mis à jour";
+                                                    } else {
+                                                        echo "Erreur lors de la mise à jour du mot de passe.";
+                                                    }
                                                 } else {
-                                                    echo "Erreur lors de la mise à jour du mot de passe.";
+                                                    echo "L'ancien mot de passe ne correspond pas.";
                                                 }
                                             } else {
-                                                echo "L'ancien mot de passe ne correspond pas.";
+                                                echo "Utilisateur non trouvé.";
                                             }
                                         } else {
-                                            echo "Utilisateur non trouvé.";
+                                            echo "Les champs de mot de passe ne sont pas définis.";
                                         }
-                                    } else {
-                                        echo "Les champs de mot de passe ne sont pas définis.";
                                     }
-                                }
-                                ?>
+                                    ?>
+                                </form>
+
+
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
                 </div>
             </section>

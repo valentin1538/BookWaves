@@ -12,9 +12,7 @@
     <?php
     require('Config.php');
     session_start();
-    $source = isset($_GET['source']) ? $_GET['source'] : 'Inconnu';
-    echo '<p>Page source : '.htmlspecialchars($source).'</p>';
-    if(isset($_POST['username'])) {
+    if (isset($_POST['username'])) {
         $username = stripslashes($_REQUEST['username']);
         $username = mysqli_real_escape_string($conn, $username);
 
@@ -27,7 +25,7 @@
         $query = "SELECT * FROM `users` WHERE username='$username' AND password='$hashed_password'";
         $result = $conn->query($query);
 
-        if($result->num_rows == 1) {
+        if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
 
             // Stocker les informations de l'utilisateur dans la session
@@ -37,16 +35,16 @@
             $_SESSION['email'] = $row['email'];
 
             // Redirection en fonction du profil
-            if($row["idprofil"] == 4) {
+            if ($row["idprofil"] == 4) {
                 header("Location: ../admin_ges/index_admin.php");
                 exit();
-            } elseif($row["idprofil"] == 1) {
+            } elseif ($row["idprofil"] == 1) {
                 header("Location: ../pages_perso/livres_perso.php");
                 exit();
-            } elseif($row["idprofil"] == 2) {
+            } elseif ($row["idprofil"] == 2) {
                 header("Location: ../pages_index/index_mod.php");
                 exit();
-            } elseif($row["idprofil"] == 3) {
+            } elseif ($row["idprofil"] == 3) {
                 header("Location: ../pages_index/index_dba.php");
                 exit();
             } else {
@@ -71,7 +69,7 @@
             </h3>
             <h3 class="box-register">Ou revenir à <a href="../index.php" style='color:skyblue'> l'accueil</a></h3>
 
-            <?php if(isset($message_erreur)) { ?>
+            <?php if (isset($message_erreur)) { ?>
                 <p class="errorMessage">
                     <?php echo $message_erreur; ?>
                 </p>

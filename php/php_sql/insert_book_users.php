@@ -1,4 +1,8 @@
 <?php
+
+error_log("Début du script", 3, "J:\wamp64\logs\php_error");
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupérer les données envoyées par le formulaire
     $nom = $_POST['nom'] ?? '';
@@ -25,13 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("La connexion a échoué : " . $conn->connect_error);
     }
 
-    $sqlCheckPersonalLibrary = "SELECT * FROM livreperso WHERE idpersonne = $sessionId AND nom = '$nom' AND lienfiles = '$filesPath'";
-    $resultCheckPersonalLibrary = $conn->query($sqlCheckPersonalLibrary);
 
-    if ($resultCheckPersonalLibrary->num_rows > 0) {
-        http_response_code(400);
-        exit("Le livre est déjà dans votre bibliothèque personnelle.");
-    }
 
     // Fonction pour obtenir l'ID ou ajouter une entrée dans une table
     function get_id_or_insert($conn, $table, $column, $value, $extra_fields = [])
@@ -60,9 +58,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $insert_query .= ")";
 
+            echo "Requête SQL : $insert_query";
+
             if ($conn->query($insert_query) === TRUE) {
                 return $conn->insert_id; // Renvoyer l'ID de la nouvelle entrée ajoutée
             } else {
+                error_log("Erreur MySQL : " . $conn->error); // Ajouter une entrée dans les logs d'erreurs
                 echo "Erreur lors de l'ajout de $value dans la table $table : " . $conn->error;
                 $conn->close();
                 exit(); // Arrêter le script en cas d'erreur
@@ -77,19 +78,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_editeur = get_id_or_insert($conn, 'editeur', 'nom', $editeur);
 
 
-
     // Insérer le livre en utilisant les IDs récupérés
-    $insert_livre_query = "INSERT INTO livreperso (idpersonne ,nom ,lienfiles, lienfolder, idauteur, idediteur, idgenre, idlangue) 
-                           VALUES ('$sessionId','$nom', '$filesPath', '$folderPath',$id_auteur, $id_editeur, $id_genre, $id_langue)";
+    $insert_livre_query = $conn->prepare("INSERT INTO livreperso (idpersonne, nom, lienfiles, lienfolder, idauteur, idediteur, idgenre, idlangue) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
-    if ($conn->query($insert_livre_query) === TRUE) {
+    // Liaison des paramètres
+    $insert_livre_query->bind_param("isssiiii", $sessionId, $nom, $filesPath, $folderPath, $id_auteur, $id_editeur, $id_genre, $id_langue);
+
+    // Exécuter la requête
+    if ($insert_livre_query->execute() === TRUE) {
         echo "Nouvel enregistrement créé avec succès.";
     } else {
-        echo "Erreur lors de l'ajout du livre : " . $conn->error;
+        error_log("Erreur MySQL : " . $insert_livre_query->error); // Ajouter une entrée dans les logs d'erreurs
+        echo "Erreur lors de l'ajout du livre : " . $insert_livre_query->error;
     }
 
-    // Fermeture de la connexion à la base de données
-    $conn->close();
+    // Fermeture de la requête préparée
+    $insert_livre_query->close();
 } else {
     echo "Erreur : méthode HTTP incorrecte.";
 }

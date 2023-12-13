@@ -1,37 +1,55 @@
 <?php
-// Informations de connexion à la base de données
-$servername = "localhost"; // Remplacez par le nom de votre serveur de base de données
-$username = "root"; // Remplacez par votre nom d'utilisateur de base de données
-$password = ""; // Remplacez par votre mot de passe de base de données
-$database = "Biblio"; // Remplacez par le nom de votre base de données
+// Récupérer les données envoyées depuis JavaScript
+$data = json_decode(file_get_contents('php://input'), true);
 
-try {
-    // Création de la connexion à la base de données
-    $connexion = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
-    // Définition des attributs de PDO pour gérer les erreurs
-    $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// Récupérer les valeurs des métadonnées à partir des données
+$titre = $data['titre'];
+$auteur = $data['auteurNom'];
+$editeur = $data['editeurNom'];
+$langue = $data['langueNom'];
+$genre = $data['genreNom'];
+$lienGlobal = $data['lienGlobal']; // Récupération de la valeur de lienfile
 
-    // Récupération des auteurs
-    $query_auteurs = "SELECT id, nom FROM auteur";
-    $result_auteurs = $connexion->query($query_auteurs);
-    $auteurs = $result_auteurs->fetchAll(PDO::FETCH_ASSOC);
+// Chemin vers le fichier OPF en fonction de la valeur de lienfile
+$chemin_fichier = "../lib/Librairy/" . $lienGlobal . "";
 
-    // Récupération des éditeurs
-    $query_editeurs = "SELECT id, nom FROM editeur";
-    $result_editeurs = $connexion->query($query_editeurs);
-    $editeurs = $result_editeurs->fetchAll(PDO::FETCH_ASSOC);
+// Charger le contenu XML du fichier OPF dans un objet DOMDocument
+$doc = new DOMDocument();
+$doc->load($chemin_fichier);
 
-    // Récupération des genres
-    $query_genres = "SELECT id, nom FROM genre";
-    $result_genres = $connexion->query($query_genres);
-    $genres = $result_genres->fetchAll(PDO::FETCH_ASSOC);
-
-    // Récupération des langues
-    $query_langues = "SELECT id, nom FROM langue";
-    $result_langues = $connexion->query($query_langues);
-    $langues = $result_langues->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    // En cas d'erreur de connexion à la base de données
-    echo "Erreur de connexion : " . $e->getMessage();
+// Mettre à jour le titre
+$titles = $doc->getElementsByTagName('title');
+foreach ($titles as $title) {
+    $title->nodeValue = $titre;
 }
+
+// Mettre à jour le créateur (auteur)
+$creators = $doc->getElementsByTagName('creator');
+foreach ($creators as $creator) {
+    $creator->nodeValue = $auteur;
+}
+
+// Mettre à jour l'éditeur
+$publishers = $doc->getElementsByTagName('publisher');
+foreach ($publishers as $publisher) {
+    $publisher->nodeValue = $editeur;
+}
+
+// Mettre à jour la langue
+$languages = $doc->getElementsByTagName('language');
+foreach ($languages as $language) {
+    $language->nodeValue = $langue;
+}
+
+// Mettre à jour le genre
+$subjects = $doc->getElementsByTagName('subject');
+foreach ($subjects as $subject) {
+    $subject->nodeValue = $genre;
+}
+
+// Sauvegarder les modifications dans le fichier OPF
+$doc->save($chemin_fichier);
+
+// Réponse indiquant le succès de la modification
+http_response_code(200); // Réponse OK
 ?>

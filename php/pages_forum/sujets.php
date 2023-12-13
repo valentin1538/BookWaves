@@ -16,6 +16,11 @@ if ($conn->connect_error) {
 session_start();
 // Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
 
+if (!isset($_SESSION["username"])) {
+    header("Location: ../pages_cnx/login.php");
+    exit();
+}
+
 
 
 
@@ -43,12 +48,12 @@ if ($forumResult && $forumResult->num_rows > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bibliothèque</title>
     <!-- Bootstrap core CSS -->
-    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!--external css-->
-    <link href="lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="../lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <!-- Custom styles for this template -->
     <link href="../css/style.css" rel="stylesheet">
-    <link href="css/style-responsive.css" rel="stylesheet">
+    <link href="../css/style-responsive.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/cf0cc41982.js" crossorigin="anonymous"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -74,9 +79,9 @@ if ($forumResult && $forumResult->num_rows > 0) {
         <!--header start-->
         <header class="header black-bg">
             <!--logo start-->
-            <a href="index.php" class="logo"><b><span>BOOK WAVES /
-                        <?php echo ($nomForum) ?>
-                        <?php echo isset($_SESSION['username']) ? ' / ' . $_SESSION['username'] : ''; ?>
+            <a href="../index.php" class="logo"><b><span>BOOK WAVES /
+                        <?php echo ($nomForum);
+                        echo isset($_SESSION['username']) ? ' / ' . $_SESSION['username'] : ''; ?>
                     </span></b></a>
             <!--logo end-->
             <div class="nav notify-row text-center" id="top_menu">
@@ -93,7 +98,8 @@ if ($forumResult && $forumResult->num_rows > 0) {
                     <?php if (isset($_SESSION['username'])): ?>
                         <!-- Utilisateur connecté -->
                         <li><a class="logout"
-                                href="../pages_cnx/logout.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Déconnexion</a>
+                                href="../pages_cnx/logout.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Se
+                                Déconnecter</a></li>
                         </li>
                     <?php else: ?>
                         <!-- Utilisateur non connecté -->
@@ -218,6 +224,15 @@ if ($forumResult && $forumResult->num_rows > 0) {
                             die("Erreur dans la requête SQL : " . $conn->error);
                         }
 
+                        if ($idForumActuel != 1) {
+                            echo "<li class='sujet'>";
+                            echo "<form action='traitementAjoutSujet.php' method='post'>";
+                            echo "<input type='text' name='nouveauSujet' placeholder='Nouveau sujet' required>";
+                            echo "<input type='hidden' name='idforum' value='$idForumActuel'>";
+                            echo "<button type='submit'>Créer</button>";
+                            echo "</form>";
+                            echo "</li>";
+                        }
 
                         // Vérifier si des résultats ont été renvoyés
                         if ($result->num_rows > 0) {
@@ -280,9 +295,9 @@ if ($forumResult && $forumResult->num_rows > 0) {
         </script>
 
         <!-- js placed at the end of the document so the pages load faster -->
-        <script src="lib/jquery/jquery.min.js"></script>
+        <script src="../lib/jquery/jquery.min.js"></script>
 
-        <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
 
 
 </body>

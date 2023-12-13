@@ -16,11 +16,16 @@ if ($conn->connect_error) {
 session_start();
 // Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
 // Récupérer l'ID du sujet depuis la requête GET
+if (!isset($_SESSION["username"])) {
+    header("Location: ../pages_cnx/login.php");
+    exit();
+}
 if (!isset($_GET['idsujet']) || !is_numeric($_GET['idsujet'])) {
     // Rediriger l'utilisateur si l'ID du sujet n'est pas valide
     header("Location: sujets.php");
     exit();
 }
+
 
 // Récupérer l'ID du sujet
 $idsujet = $_GET['idsujet'];
@@ -51,12 +56,12 @@ $resultMessages = $conn->query("SELECT messages.id, messages.contenu, messages.d
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bibliothèque</title>
     <!-- Bootstrap core CSS -->
-    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!--external css-->
-    <link href="lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="../lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
     <!-- Custom styles for this template -->
     <link href="../css/style.css" rel="stylesheet">
-    <link href="css/style-responsive.css" rel="stylesheet">
+    <link href="../css/style-responsive.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/cf0cc41982.js" crossorigin="anonymous"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -75,6 +80,7 @@ $resultMessages = $conn->query("SELECT messages.id, messages.contenu, messages.d
 
 
 <body>
+
     <section id="container">
         <!-- **********************************************************************************************************************************************************
           TOP BAR CONTENT & NOTIFICATIONS
@@ -82,7 +88,7 @@ $resultMessages = $conn->query("SELECT messages.id, messages.contenu, messages.d
         <!--header start-->
         <header class="header black-bg">
             <!--logo start-->
-            <a href="index.php" class="logo"><b><span>BOOK WAVES /
+            <a href="../index.php" class="logo"><b><span>BOOK WAVES /
                         <?php echo ($titreSujet) ?>
                         <?php echo isset($_SESSION['username']) ? ' / ' . $_SESSION['username'] : ''; ?>
                     </span></b></a>
@@ -101,7 +107,8 @@ $resultMessages = $conn->query("SELECT messages.id, messages.contenu, messages.d
                     <?php if (isset($_SESSION['username'])): ?>
                         <!-- Utilisateur connecté -->
                         <li><a class="logout"
-                                href="../pages_cnx/logout.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Déconnexion</a>
+                                href="../pages_cnx/logout.php?redirect=<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">Se
+                                Déconnecter</a></li>
                         </li>
                     <?php else: ?>
                         <!-- Utilisateur non connecté -->
@@ -201,13 +208,15 @@ $resultMessages = $conn->query("SELECT messages.id, messages.contenu, messages.d
         </aside>
         <!--sidebar end-->
 
+
+
         <!--main content start-->
         <section id="main-content">
 
             <section class="wrapper">
                 <div class="forum">
 
-                    <ul class="sujet-list">
+                    <div class="sujet-list">
                         <?php
                         // Récupérer les messages du sujet
                         $resultMessages = $conn->query("SELECT message.id, message.contenu, message.date_creation, users.username, message.idpersonne
@@ -314,7 +323,7 @@ $resultMessages = $conn->query("SELECT messages.id, messages.contenu, messages.d
                             ?>
                         </div>
 
-                    </ul>
+                    </div>
 
                 </div>
                 </div>
@@ -329,9 +338,9 @@ $resultMessages = $conn->query("SELECT messages.id, messages.contenu, messages.d
         </script>
 
         <!-- js placed at the end of the document so the pages load faster -->
-        <script src="lib/jquery/jquery.min.js"></script>
+        <script src="../lib/jquery/jquery.min.js"></script>
 
-        <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
 
 
 </body>

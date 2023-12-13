@@ -3424,9 +3424,10 @@ ul.chat-available-user li a:hover {
 
 .container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fiLL, minmax(175px, 1fr));
   grid-gap: 1rem;
   width: 100%;
+  transition: grid-template-columns 0.3s ease;
 }
 
 .container::before,
@@ -3445,6 +3446,7 @@ ul.chat-available-user li a:hover {
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+  transition: width 0.3s ease;
 }
 
 .btn-info {
@@ -3781,7 +3783,7 @@ input[type="password"] {
   border: 1px solid black;
   background-color: white;
   border-radius: 5px;
-  margin-bottom: 20px;
+  margin: 20px;
   padding: 10px;
   overflow: hidden; /* pour contenir les éléments flottants */
 }
@@ -3824,7 +3826,7 @@ input[type="password"] {
 
 .sujet {
   border: 1px solid black;
-  margin-bottom: 10px;
+  margin: 10px;
   padding: 10px;
   display: flex;
   background-color: white;
@@ -3876,17 +3878,13 @@ input[type="password"] {
 .sujet form button + * {
   margin-left: 10px;
 }
-.center-forum {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  margin: 0;
-  background-color: #f4f4f4;
-}
+
 .forum-box {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-gap: 1rem;
+  width: 100%;
+  transition: grid-template-columns 0.3s ease;
 }
 
 .sujet-item {
@@ -3919,16 +3917,17 @@ input[type="password"] {
 }
 
 .forum-item {
-  width: 350px;
-  height: 150px;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #ccc;
   padding: 20px;
   margin: 20px;
-  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  position: relative;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  transition: transform 0.3s ease;
 }
 
 .forum-item:hover {
@@ -3945,4 +3944,9 @@ input[type="password"] {
   flex-grow: 1;
   color: #333;
   margin-top: 10px;
+}
+
+.form-ajout-avis {
+  display: flex;
+  margin: 50px;
 }

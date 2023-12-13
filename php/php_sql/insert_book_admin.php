@@ -71,18 +71,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-    // Insérer le livre en utilisant les IDs récupérés
-    $insert_livre_query = "INSERT INTO livre (nom ,lienfiles, lienfolder, idauteur, idediteur, idgenre, idlangue) 
-                           VALUES ('$nom', '$filesPath', '$folderPath',$id_auteur, $id_editeur, $id_genre, $id_langue)";
+    $insert_livre_query = $conn->prepare("INSERT INTO livreperso (idpersonne, nom, lienfiles, lienfolder, idauteur, idediteur, idgenre, idlangue) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
-    if ($conn->query($insert_livre_query) === TRUE) {
+    // Liaison des paramètres
+    $insert_livre_query->bind_param("isssiiii", $sessionId, $nom, $filesPath, $folderPath, $id_auteur, $id_editeur, $id_genre, $id_langue);
+
+    // Exécuter la requête
+    if ($insert_livre_query->execute() === TRUE) {
         echo "Nouvel enregistrement créé avec succès.";
     } else {
-        echo "Erreur lors de l'ajout du livre : " . $conn->error;
+        error_log("Erreur MySQL : " . $insert_livre_query->error); // Ajouter une entrée dans les logs d'erreurs
+        echo "Erreur lors de l'ajout du livre : " . $insert_livre_query->error;
     }
 
-    // Fermeture de la connexion à la base de données
-    $conn->close();
+    // Fermeture de la requête préparée
+    $insert_livre_query->close();
 } else {
     echo "Erreur : méthode HTTP incorrecte.";
 }
