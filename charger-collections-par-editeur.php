@@ -11,6 +11,14 @@ if (isset($_GET['editeurId'])) {
 
     // Écrivez votre requête pour récupérer les collections en fonction de l'éditeurId (utilisation de la requête préparée)
     $queryCollections = "SELECT id, nom FROM collection WHERE idediteur = ?";
+    $queryLivresSansCollection = "SELECT livre.id AS id, livre.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue, livre.infos AS infos 
+FROM livre 
+JOIN auteur ON livre.idauteur = auteur.id 
+JOIN editeur ON livre.idediteur = editeur.id 
+JOIN genre ON livre.idgenre = genre.id 
+JOIN langue ON livre.idlangue = langue.id 
+WHERE idediteur = $editeurId AND idcollection IS NULL";
+
     $stmtCollections = $conn->prepare($queryCollections);
     $stmtCollections->bind_param("i", $editeurId);
     $stmtCollections->execute();
@@ -23,7 +31,8 @@ if (isset($_GET['editeurId'])) {
              
             echo '<div class="book">';
             echo '<div class="title-bar">';
-            echo "<a href='#'>$collectionName</a>";
+            echo "<a href='#' class='collection-link' data-collection-id='$collectionId'>" . htmlspecialchars($collectionName) . "</a>";
+
             echo '</div>';
             echo '</div>';
             
@@ -37,5 +46,7 @@ if (isset($_GET['editeurId'])) {
     echo "Erreur : Pas d'ID d'éditeur fourni.";
 }
 
+
 $conn->close();
+
 ?>

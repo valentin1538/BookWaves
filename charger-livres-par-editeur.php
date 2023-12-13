@@ -23,12 +23,14 @@ if (isset($_GET['editeurId'])) {
         $editeurName = $rowediteurName['nom'];
 
         // Requête pour récupérer les livres du editeur spécifié
-        $queryLivresediteur = "SELECT livre.id AS id, livre.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue, livre.infos AS infos 
+        $queryLivresEditeur = "SELECT livre.id AS id, livre.nom AS nom, auteur.nom AS auteur, editeur.nom AS editeur, genre.nom AS genre, langue.nom AS langue, livre.infos AS infos 
         FROM livre 
         JOIN auteur ON livre.idauteur = auteur.id 
         JOIN editeur ON livre.idediteur = editeur.id 
         JOIN genre ON livre.idgenre = genre.id 
-        JOIN langue ON livre.idlangue = langue.id  WHERE idediteur = $editeurId ";
+        JOIN langue ON livre.idlangue = langue.id 
+        WHERE idediteur = $editeurId AND (idcollection = $collectionId OR idcollection IS NULL)";
+        
         $resultLivresediteur = $conn->query($queryLivresediteur);
 
         if ($resultLivresediteur && $resultLivresediteur->num_rows > 0) {
@@ -45,7 +47,8 @@ if (isset($_GET['editeurId'])) {
 
                 echo '<div class="book">';
                 echo '<div class="title-bar">';
-                echo "<h2> $livreNom </h2>";
+                echo "<h2>" . htmlspecialchars($livreNom) . "</h2>";
+
                 echo '<div id="header_ajout_livre_bar" class="dropdown bars">';
                 echo '<a data-toggle="dropdown" class="dropdown-toggle" href="#">';
                 echo '<i class="fa-solid fa-bars"></i>';
@@ -85,4 +88,5 @@ if (isset($_GET['editeurId'])) {
 }
 
 $conn->close();
+
 ?>
