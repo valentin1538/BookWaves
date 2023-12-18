@@ -309,7 +309,8 @@ $result = $conn->query($sql);
                             <div class="container">
 
                                 <div class="notification">
-                                    <span class="bell" onclick="showTodayBooks()">🔔</span>
+
+                                    <span class="bell" onclick="showTodayBooks()" style="cursor: pointer;">🔔</span>
                                     <div id="todayBooks" class="hidden">
                                         <!-- Les livres du jour seront affichés ici -->
                                     </div>

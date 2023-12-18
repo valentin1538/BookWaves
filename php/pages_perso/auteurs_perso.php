@@ -80,20 +80,6 @@ $result = $conn->query($sql);
                 <input type="file" id="file-input" accept=".epub" style="display: none">
               </li>
             </ul>
-          <li id="header_convertir_livre_bar" class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-              Recupération des actualités
-              <i class="fa-solid fa-newspaper"></i>
-            </a>
-            <ul class="dropdown-menu extended notification">
-              <div class="notify-arrow notify-arrow-green"></div>
-              <li>
-                <a href="#">
-                  <span class="label label-danger"><i class="fa fa-calendar"></i></span>
-                  Charger les actualités
-                </a>
-              </li>
-            </ul>
           </li>
         </ul>
       </div>

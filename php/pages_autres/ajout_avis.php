@@ -99,42 +99,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </span></b></a>
             <!--logo end-->
             <!--  Categories start -->
-            <div class="nav notify-row text-center" id="top_menu">
-                <!--  Categories start -->
-                <ul class="nav top-menu">
-                    <!-- Ajout Livre Boutton start -->
-                    <li id="header_ajout_livre_bar" class="dropdown">
-
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            Ajouter
-                            <i class="fa-solid fa-book-medical"></i>
-                        </a>
-                        <ul class="dropdown-menu extended notification">
-                            <div class="notify-arrow notify-arrow-green"></div>
-                            <li>
-                                <button id="add-book"><span class="label label-success"><i
-                                            class="fa fa-plus"></i></span>
-                                    Ajout depuis un dossier unique</button>
-                                <input type="file" id="file-input" accept=".epub" style="display: none">
-                            </li>
-                        </ul>
-                    <li id="header_convertir_livre_bar" class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            Recupération des actualités
-                            <i class="fa-solid fa-newspaper"></i>
-                        </a>
-                        <ul class="dropdown-menu extended notification">
-                            <div class="notify-arrow notify-arrow-green"></div>
-                            <li>
-                                <a href="#">
-                                    <span class="label label-danger"><i class="fa fa-calendar"></i></span>
-                                    Charger les actualités
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
             <ul class="nav pull-right top-menu">
                 <?php if (isset($_SESSION['username'])): ?>
                     <!-- Utilisateur connecté -->
@@ -163,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <span>Bibliothèque Commune</span>
                         </a>
                         <ul id="menuDeroulantCommun" class="menu-deroulant-commune" style="display: block;">
-                            <li class=" auteur">
+                            <li class="auteur">
                                 <a href="../index.php" class="active">
                                     <i class="fa fa-book-open"></i>
                                     <span>Livres</span>
@@ -196,25 +160,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </a>
                         <ul id="menuDeroulantPerso" class="menu-deroulant-perso">
                             <li class="auteur">
-                                <a href="../pages_perso/livres_perso.php">
+                                <a href="./livres_perso.php">
                                     <i class="fa fa-book-open"></i>
                                     <span>Livres</span>
                                 </a>
                             </li>
                             <li class="auteur">
-                                <a href="../pages_perso/auteurs_perso.php">
+                                <a href="./auteurs_perso.php">
                                     <i class="fa fa-user-tie"></i>
                                     <span>Auteurs</span>
                                 </a>
                             </li>
                             <li class="editeur">
-                                <a href="../pages_perso/editeurs_perso.php">
+                                <a href="./editeurs_perso.php">
                                     <i class="fa fa-feather"></i>
                                     <span>Editeurs</span>
                                 </a>
                             </li>
                             <li class="Genres">
-                                <a href="../pages_perso/genres_perso.php">
+                                <a href="./genres_perso.php">
                                     <i class="fa fa-tags"></i>
                                     <span>Genres</span>
                                 </a>
@@ -225,6 +189,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <a href="../pages_autres/livresRecherche.php">
                             <i class="fa fa-globe"></i>
                             <span>Recherche d'Ebook</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="../pages_forum/forum.php">
+                            <i class="fa fa-rectangle-list"></i>
+                            <span>Forums</span>
                         </a>
                     </li>
                 </ul>

@@ -71,11 +71,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-    $insert_livre_query = $conn->prepare("INSERT INTO livreperso (idpersonne, nom, lienfiles, lienfolder, idauteur, idediteur, idgenre, idlangue) 
-VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $insert_livre_query = $conn->prepare("INSERT INTO livre (nom, lienfiles, lienfolder, idauteur, idediteur, idgenre, idlangue) 
+VALUES ( ?, ?, ?, ?, ?, ?, ?)");
 
     // Liaison des paramètres
-    $insert_livre_query->bind_param("isssiiii", $sessionId, $nom, $filesPath, $folderPath, $id_auteur, $id_editeur, $id_genre, $id_langue);
+    $insert_livre_query->bind_param("sssiiii", $nom, $filesPath, $folderPath, $id_auteur, $id_editeur, $id_genre, $id_langue);
 
     // Exécuter la requête
     if ($insert_livre_query->execute() === TRUE) {

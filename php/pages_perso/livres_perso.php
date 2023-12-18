@@ -76,7 +76,7 @@ $result = $conn->query($sql);
               <div class="notify-arrow notify-arrow-green"></div>
               <li>
                 <button id="add-book"><span class="label label-success"><i class="fa fa-download"></i></span>
-                  Telecharger un fichier EPUB</button>
+                  Dézipper un fichier EPUB</button>
                 <input type="file" id="file-input" accept=".epub" style="display: none">
               </li>
               <li>
@@ -96,21 +96,6 @@ $result = $conn->query($sql);
                     <!-- Ajoutez d'autres balises HTML pour afficher d'autres métadonnées si nécessaire -->
                   </div>
                 </form>
-              </li>
-            </ul>
-          </li>
-          <li id="header_convertir_livre_bar" class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle" href="index.php#">
-              Recupération des actualités
-              <i class="fa-solid fa-newspaper"></i>
-            </a>
-            <ul class="dropdown-menu extended notification">
-              <div class="notify-arrow notify-arrow-green"></div>
-              <li>
-                <a href="index.html#">
-                  <span class="label label-danger"><i class="fa fa-calendar"></i></span>
-                  Charger les actualités
-                </a>
               </li>
             </ul>
           </li>
@@ -303,7 +288,7 @@ $result = $conn->query($sql);
                 echo '<a href="../pages_autres/visualiser_perso.php?nomfichier=' . urlencode($livre['nomfichier']) . '"><i class="fa fa-eye"></i> Visualiser</a>';
                 echo '</li>';
                 echo '<li>';
-                echo '<a href="#" onclick="lireMetadonnees(\'' . htmlspecialchars($livre['lien']) . '\',\'' . htmlspecialchars($livre['langue']) . '\',\'' . htmlspecialchars($livre['id']) . '\',\'' . htmlspecialchars($livre['auteur']) . '\',\'' . htmlspecialchars($livre['nom']) . '\',\'' . htmlspecialchars($livre['editeur']) . '\',\'' . htmlspecialchars($livre['genre']) . '\' )"><i class="fa fa-pencil"></i> Modifier le livre : ' . (isset($livre['id']) ? htmlspecialchars($livre['id']) : 'Inconnu') . '</a>';
+                echo "<a href=\"#\" onclick=\"lireMetadonnees('" . htmlspecialchars($livre["lien"]) . "','" . htmlspecialchars($livre["langue"]) . "','" . htmlspecialchars($livre["id"]) . "','" . htmlspecialchars($livre["auteur"]) . "','" . htmlspecialchars($livre["nom"]) . "','" . htmlspecialchars($livre["editeur"]) . "','" . htmlspecialchars($livre["genre"]) . "' )\"><i class=\"fa fa-pencil\"></i> Modifier le livre : " . (isset($livre["id"]) ? htmlspecialchars($livre["id"]) : "Inconnu") . "</a>";
                 echo '</li>';
                 echo '<li>';
                 echo '<a href="#"><i class="fa fa-arrows-rotate"></i> Convertir</a>';
@@ -374,13 +359,13 @@ $result = $conn->query($sql);
 
       <div class="form-group">
         <label for="TXT_Titre">Titre du livre :</label>
-        <input type="text" id="TXT_Titre" name="TXT_Titre">
+        <input type="text" id="TXT_Titre" name="TXT_Titre" oninput="replaceApostrophes(this)">
       </div>
 
       <div class="form-group Auteur-Bouton">
         <label for="TXT_Auteur">Nom de l'Auteur actuel :</label>
         <label id="TXT_Auteur" name="TXT_Auteur"></label>
-        <input type="text" id="nouvelAuteur" placeholder="Nouvel auteur">
+        <input type="text" id="nouvelAuteur" placeholder="Nouvel auteur" oninput="replaceApostrophes(this)">
         <button id="ajouterAuteur" onclick="ajouterAuteur()">Ajouter</button>
       </div>
 
@@ -398,7 +383,7 @@ $result = $conn->query($sql);
       <div class="form-group Editeur-Bouton">
         <label for="TXT_Editeur">Nom de l'Éditeur actuel :</label>
         <label id="TXT_Editeur" name="TXT_Editeur"></label>
-        <input type="text" id="nouvelEditeur" placeholder="Nouvel éditeur">
+        <input type="text" id="nouvelEditeur" placeholder="Nouvel éditeur" oninput="replaceApostrophes(this)">
         <button id="ajouterEditeur" onclick="ajouterEditeur()">Ajouter</button>
       </div>
 
@@ -416,7 +401,7 @@ $result = $conn->query($sql);
       <div class="form-group Genre-Bouton">
         <label for="TXT_Genre">Nom du Genre actuel :</label>
         <label id="TXT_Genre" name="TXT_Genre"></label>
-        <input type="text" id="nouvelGenre" placeholder="Nouveau genre">
+        <input type="text" id="nouvelGenre" placeholder="Nouveau genre" oninput="replaceApostrophes(this)">
         <button id="ajouterGenre" onclick="ajouterGenre()">Ajouter</button>
       </div>
 
@@ -434,7 +419,7 @@ $result = $conn->query($sql);
       <div class="form-group Langue-Bouton">
         <label for="TXT_Langue">Nom de la Langue actuelle :</label>
         <label id="TXT_Langue" name="TXT_Langue"></label>
-        <input type="text" id="nouvelLangue" placeholder="Nouvelle langue">
+        <input type="text" id="nouvelLangue" placeholder="Nouvelle langue" oninput="replaceApostrophes(this)">
         <button id="ajouterLangue" onclick="ajouterLangue()">Ajouter</button>
       </div>
 
@@ -472,6 +457,11 @@ $result = $conn->query($sql);
           const nomLangue = selectedOption.textContent;
           document.getElementById('TXT_Langue').value = nomLangue;
         });
+
+        function replaceApostrophes(inputElement) {
+          // Remplace les apostrophes simples par la version stylisée
+          inputElement.value = inputElement.value.replace(/'/g, '’');
+        }
       </script>
 
 
@@ -489,6 +479,7 @@ $result = $conn->query($sql);
     </aside>
 
     <script>
+
       function showBookInfo(bookId) {
         // Utilisez AJAX pour récupérer les informations du livre du serveur
         var xhr = new XMLHttpRequest();
