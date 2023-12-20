@@ -1,3 +1,5 @@
+<!-- SOUS PROJET HUGO DAVION -->
+
 <?php
   // Initialiser la session
   session_start();

@@ -1,3 +1,4 @@
+<!-- SOUS PROJET HUGO DAVION -->
 
 <?php
 // Connexion à la base de données

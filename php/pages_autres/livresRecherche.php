@@ -1,3 +1,5 @@
+<!-- SOUS PROJET BRANDON -->
+
 <?php
 // Connexion à la base de données
 $servername = "localhost"; // Remplacez par le nom de votre serveur de base de données

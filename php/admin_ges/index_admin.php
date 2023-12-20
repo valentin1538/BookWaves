@@ -23,16 +23,7 @@ if (($_SESSION["idprofil"]) != 4) {
   header("Location: ../pages_cnx/login.php");
   exit();
 }
-// Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
 
-// Requête pour récupérer les données des tables
-$sql = "SELECT livre.id, livre.nom, livre.infos, auteur.nom as nom_auteur, editeur.nom as nom_editeur, genre.nom as nom_genre, langue.nom as nom_langue FROM livre
-        INNER JOIN auteur ON livre.idauteur = auteur.id
-        INNER JOIN editeur ON livre.idediteur = editeur.id
-        INNER JOIN genre ON livre.idgenre = genre.id
-        INNER JOIN langue ON livre.idlangue = langue.id";
-
-$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -56,7 +47,7 @@ $result = $conn->query($sql);
 <body>
   <section id="container">
     <!-- **********************************************************************************************************************************************************
-          TOP BAR CONTENT & NOTIFICATIONS
+          TOP BAR
           *********************************************************************************************************************************************************** -->
     <!--header start-->
     <header class="header black-bg">
@@ -68,7 +59,7 @@ $result = $conn->query($sql);
       <div class="nav notify-row text-center" id="top_menu">
         <!--  Categories start -->
         <ul class="nav top-menu">
-          <!-- Ajout Livre Boutton start -->
+          <!-- Ajout Livre Boutton (Achille) -->
           <li id="header_ajout_livre_bar" class="dropdown bars">
 
             <a data-toggle="dropdown" class="dropdown-toggle" href="livres_perso.php#">
@@ -118,7 +109,7 @@ $result = $conn->query($sql);
     </header>
     <!--header end-->
     <!-- **********************************************************************************************************************************************************
-          MAIN SIDEBAR MENU
+          SIDEBAR DE NAVIGATION
           *********************************************************************************************************************************************************** -->
     <!--sidebar start-->
     <aside>
@@ -150,6 +141,7 @@ $result = $conn->query($sql);
       </div>
 
       <script>
+        // SCRIPT PERMETTANT LE DYNAMISME DE LA SIDEBAR
         document.addEventListener("DOMContentLoaded", function () {
           var menuLinks = document.querySelectorAll(".menu-link");
 
@@ -165,6 +157,9 @@ $result = $conn->query($sql);
     </aside>
     <!--sidebar end-->
 
+<!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
     <!--main content start-->
     <section id="main-content">
       <section class="wrapper">
@@ -174,6 +169,7 @@ $result = $conn->query($sql);
             <div class="border-head">
               <h3>BIBLIOTHEQUE COMMUNE</h3>
               <?php
+              // RECHERCHE DES LIVRES PAR NOMS DANS LA BASE (Clément)
               try {
                 $connexion = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
                 $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -207,7 +203,7 @@ $result = $conn->query($sql);
                       </form>';
               echo $formulaireRecherche;
 
-              // Affichage des livres filtrés
+              // AFFICHAGE DYNAMIQUE DES LIVRES (Valentin Prevot)
               echo '<div class="container">';
               foreach ($livres as $livre) {
                 echo '<div class="book">';
@@ -223,7 +219,7 @@ $result = $conn->query($sql);
                 echo '<a href="./pages_autres/visualiser.php?nomfichier=' . urlencode($livre['nomfichier']) . '"><i class="fa fa-eye"></i> Visualiser</a>';
                 echo '</li>';
                 echo '<li>';
-                echo '<a href="#" onclick="lireMetadonnees(\'' . htmlspecialchars($livre['lien']) . '\',\'' . htmlspecialchars($livre['id']) . '\' )"><i class="fa fa-pencil"></i> Modifier le livre : ' . (isset($livre['id']) ? htmlspecialchars($livre['id']) : 'Inconnu') . '</a>';
+                echo "<a href=\"#\" onclick=\"lireMetadonnees('" . htmlspecialchars($livre["lien"]) . "','" . htmlspecialchars($livre["langue"]) . "','" . htmlspecialchars($livre["id"]) . "','" . htmlspecialchars($livre["auteur"]) . "','" . htmlspecialchars($livre["nom"]) . "','" . htmlspecialchars($livre["editeur"]) . "','" . htmlspecialchars($livre["genre"]) . "' )\"><i class=\"fa fa-pencil\"></i> Modifier le livre : " . (isset($livre["id"]) ? htmlspecialchars($livre["id"]) : "Inconnu") . "</a>";
                 echo '</li>';
                 echo '<li>';
                 echo '<a href="#"><i class="fa fa-arrows-rotate"></i> Convertir</a>';
@@ -253,49 +249,179 @@ $result = $conn->query($sql);
     </section>
     <!--main content end-->
 
+    <!-- **********************************************************************************************************************************************************
+      FORMULAIRE MODIF METADONNEES (Timothee)
+      *********************************************************************************************************************************************************** -->
+    <?php
+    // Informations de connexion à la base de données
+    $servername = "localhost"; // Remplacez par le nom de votre serveur de base de données
+    $username = "root"; // Remplacez par votre nom d'utilisateur de base de données
+    $password = ""; // Remplacez par votre mot de passe de base de données
+    $database = "Biblio"; // Remplacez par le nom de votre base de données
+    
+    try {
+      // Création de la connexion à la base de données
+      $connexion = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+      // Définition des attributs de PDO pour gérer les erreurs
+      $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+      // Récupération des auteurs
+      $query_auteurs = "SELECT id, nom FROM auteur";
+      $result_auteurs = $connexion->query($query_auteurs);
+      $auteurs = $result_auteurs->fetchAll(PDO::FETCH_ASSOC);
+
+      // Récupération des éditeurs
+      $query_editeurs = "SELECT id, nom FROM editeur";
+      $result_editeurs = $connexion->query($query_editeurs);
+      $editeurs = $result_editeurs->fetchAll(PDO::FETCH_ASSOC);
+
+      // Récupération des genres
+      $query_genres = "SELECT id, nom FROM genre";
+      $result_genres = $connexion->query($query_genres);
+      $genres = $result_genres->fetchAll(PDO::FETCH_ASSOC);
+
+      // Récupération des langues
+      $query_langues = "SELECT id, nom FROM langue";
+      $result_langues = $connexion->query($query_langues);
+      $langues = $result_langues->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+      // En cas d'erreur de connexion à la base de données
+      echo "Erreur de connexion : " . $e->getMessage();
+    }
+    ?>
+    <!-- Formulaire -->
     <div id="metadata-form">
-
       <h3>Formulaire des métadonnées</h3>
-      <!-- Champ de formulaire avec le label juste devant -->
-      <!-- Ajoutez ici les champs du formulaire pour les métadonnées -->
-      <div>
+
+      <!-- Champ pour le titre du livre -->
+      <div class="form-group">
         <label for="TXT_Titre">Titre du livre :</label>
-        <input type="text" id="TXT_Titre" name="TXT_Titre">
-      </div>
-      <div>
-        <label for="TXT_Auteur">Nom du première auteur :</label>
-        <input type="text" id="TXT_Auteur" name="TXT_Auteur">
-      </div>
-      <div>
-        <label for="TXT_Editeur">Nom de l'éditeur : </label>
-        <input type="text" id="TXT_Editeur" name="TXT_Editeur">
-      </div>
-      <div>
-        <label for="TXT_Genre">Nom du Genre : </label>
-        <input type="text" id="TXT_Genre" name="TXT_Genre">
-      </div>
-      <div>
-        <label for="TXT_Langue">Langue :</label>
-        <input type="text" id="TXT_Langue" name="TXT_Langue">
+        <input type="text" id="TXT_Titre" name="TXT_Titre" oninput="replaceApostrophes(this)">
       </div>
 
-      <!-- Bouton avec fonction -->
-      <button onclick="modifierMetadonnees()">Modifier</button>
-      <button onclick="closeForm()">Fermer</button>
+      <!-- Champ pour le nom de l'auteur actuel et ajout d'un nouvel auteur -->
+      <div class="form-group Auteur-Bouton">
+        <label for="TXT_Auteur">Nom de l'Auteur actuel :</label>
+        <label id="TXT_Auteur" name="TXT_Auteur"></label>
+        <input type="text" id="nouvelAuteur" placeholder="Nouvel auteur" oninput="replaceApostrophes(this)">
+        <button id="ajouterAuteur" onclick="ajouterAuteur()">Ajouter</button>
+      </div>
+
+      <!-- Sélection pour la modification de l'auteur -->
+      <div class="form-group">
+        <label for="selectAuteur">Modification Auteur :</label>
+        <select id="selectAuteur" name="selectAuteur" value="TXT_Auteur">
+          <?php foreach ($auteurs as $auteur): ?>
+            <option value="<?php echo $auteur['id']; ?>">
+              <?php echo $auteur['nom']; ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+
+      <!-- Champ pour le nom de l'éditeur actuel et ajout d'un nouvel éditeur -->
+      <div class="form-group Editeur-Bouton">
+        <label for="TXT_Editeur">Nom de l'Éditeur actuel :</label>
+        <label id="TXT_Editeur" name="TXT_Editeur"></label>
+        <input type="text" id="nouvelEditeur" placeholder="Nouvel éditeur" oninput="replaceApostrophes(this)">
+        <button id="ajouterEditeur" onclick="ajouterEditeur()">Ajouter</button>
+      </div>
+
+      <!-- Sélection pour la modification de l'éditeur -->
+      <div class="form-group">
+        <label for="selectEditeur">Modification Editeur :</label>
+        <select id="selectEditeur" name="selectEditeur">
+          <?php foreach ($editeurs as $editeur): ?>
+            <option value="<?php echo $editeur['id']; ?>">
+              <?php echo $editeur['nom']; ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+
+      <!-- Champ pour le nom du genre actuel et ajout d'un nouveau genre -->
+      <div class="form-group Genre-Bouton">
+        <label for="TXT_Genre">Nom du Genre actuel :</label>
+        <label id="TXT_Genre" name="TXT_Genre"></label>
+        <input type="text" id="nouvelGenre" placeholder="Nouveau genre" oninput="replaceApostrophes(this)">
+        <button id="ajouterGenre" onclick="ajouterGenre()">Ajouter</button>
+      </div>
+
+      <!-- Sélection pour la modification du genre -->
+      <div class="form-group">
+        <label for="selectGenre">Modification du Genre :</label>
+        <select id="selectGenre" name="selectGenre">
+          <?php foreach ($genres as $genre): ?>
+            <option value="<?php echo $genre['id']; ?>">
+              <?php echo $genre['nom']; ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+
+      <!-- Champ pour le nom de la langue actuelle et ajout d'une nouvelle langue -->
+      <div class="form-group Langue-Bouton">
+        <label for="TXT_Langue">Nom de la Langue actuelle :</label>
+        <label id="TXT_Langue" name="TXT_Langue"></label>
+        <input type="text" id="nouvelLangue" placeholder="Nouvelle langue" oninput="replaceApostrophes(this)">
+        <button id="ajouterLangue" onclick="ajouterLangue()">Ajouter</button>
+      </div>
+
+      <!-- Sélection pour la modification de la langue -->
+      <div class="form-group">
+        <label for="selectLangue">Modification de la Langue :</label>
+        <select id="selectLangue" name="selectLangue">
+          <?php foreach ($langues as $langue): ?>
+            <option value="<?php echo $langue['id']; ?>">
+              <?php echo $langue['nom']; ?>
+            </option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+
+      <!-- Script JavaScript pour gérer les événements -->
+      <script>
+        document.getElementById('selectAuteur').addEventListener('change', function () {
+          const selectedOption = this.options[this.selectedIndex];
+          const nomAuteur = selectedOption.textContent;
+          document.getElementById('TXT_Auteur').value = nomAuteur;
+        });
+
+        document.getElementById('selectEditeur').addEventListener('change', function () {
+          const selectedOption = this.options[this.selectedIndex];
+          const nomEditeur = selectedOption.textContent;
+          document.getElementById('TXT_Editeur').value = nomEditeur;
+        });
+
+        document.getElementById('selectGenre').addEventListener('change', function () {
+          const selectedOption = this.options[this.selectedIndex];
+          const nomGenre = selectedOption.textContent;
+          document.getElementById('TXT_Genre').value = nomGenre;
+        });
+
+        document.getElementById('selectLangue').addEventListener('change', function () {
+          const selectedOption = this.options[this.selectedIndex];
+          const nomLangue = selectedOption.textContent;
+          document.getElementById('TXT_Langue').value = nomLangue;
+        });
+
+        function replaceApostrophes(inputElement) {
+          // Remplace les apostrophes simples par la version stylisée
+          inputElement.value = inputElement.value.replace(/'/g, '’');
+        }
+      </script>
+
+
+      <!-- Boutons pour modifier et fermer le formulaire -->
+      <div class="bouttons">
+        <button onclick="modifierMetadonnees()">Modifier</button>
+        <button onclick="closeForm()">Fermer</button>
+      </div>
+
     </div>
 
+    <!-- Script JavaScript pour gérer les interactions du formulaire -->
     <script>
-      function confirmDelete(bookId, currentUrl) {
-        var confirmation = confirm("Êtes-vous sûr de vouloir supprimer ce livre ?");
-
-        if (confirmation) {
-          window.location.href = '../php_sql/delete_book_admin.php?id=' + bookId + '&from=' + encodeURIComponent(currentUrl);
-        } else {
-          // L'utilisateur a annulé la suppression
-          // Vous pouvez ajouter un message ou effectuer d'autres actions si nécessaire
-        }
-      }
-
       function openForm() {
         var form = document.getElementById('metadata-form');
         form.style.display = 'block';
@@ -308,53 +434,77 @@ $result = $conn->query($sql);
       let lienGlobal = ''; // Variable globale pour stocker la valeur de lien
       let IdGlobal = 0;
 
-      function lireMetadonnees(lien, id) {
+      function lireMetadonnees(lien, langue, id, auteur, nom, editeur, genre) {
         lienGlobal = lien;
         IdGlobal = id;
-        console.log(lienGlobal);
-        const cheminAccesOPF = `../lib/Librairy/${lien}?${Date.now()}`
 
+        document.getElementById('TXT_Titre').value = nom || '';
+        document.getElementById('TXT_Auteur').textContent = auteur || '';
+        document.getElementById('TXT_Editeur').textContent = editeur || '';
+        document.getElementById('TXT_Genre').textContent = genre || '';
+        document.getElementById('TXT_Langue').textContent = langue || '';
 
-        fetch(cheminAccesOPF)
-          .then(response => response.text())
-          .then(data => {
-            const parser = new DOMParser();
-            const xmlDoc = parser.parseFromString(data, "text/xml");
+        document.getElementById('metadata-form').style.display = 'block';
 
-            const title = xmlDoc.querySelector("dc\\:title, title").textContent;
-            const creator = xmlDoc.querySelector("dc\\:creator, creator").textContent;
-            const editeur = xmlDoc.querySelector("dc\\:publisher, publisher").textContent;
-            const langue = xmlDoc.querySelector("dc\\:language, language").textContent;
-            const genre = xmlDoc.querySelector("dc\\:subject, subject").textContent;
-
-
-            document.getElementById('TXT_Titre').value = title;
-            document.getElementById('TXT_Auteur').value = creator;
-            document.getElementById('TXT_Editeur').value = editeur;
-            document.getElementById('TXT_Langue').value = langue;
-            document.getElementById('TXT_Genre').value = genre;
-
-
-
-            // Afficher le formulaire une fois les métadonnées chargées
-            document.getElementById('metadata-form').style.display = 'block';
-          })
-          .catch(error => {
-            console.error('Erreur lors de la récupération des métadonnées :', error);
-            // Gérer les erreurs lors de la récupération des métadonnées
-          });
+        // Code qui permet d'avoir comme valeur de base dans ma listeBox la même valeur de mon TXT
+        // Auteur
+        const selectAuteur = document.getElementById('selectAuteur');
+        const auteurValue = document.getElementById('TXT_Auteur').textContent.trim();
+        for (let i = 0; i < selectAuteur.options.length; i++) {
+          const optionText = selectAuteur.options[i].text.trim();
+          if (optionText === auteurValue) {
+            selectAuteur.selectedIndex = i;
+            break;
+          }
+        }
+        // Editeur
+        const selectEditeur = document.getElementById('selectEditeur');
+        const editeurValue = document.getElementById('TXT_Editeur').textContent.trim();
+        for (let i = 0; i < selectEditeur.options.length; i++) {
+          const optionText = selectEditeur.options[i].text.trim();
+          if (optionText === editeurValue) {
+            selectEditeur.selectedIndex = i;
+            break;
+          }
+        }
+        // Genre
+        const selectGenre = document.getElementById('selectGenre');
+        const genreValue = document.getElementById('TXT_Genre').textContent.trim();
+        for (let i = 0; i < selectGenre.options.length; i++) {
+          const optionText = selectGenre.options[i].text.trim();
+          if (optionText === genreValue) {
+            selectGenre.selectedIndex = i;
+            break;
+          }
+        }
+        // Langue
+        const selectLangue = document.getElementById('selectLangue');
+        const langueValue = document.getElementById('TXT_Langue').textContent.trim();
+        for (let i = 0; i < selectLangue.options.length; i++) {
+          const optionText = selectLangue.options[i].text.trim();
+          if (optionText === langueValue) {
+            selectLangue.selectedIndex = i;
+            break;
+          }
+        }
       }
-
       function modifierMetadonnees() {
-        console.log(lienGlobal);
-        console.log(IdGlobal);
         const titre = document.getElementById('TXT_Titre').value;
-        const auteur = document.getElementById('TXT_Auteur').value;
-        const editeur = document.getElementById('TXT_Editeur').value;
-        const langue = document.getElementById('TXT_Langue').value;
-        const genre = document.getElementById('TXT_Genre').value;
+        const auteur = document.getElementById('selectAuteur').value;
+        const editeur = document.getElementById('selectEditeur').value;
+        const langue = document.getElementById('selectLangue').value;
+        const genre = document.getElementById('selectGenre').value;
 
-        console.log(titre, auteur, editeur, langue);
+        // Récupération des noms correspondant aux ID sélectionnés
+        const auteurNom = document.getElementById('selectAuteur').options[document.getElementById('selectAuteur').selectedIndex].text;
+        const editeurNom = document.getElementById('selectEditeur').options[document.getElementById('selectEditeur').selectedIndex].text;
+        const langueNom = document.getElementById('selectLangue').options[document.getElementById('selectLangue').selectedIndex].text;
+        const genreNom = document.getElementById('selectGenre').options[document.getElementById('selectGenre').selectedIndex].text;
+
+        console.log('Nom de l\'auteur sélectionné :', auteurNom);
+        console.log('Nom de l\'éditeur sélectionné :', editeurNom);
+        console.log('Nom de la langue sélectionnée :', langueNom);
+        console.log('Nom du genre sélectionné :', genreNom);
 
         const data = {
           id: IdGlobal,
@@ -363,7 +513,11 @@ $result = $conn->query($sql);
           editeur: editeur,
           langue: langue,
           genre: genre,
-          lienGlobal: lienGlobal // Ajout de la variable lienfile
+          lienGlobal: lienGlobal,
+          auteurNom: auteurNom,
+          editeurNom: editeurNom,
+          langueNom: langueNom,
+          genreNom: genreNom
           // Ajoutez d'autres données si nécessaire
         };
 
@@ -378,21 +532,134 @@ $result = $conn->query($sql);
           .then(response => {
             if (response.ok) {
               console.log('Mise à jour du fichier réussie !');
+              // Appel de la page PHP pour effectuer des modifications dans la base de données
+              return fetch('../php_sql/modifier_metadonneesBDD_admin.php', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data) // Vous pouvez envoyer les mêmes données ou adapter en fonction de vos besoins
+              });
             } else {
               throw new Error('La mise à jour du fichier a échoué.');
             }
           })
+          .then(response => {
+            if (response.ok) {
+              console.log('Mise à jour dans la base de données réussie !');
+              window.location.reload();
+            } else {
+              throw new Error('La mise à jour dans la base de données a échoué.');
+            }
+          })
           .catch(error => {
-            console.error('Erreur lors de la mise à jour du fichier :', error);
+            console.error('Erreur lors de la mise à jour :', error);
           })
           .finally(() => {
             document.getElementById('metadata-form').style.display = 'none';
           });
       }
+      // Fonction pour envoyer les données au serveur via AJAX
+      function ajouterAuteur() {
+        // Récupérer la valeur du champ nouvelAuteur
+        var nouvelAuteur = document.getElementById('nouvelAuteur').value.trim();
+
+        // Vérifier si le champ nouvelAuteur n'est pas vide
+        if (nouvelAuteur !== '') {
+          // Effectuer une requête pour insérer le nouvel auteur dans la base de données
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '../php_sql/ajoutAuteur.php'); // Créez un fichier PHP pour gérer l'ajout d'auteur
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+          xhr.onload = function () {
+            // Traiter la réponse de la requête ici si nécessaire
+            alert("Nouvel auteur ajouté avec succès !");
+            // Rafraîchir la page ou effectuer d'autres actions si nécessaire
+            window.location.reload(); // Recharge la page pour afficher le nouvel auteur
+          };
+          xhr.send('nouvelAuteur=' + encodeURIComponent(nouvelAuteur)); // Envoyer la valeur au script PHP
+        } else {
+          alert("Veuillez saisir le nom de l'auteur à ajouter.");
+        }
+      }
+      function ajouterEditeur() {
+        // Récupérer la valeur du champ nouvelEditeur
+        var nouvelEditeur = document.getElementById('nouvelEditeur').value.trim();
+
+        // Vérifier si le champ nouvelEditeur n'est pas vide
+        if (nouvelEditeur !== '') {
+          // Effectuer une requête pour insérer le nouvel editeur dans la base de données
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '../php_sql/ajoutEditeur.php'); // Créez un fichier PHP pour gérer l'ajout d'editeur
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+          xhr.onload = function () {
+            // Traiter la réponse de la requête ici si nécessaire
+            alert("Nouvel editeur ajouté avec succès !");
+            // Rafraîchir la page ou effectuer d'autres actions si nécessaire
+            window.location.reload(); // Recharge la page pour afficher le nouvel editeur
+          };
+          xhr.send('nouvelEditeur=' + encodeURIComponent(nouvelEditeur)); // Envoyer la valeur au script PHP
+        } else {
+          alert("Veuillez saisir le nom de l'editeur à ajouter.");
+        }
+      }
+      function ajouterGenre() {
+        // Récupérer la valeur du champ nouvelGenre
+        var nouvelGenre = document.getElementById('nouvelGenre').value.trim();
+
+        // Vérifier si le champ nouvelGenre n'est pas vide
+        if (nouvelGenre !== '') {
+          // Effectuer une requête pour insérer le nouvel genre dans la base de données
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '../php_sql/ajoutGenre.php'); // Créez un fichier PHP pour gérer l'ajout d'genre
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+          xhr.onload = function () {
+            // Traiter la réponse de la requête ici si nécessaire
+            alert("Nouvel genre ajouté avec succès !");
+            // Rafraîchir la page ou effectuer d'autres actions si nécessaire
+            window.location.reload(); // Recharge la page pour afficher le nouvel genre
+          };
+          xhr.send('nouvelGenre=' + encodeURIComponent(nouvelGenre)); // Envoyer la valeur au script PHP
+        } else {
+          alert("Veuillez saisir le nom du genre à ajouter.");
+        }
+      }
+      function ajouterLangue() {
+        // Récupérer la valeur du champ nouvelLangue
+        var nouvelLangue = document.getElementById('nouvelLangue').value.trim();
+
+        // Vérifier si le champ nouvelLangue n'est pas vide
+        if (nouvelLangue !== '') {
+          // Effectuer une requête pour insérer le nouvel langue dans la base de données
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '../php_sql/ajoutLangue.php'); // Créez un fichier PHP pour gérer l'ajout de la langue
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+          xhr.onload = function () {
+            // Traiter la réponse de la requête ici si nécessaire
+            alert("Nouvel langue ajouté avec succès !");
+            // Rafraîchir la page ou effectuer d'autres actions si nécessaire
+            window.location.reload(); // Recharge la page pour afficher le nouvel langue
+          };
+          xhr.send('nouvelLangue=' + encodeURIComponent(nouvelLangue)); // Envoyer la valeur au script PHP
+        } else {
+          alert("Veuillez saisir le nom du genre à ajouter.");
+        }
+      }
     </script>
 
-
+    <!-- **********************************************************************************************************************************************************
+      GESTION DE L'AJOUT D'UN LIVRE DANS LA BIBLIBLOTHEQUE GLOBALE (Achille)
+      *********************************************************************************************************************************************************** -->
     <script>
+      function confirmDelete(bookId, currentUrl) {
+        var confirmation = confirm("Êtes-vous sûr de vouloir supprimer ce livre ?");
+
+        if (confirmation) {
+          window.location.href = '../php_sql/delete_book_admin.php?id=' + bookId + '&from=' + encodeURIComponent(currentUrl);
+        } else {
+          // L'utilisateur a annulé la suppression
+          // Vous pouvez ajouter un message ou effectuer d'autres actions si nécessaire
+        }
+      }
 
       const addBookButton = document.getElementById('add-book');
       const fileInput = document.getElementById('file-input');
@@ -552,19 +819,7 @@ $result = $conn->query($sql);
 
     <!-- js placed at the end of the document so the pages load faster -->
     <script src="../lib/jquery/jquery.min.js"></script>
-
     <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
-    <script class="include" type="text/javascript" src="../lib/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="../lib/jquery.scrollTo.min.js"></script>
-    <script src="../lib/jquery.nicescroll.js" type="text/javascript"></script>
-    <script src="../lib/jquery.sparkline.js"></script>
-    <!--common script for all pages-->
-    <script src="../lib/common-scripts.js"></script>
-    <script type="text/javascript" src="../lib/gritter/js/jquery.gritter.js"></script>
-    <script type="text/javascript" src="../lib/gritter-conf.js"></script>
-    <!--script for this page-->
-    <script src="../lib/sparkline-chart.js"></script>
-    <script src="../lib/zabuto_calendar.js"></script>
 </body>
 
 </html>

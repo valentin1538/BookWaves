@@ -1,3 +1,4 @@
+<!-- SOUS PROJET TIMOTHEE -->
 <?php
 // Récupérer les données envoyées depuis JavaScript
 $data = json_decode(file_get_contents('php://input'), true);

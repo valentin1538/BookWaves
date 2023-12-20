@@ -229,7 +229,7 @@ $result = $conn->query($sql);
           <div class="main-chart">
             <!--CUSTOM CHART START -->
             <div class="border-head">
-              <h3>BIBLIOTHEQUE COMMUNE</h3>
+              <h3>BIBLIOTHEQUE PERSONNELLE</h3>
               <?php
               try {
                 $connexion = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
@@ -665,7 +665,7 @@ $result = $conn->query($sql);
             if (response.ok) {
               console.log('Mise à jour du fichier réussie !');
               // Appel de la nouvelle page PHP pour effectuer des modifications dans la base de données
-              return fetch('../php_sql/modifier_metadonneesBDD.php', {
+              return fetch('../php_sql/modifier_metadonneesBDD_users.php', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'

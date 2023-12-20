@@ -14,16 +14,8 @@ if ($conn->connect_error) {
 }
 // Initialiser la session
 session_start();
-// Vérifiez si l'utilisateur est connecté, sinon redirigez-le vers la page de connexion
 
-// Requête pour récupérer les données des tables
-$sql = "SELECT livre.id, livre.nom, livre.infos, auteur.nom as nom_auteur, editeur.nom as nom_editeur, genre.nom as nom_genre, langue.nom as nom_langue FROM livre
-        INNER JOIN auteur ON livre.idauteur = auteur.id
-        INNER JOIN editeur ON livre.idediteur = editeur.id
-        INNER JOIN genre ON livre.idgenre = genre.id
-        INNER JOIN langue ON livre.idlangue = langue.id";
 
-$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -37,18 +29,16 @@ $result = $conn->query($sql);
   <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!--external css-->
   <link href="lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
-  <!-- Custom styles for this template -->
   <link href="css/style.css" rel="stylesheet">
   <link href="css/style-responsive.css" rel="stylesheet">
   <script src="https://kit.fontawesome.com/cf0cc41982.js" crossorigin="anonymous"></script>
-
 </head>
 
 
 <body>
   <section id="container">
     <!-- **********************************************************************************************************************************************************
-          TOP BAR CONTENT & NOTIFICATIONS
+          TOP BAR
           *********************************************************************************************************************************************************** -->
     <!--header start-->
     <header class="header black-bg">
@@ -74,8 +64,9 @@ $result = $conn->query($sql);
       </div>
     </header>
     <!--header end-->
+
     <!-- **********************************************************************************************************************************************************
-          MAIN SIDEBAR MENU
+          SIDEBAR DE NAVIGATION
           *********************************************************************************************************************************************************** -->
     <!--sidebar start-->
     <aside>
@@ -163,6 +154,7 @@ $result = $conn->query($sql);
       </div>
 
       <script>
+        // SCRIPT PERMETTANT LE DYNAMISME DE LA SIDEBAR
         document.addEventListener("DOMContentLoaded", function () {
           var menuLinks = document.querySelectorAll(".menu-link");
 
@@ -178,6 +170,9 @@ $result = $conn->query($sql);
     </aside>
     <!--sidebar end-->
 
+    <!-- **********************************************************************************************************************************************************
+          MAIN CONTENT
+          *********************************************************************************************************************************************************** -->
     <!--main content start-->
     <section id="main-content">
       <section class="wrapper">
@@ -185,8 +180,9 @@ $result = $conn->query($sql);
           <div class="main-chart">
             <!--CUSTOM CHART START -->
             <div class="border-head">
-              <h3>BIBLIOTHEQUE COMMUNE</h3>
+              <h3>BIBLIOTHEQUE GLOBALE</h3>
               <?php
+              // RECHERCHE DES LIVRES PAR NOMS DANS LA BASE (Clément)
               try {
                 $connexion = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
                 $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -220,7 +216,7 @@ $result = $conn->query($sql);
                       </form>';
               echo $formulaireRecherche;
 
-              // Affichage des livres filtrés
+              // AFFICHAGE DYNAMIQUE DES LIVRES (Valentin Prevot)
               echo '<div class="container">';
               foreach ($livres as $livre) {
                 echo '<div class="book">';
@@ -260,6 +256,9 @@ $result = $conn->query($sql);
     </section>
     <!--main content end-->
 
+<!-- **********************************************************************************************************************************************************
+      SIDEBAR INFOS LIVRE (Valentin Prevot)
+      *********************************************************************************************************************************************************** -->
     <!-- Sidebar for Book Info -->
     <aside id="bookInfoSidebar" class="book-info-sidebar">
       <!-- Le contenu des informations du livre sera affiché ici -->
@@ -268,6 +267,8 @@ $result = $conn->query($sql);
     </aside>
 
     <script>
+
+      // FONCTION QUI AFFICHE LES INFORMATIONS D'UN LIVRE (Valentin Prevot)
       function ShowBookInfo(bookId) {
         // Utilisez AJAX pour récupérer les informations du livre du serveur
         var xhr = new XMLHttpRequest();
@@ -313,6 +314,7 @@ $result = $conn->query($sql);
         xhr.send();
       }
 
+      // FONCTION QUI AFFICHE LA SIDEBAR D'INFOS D'UN LIVRE (Valentin Prevot)
       function toggleBookInfo() {
         var sidebar = document.getElementById('bookInfoSidebar');
         var arrow = document.getElementById('expandArrow');
@@ -329,6 +331,7 @@ $result = $conn->query($sql);
         }
       }
 
+      // FONCTION QUI AJOUTE UN LIVRE DE LA BILBLIOTHEQUE GLOBALE A LA PERSO DE L'UTILISATEUR (Valentin Prevot)
       function addToPersonalLibrary(bookId) {
         // Utilisez AJAX pour envoyer la demande d'ajout
         var xhr = new XMLHttpRequest();
@@ -359,7 +362,6 @@ $result = $conn->query($sql);
 
     <!-- js placed at the end of the document so the pages load faster -->
     <script src="lib/jquery/jquery.min.js"></script>
-
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
 </body>
 

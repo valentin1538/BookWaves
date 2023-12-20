@@ -1,3 +1,5 @@
+<!-- SOUS PROJET VALENTIN PREVOT -->
+
 <?php
 // Connexion à la base de données (utilisez vos propres informations)
 $servername = "localhost";

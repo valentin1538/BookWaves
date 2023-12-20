@@ -25,7 +25,7 @@ $lienepub = isset($_GET['nomfichier']) ? $_GET['nomfichier'] : '';
 <body>
   <section id="container">
     <!-- **********************************************************************************************************************************************************
-          TOP BAR CONTENT & NOTIFICATIONS
+          TOP BAR CONTENT
           *********************************************************************************************************************************************************** -->
     <!--header start-->
     <header class="header black-bg text-center">
@@ -34,42 +34,6 @@ $lienepub = isset($_GET['nomfichier']) ? $_GET['nomfichier'] : '';
             <?php echo isset($_SESSION['username']) ? ' / ' . $_SESSION['username'] : ''; ?>
           </span></b></a>
       <!--logo end-->
-      <!--  Categories start -->
-      <div class="nav notify-row text-center" id="top_menu">
-        <!--  Categories start -->
-        <ul class="nav top-menu">
-          <!-- Ajout Livre Boutton start -->
-          <li id="header_ajout_livre_bar" class="dropdown">
-
-            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-              Ajouter
-              <i class="fa-solid fa-book-medical"></i>
-            </a>
-            <ul class="dropdown-menu extended notification">
-              <div class="notify-arrow notify-arrow-green"></div>
-              <li>
-                <button id="add-book"><span class="label label-success"><i class="fa fa-plus"></i></span>
-                  Ajout depuis un dossier unique</button>
-                <input type="file" id="file-input" accept=".epub" style="display: none">
-              </li>
-            </ul>
-          <li id="header_convertir_livre_bar" class="dropdown">
-            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-              Recupération des actualités
-              <i class="fa-solid fa-newspaper"></i>
-            </a>
-            <ul class="dropdown-menu extended notification">
-              <div class="notify-arrow notify-arrow-green"></div>
-              <li>
-                <a href="#">
-                  <span class="label label-danger"><i class="fa fa-calendar"></i></span>
-                  Charger les actualités
-                </a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
       <ul class="nav pull-right top-menu">
         <?php if (isset($_SESSION['username'])): ?>
           <!-- Utilisateur connecté -->
@@ -83,8 +47,9 @@ $lienepub = isset($_GET['nomfichier']) ? $_GET['nomfichier'] : '';
       </ul>
     </header>
     <!--header end-->
+
     <!-- **********************************************************************************************************************************************************
-          MAIN SIDEBAR MENU
+          SIDEBAR DE NAVIGATION
           *********************************************************************************************************************************************************** -->
     <!--sidebar start-->
     <aside>
@@ -187,17 +152,21 @@ $lienepub = isset($_GET['nomfichier']) ? $_GET['nomfichier'] : '';
     </aside>
     <!--sidebar end-->
 
+    <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+    <!--main content start-->
     <section id="main-content">
       <section class="wrapper">
         <div class="row">
           <div class="main-chart">
             <!--CUSTOM CHART START -->
             <div class="border-head">
-              <h3>BIBLIOTHEQUE COMMUNE</h3>
+              <h3>BIBLIOTHEQUE GLOBALE</h3>
               <select id="toc"></select>
               <div id="viewer" class="spreads"></div>
 
-
+              <!-- VISUALISATION D'UN LIVRE (ANTONIN / GAUTHIER / VALENTIEN PERREIRA) -->
               <script>
                 var params =
                   URLSearchParams &&
