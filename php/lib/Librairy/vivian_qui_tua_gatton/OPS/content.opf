@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<package xmlns="http://www.idpf.org/2007/opf" version="2.0" unique-identifier="BookId">
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+    <dc:title>Qui tua Gatton ?</dc:title>
+    <dc:creator opf:file-as="Vivian, E.C." opf:role="aut">E.C. Vivian</dc:creator>
+    <dc:language>fr</dc:language>
+    <dc:subject>Policier - Crime - Mystère</dc:subject>
+    <dc:publisher>Ebooks libres et gratuits</dc:publisher>
+    <dc:description>1936 Un roman policier entre Agatha Christie et PG Woodhouse...</dc:description>
+    <dc:date opf:event="creation">2023-12-17T17:49:23Z</dc:date>
+    <meta name="office:version" content="LibreOffice/7.5.1.2$Windows_X86_64 LibreOffice_project/fcbaee479e84c6cd81291587d2ee68cba099e129" />
+    <meta name="appversion" content="16.0000" />
+    <meta name="linksuptodate" content="false" />
+    <meta name="docsecurity" content="0" />
+    <meta name="scalecrop" content="false" />
+    <meta name="company" content="Ebooks libres et gratuits" />
+    <meta name="sharedoc" content="false" />
+    <meta name="hyperlinkschanged" content="false" />
+    <meta name="office:last-modification-date" content="2023-12-17T18:42:00" />
+    <meta name="office:creation-date" content="2023-12-17T18:37:00" />
+    <meta name="?diteur" content="Ebooks libres et gratuits" />
+    <meta name="amanuensis:generator" content="amanuensis" />
+    <meta name="amanuensis:version" content="green snake 22" />
+    <meta name="amanuensis:xhtml-creation-date" content="2023-12-17T18:49:22" />
+    <meta name="cover" content="img1" />
+    <dc:identifier id="BookId">urn:uuid:7113EF9C-6F79-1014-AC31-CCDA8491E9DD</dc:identifier>
+  </metadata>
+  <manifest>
+    <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml" />
+    <item id="css1" href="style.css" media-type="text/css" />
+    <item id="img1" href="cover.jpg" media-type="image/jpeg" />
+    <item id="ch1" href="cover.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch2" href="book_0000.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch3" href="book_0001.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch4" href="book_0002.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch5" href="book_0003.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch6" href="book_0004.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch7" href="book_0005.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch8" href="book_0006.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch9" href="book_0007.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch10" href="book_0008.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch11" href="book_0009.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch12" href="book_0010.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch13" href="book_0011.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch14" href="book_0012.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch15" href="book_0013.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch16" href="book_0014.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch17" href="book_0015.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch18" href="book_0016.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch19" href="book_0017.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch20" href="book_0018.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch21" href="book_0019.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch22" href="book_0020.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch23" href="book_0021.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch24" href="book_0022.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch25" href="book_0023.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch26" href="book_0024.xhtml" media-type="application/xhtml+xml" />
+  </manifest>
+  <spine toc="ncx">
+    <itemref idref="ch1" />
+    <itemref idref="ch2" />
+    <itemref idref="ch3" />
+    <itemref idref="ch4" />
+    <itemref idref="ch5" />
+    <itemref idref="ch6" />
+    <itemref idref="ch7" />
+    <itemref idref="ch8" />
+    <itemref idref="ch9" />
+    <itemref idref="ch10" />
+    <itemref idref="ch11" />
+    <itemref idref="ch12" />
+    <itemref idref="ch13" />
+    <itemref idref="ch14" />
+    <itemref idref="ch15" />
+    <itemref idref="ch16" />
+    <itemref idref="ch17" />
+    <itemref idref="ch18" />
+    <itemref idref="ch19" />
+    <itemref idref="ch20" />
+    <itemref idref="ch21" />
+    <itemref idref="ch22" />
+    <itemref idref="ch23" />
+    <itemref idref="ch24" />
+    <itemref idref="ch25" />
+    <itemref idref="ch26" />
+  </spine>
+  <guide>
+    <reference href="cover.xhtml" type="cover" title="Couverture" />
+  </guide>
+</package>

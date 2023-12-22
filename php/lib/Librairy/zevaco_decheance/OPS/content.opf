@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<package xmlns="http://www.idpf.org/2007/opf" version="2.0" unique-identifier="BookId">
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+    <dc:title>Déchéance</dc:title>
+    <dc:creator opf:file-as="Zévaco, Michel" opf:role="aut">Michel Zévaco</dc:creator>
+    <dc:language>fr</dc:language>
+    <dc:subject>Policier</dc:subject>
+    <dc:subject>crime</dc:subject>
+    <dc:subject>mystère</dc:subject>
+    <dc:publisher>Ebooks libres et gratuits</dc:publisher>
+    <dc:description>1935 — Tallandier, Le Livre national, #972 — Posthume Julien, étudiant en médecine, rend régulièrement visite à Marie, l’épouse de Jean Roland, avocat général réputé. L’Inconnu, un dangereux malfaiteur de retour en France après un long séjour en Amérique, a un besoin urgent de 20 000 francs pour pouvoir partir en Australie. Il se rend chez Julien dont il détient quelques lettres compromettantes qui lui furent adressées par Marie, pour essayer de le faire chanter. Ce dernier est loin d’avoir une telle somme, il se résout à aller la demander à Marie. Pendant ce temps, l’Inconnu, croyant qu’il n’y a pas d’espoir du côté de Julien, s’introduit par la ruse chez le voisin du dessous de Julien, le tue, s’empare d’une liasse de 20 000 francs et s’éclipse discrètement sans être vu. Tout est en place pour assister à une effroyable erreur judiciaire...</dc:description>
+    <dc:date opf:event="creation">2023-07-24T19:17:34Z</dc:date>
+    <meta name="office:version" content="LibreOffice/7.5.1.2$Windows_X86_64 LibreOffice_project/fcbaee479e84c6cd81291587d2ee68cba099e129" />
+    <meta name="office:last-modification-date" content="2023-07-24T21:11:00" />
+    <meta name="office:creation-date" content="2011-08-26T20:28:00" />
+    <meta name="amanuensis:generator" content="amanuensis" />
+    <meta name="amanuensis:version" content="green snake 22" />
+    <meta name="amanuensis:xhtml-creation-date" content="2023-07-24T21:17:33" />
+    <meta name="cover" content="img1" />
+    <dc:identifier id="BookId">urn:uuid:F219EDD9-7557-1014-9B4A-AB2065254F82</dc:identifier>
+  </metadata>
+  <manifest>
+    <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml" />
+    <item id="css1" href="style.css" media-type="text/css" />
+    <item id="img1" href="cover.jpg" media-type="image/jpeg" />
+    <item id="ch1" href="cover.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch2" href="book_0000.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch3" href="book_0001.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch4" href="book_0002.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch5" href="book_0003.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch6" href="book_0004.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch7" href="book_0005.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch8" href="book_0006.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch9" href="book_0007.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch10" href="book_0008.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch11" href="book_0009.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch12" href="book_0010.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch13" href="book_0011.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch14" href="book_0012.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch15" href="book_0013.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch16" href="book_0014.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch17" href="book_0015.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch18" href="book_0016.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch19" href="book_0017.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch20" href="book_0018.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch21" href="book_0019.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch22" href="book_0020.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch23" href="book_0021.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch24" href="book_0022.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch25" href="book_0023.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch26" href="book_0024.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch27" href="book_0025.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch28" href="book_0026.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch29" href="book_0027.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch30" href="book_0028.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch31" href="book_0029.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch32" href="book_0030.xhtml" media-type="application/xhtml+xml" />
+  </manifest>
+  <spine toc="ncx">
+    <itemref idref="ch1" />
+    <itemref idref="ch2" />
+    <itemref idref="ch3" />
+    <itemref idref="ch4" />
+    <itemref idref="ch5" />
+    <itemref idref="ch6" />
+    <itemref idref="ch7" />
+    <itemref idref="ch8" />
+    <itemref idref="ch9" />
+    <itemref idref="ch10" />
+    <itemref idref="ch11" />
+    <itemref idref="ch12" />
+    <itemref idref="ch13" />
+    <itemref idref="ch14" />
+    <itemref idref="ch15" />
+    <itemref idref="ch16" />
+    <itemref idref="ch17" />
+    <itemref idref="ch18" />
+    <itemref idref="ch19" />
+    <itemref idref="ch20" />
+    <itemref idref="ch21" />
+    <itemref idref="ch22" />
+    <itemref idref="ch23" />
+    <itemref idref="ch24" />
+    <itemref idref="ch25" />
+    <itemref idref="ch26" />
+    <itemref idref="ch27" />
+    <itemref idref="ch28" />
+    <itemref idref="ch29" />
+    <itemref idref="ch30" />
+    <itemref idref="ch31" />
+    <itemref idref="ch32" />
+  </spine>
+  <guide>
+    <reference href="cover.xhtml" type="cover" title="Couverture" />
+  </guide>
+</package>

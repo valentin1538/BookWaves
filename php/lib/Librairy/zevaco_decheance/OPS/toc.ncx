@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE ncx PUBLIC "-//NISO//DTD ncx 2005-1//EN" "http://www.daisy.org/z3986/2005/ncx-2005-1.dtd">
+
+<ncx version="2005-1" xmlns="http://www.daisy.org/z3986/2005/ncx/">
+  <head>
+    <meta name="dtb:uid" content="urn:uuid:F219EDD9-7557-1014-9B4A-AB2065254F82" />
+    <meta name="dtb:depth" content="1" />
+    <meta name="dtb:totalPageCount" content="0" />
+    <meta name="dtb:maxPageNumber" content="0" />
+  </head>
+  <docTitle>
+    <text>Déchéance</text>
+  </docTitle>
+  <docAuthor>
+    <text>Michel Zévaco</text>
+  </docAuthor>
+  <navMap>
+    <navPoint id="I L’INCONNU" playOrder="1" class="">
+      <navLabel>
+        <text>I L’INCONNU</text>
+      </navLabel>
+      <content src="book_0001.xhtml#auto-toc0" />
+    </navPoint>
+    <navPoint id="II JULIEN" playOrder="2" class="">
+      <navLabel>
+        <text>II JULIEN</text>
+      </navLabel>
+      <content src="book_0002.xhtml#auto-toc1" />
+    </navPoint>
+    <navPoint id="III MARIE" playOrder="3" class="">
+      <navLabel>
+        <text>III MARIE</text>
+      </navLabel>
+      <content src="book_0003.xhtml#auto-toc2" />
+    </navPoint>
+    <navPoint id="IV JEAN ROLAND" playOrder="4" class="">
+      <navLabel>
+        <text>IV JEAN ROLAND</text>
+      </navLabel>
+      <content src="book_0004.xhtml#auto-toc3" />
+    </navPoint>
+    <navPoint id="V LE MARI ET LA FEMME" playOrder="5" class="">
+      <navLabel>
+        <text>V LE MARI ET LA FEMME</text>
+      </navLabel>
+      <content src="book_0005.xhtml#auto-toc4" />
+    </navPoint>
+    <navPoint id="VI LE VIEUX RENTIER" playOrder="6" class="">
+      <navLabel>
+        <text>VI LE VIEUX RENTIER</text>
+      </navLabel>
+      <content src="book_0006.xhtml#auto-toc5" />
+    </navPoint>
+    <navPoint id="VII L’ORAGE GRONDE" playOrder="7" class="">
+      <navLabel>
+        <text>VII L’ORAGE GRONDE</text>
+      </navLabel>
+      <content src="book_0007.xhtml#auto-toc6" />
+    </navPoint>
+    <navPoint id="VIII LES VINGT MILLE FRANCS" playOrder="8" class="">
+      <navLabel>
+        <text>VIII LES VINGT MILLE FRANCS</text>
+      </navLabel>
+      <content src="book_0008.xhtml#auto-toc7" />
+    </navPoint>
+    <navPoint id="IX LA MORT VIENT" playOrder="9" class="">
+      <navLabel>
+        <text>IX LA MORT VIENT</text>
+      </navLabel>
+      <content src="book_0009.xhtml#auto-toc8" />
+    </navPoint>
+    <navPoint id="X L’ASSASSINAT" playOrder="10" class="">
+      <navLabel>
+        <text>X L’ASSASSINAT</text>
+      </navLabel>
+      <content src="book_0010.xhtml#auto-toc9" />
+    </navPoint>
+    <navPoint id="XI LA CATASTROPHE" playOrder="11" class="">
+      <navLabel>
+        <text>XI LA CATASTROPHE</text>
+      </navLabel>
+      <content src="book_0011.xhtml#auto-toc10" />
+    </navPoint>
+    <navPoint id="XII LE TRAIN DU HAVRE" playOrder="12" class="">
+      <navLabel>
+        <text>XII LE TRAIN DU HAVRE</text>
+      </navLabel>
+      <content src="book_0012.xhtml#auto-toc11" />
+    </navPoint>
+    <navPoint id="XIII LES DRAMES DE LA VIE" playOrder="13" class="">
+      <navLabel>
+        <text>XIII LES DRAMES DE LA VIE</text>
+      </navLabel>
+      <content src="book_0013.xhtml#auto-toc12" />
+    </navPoint>
+    <navPoint id="XIV DE L’INNOCENT AU COUPABLE" playOrder="14" class="">
+      <navLabel>
+        <text>XIV DE L’INNOCENT AU COUPABLE</text>
+      </navLabel>
+      <content src="book_0014.xhtml#auto-toc13" />
+    </navPoint>
+    <navPoint id="XV INSPIRATION" playOrder="15" class="">
+      <navLabel>
+        <text>XV INSPIRATION</text>
+      </navLabel>
+      <content src="book_0015.xhtml#auto-toc14" />
+    </navPoint>
+    <navPoint id="XVI LE BOURGEOIS" playOrder="16" class="">
+      <navLabel>
+        <text>XVI LE BOURGEOIS</text>
+      </navLabel>
+      <content src="book_0016.xhtml#auto-toc15" />
+    </navPoint>
+    <navPoint id="XVII LA MANŒUVRE DE L’INCONNU" playOrder="17" class="">
+      <navLabel>
+        <text>XVII LA MANŒUVRE DE L’INCONNU</text>
+      </navLabel>
+      <content src="book_0017.xhtml#auto-toc16" />
+    </navPoint>
+    <navPoint id="XVIII LES SUITES DE LA MANŒUVRE." playOrder="18" class="">
+      <navLabel>
+        <text>XVIII LES SUITES DE LA MANŒUVRE.</text>
+      </navLabel>
+      <content src="book_0018.xhtml#auto-toc17" />
+    </navPoint>
+    <navPoint id="XIX LE SECRET VEILLE" playOrder="19" class="">
+      <navLabel>
+        <text>XIX LE SECRET VEILLE</text>
+      </navLabel>
+      <content src="book_0019.xhtml#auto-toc18" />
+    </navPoint>
+    <navPoint id="XX DILEMME" playOrder="20" class="">
+      <navLabel>
+        <text>XX DILEMME</text>
+      </navLabel>
+      <content src="book_0020.xhtml#auto-toc19" />
+    </navPoint>
+    <navPoint id="XXI SECONDE MANŒUVRE DE L’INCONNU" playOrder="21" class="">
+      <navLabel>
+        <text>XXI SECONDE MANŒUVRE DE L’INCONNU</text>
+      </navLabel>
+      <content src="book_0021.xhtml#auto-toc20" />
+    </navPoint>
+    <navPoint id="XXII CABINET DU JUGE" playOrder="22" class="">
+      <navLabel>
+        <text>XXII CABINET DU JUGE</text>
+      </navLabel>
+      <content src="book_0022.xhtml#auto-toc21" />
+    </navPoint>
+    <navPoint id="XXIII L’ANNIVERSAIRE" playOrder="23" class="">
+      <navLabel>
+        <text>XXIII L’ANNIVERSAIRE</text>
+      </navLabel>
+      <content src="book_0023.xhtml#auto-toc22" />
+    </navPoint>
+    <navPoint id="XXIV SAVOIR !…" playOrder="24" class="">
+      <navLabel>
+        <text>XXIV SAVOIR !…</text>
+      </navLabel>
+      <content src="book_0024.xhtml#auto-toc23" />
+    </navPoint>
+    <navPoint id="XXV LE RÉVEIL" playOrder="25" class="">
+      <navLabel>
+        <text>XXV LE RÉVEIL</text>
+      </navLabel>
+      <content src="book_0025.xhtml#auto-toc24" />
+    </navPoint>
+    <navPoint id="XXVI LA COUR D’ASSISES" playOrder="26" class="">
+      <navLabel>
+        <text>XXVI LA COUR D’ASSISES</text>
+      </navLabel>
+      <content src="book_0026.xhtml#auto-toc25" />
+    </navPoint>
+    <navPoint id="XXVII LA VÉRITÉ" playOrder="27" class="">
+      <navLabel>
+        <text>XXVII LA VÉRITÉ</text>
+      </navLabel>
+      <content src="book_0027.xhtml#auto-toc26" />
+    </navPoint>
+    <navPoint id="XXVIII LE SECRET DE L’INCONNU" playOrder="28" class="">
+      <navLabel>
+        <text>XXVIII LE SECRET DE L’INCONNU</text>
+      </navLabel>
+      <content src="book_0028.xhtml#auto-toc27" />
+    </navPoint>
+    <navPoint id="XXIX GÉNÉROSITÉ" playOrder="29" class="">
+      <navLabel>
+        <text>XXIX GÉNÉROSITÉ</text>
+      </navLabel>
+      <content src="book_0029.xhtml#auto-toc28" />
+    </navPoint>
+    <navPoint id="À propos de cette édition électronique" playOrder="30" class="">
+      <navLabel>
+        <text>À propos de cette édition électronique</text>
+      </navLabel>
+      <content src="book_0030.xhtml#auto-toc29" />
+    </navPoint>
+  </navMap>
+</ncx>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE ncx PUBLIC "-//NISO//DTD ncx 2005-1//EN" "http://www.daisy.org/z3986/2005/ncx-2005-1.dtd">
+
+<ncx version="2005-1" xmlns="http://www.daisy.org/z3986/2005/ncx/">
+  <head>
+    <meta name="dtb:uid" content="urn:uuid:7113EF9C-6F79-1014-AC31-CCDA8491E9DD" />
+    <meta name="dtb:depth" content="1" />
+    <meta name="dtb:totalPageCount" content="0" />
+    <meta name="dtb:maxPageNumber" content="0" />
+  </head>
+  <docTitle>
+    <text>Qui tua Gatton ?</text>
+  </docTitle>
+  <docAuthor>
+    <text>E.C. Vivian</text>
+  </docAuthor>
+  <navMap>
+    <navPoint id="LES PRINCIPAUX PERSONNAGES" playOrder="1" class="">
+      <navLabel>
+        <text>LES PRINCIPAUX PERSONNAGES</text>
+      </navLabel>
+      <content src="book_0001.xhtml#auto-toc0" />
+    </navPoint>
+    <navPoint id="CHAPITRE PREMIER LE DÉBUT D’UNE JOURNÉE DE CONGÉ" playOrder="2" class="">
+      <navLabel>
+        <text>CHAPITRE PREMIER LE DÉBUT D’UNE JOURNÉE DE CONGÉ</text>
+      </navLabel>
+      <content src="book_0002.xhtml#auto-toc1" />
+    </navPoint>
+    <navPoint id="CHAPITRE II LAMENTABLE FIN D’UNE JOURNÉE DE CONGÉ" playOrder="3" class="">
+      <navLabel>
+        <text>CHAPITRE II LAMENTABLE FIN D’UNE JOURNÉE DE CONGÉ</text>
+      </navLabel>
+      <content src="book_0003.xhtml#auto-toc2" />
+    </navPoint>
+    <navPoint id="CHAPITRE III SHEBA BELL" playOrder="4" class="">
+      <navLabel>
+        <text>CHAPITRE III SHEBA BELL</text>
+      </navLabel>
+      <content src="book_0004.xhtml#auto-toc3" />
+    </navPoint>
+    <navPoint id="CHAPITRE IV Y. 42. STR. P. 3" playOrder="5" class="">
+      <navLabel>
+        <text>CHAPITRE IV Y. 42. STR. P. 3</text>
+      </navLabel>
+      <content src="book_0005.xhtml#auto-toc4" />
+    </navPoint>
+    <navPoint id="CHAPITRE V THOMAS COSWAY, REPRÉSENTANT DE CYCLES" playOrder="6" class="">
+      <navLabel>
+        <text>CHAPITRE V THOMAS COSWAY, REPRÉSENTANT DE CYCLES</text>
+      </navLabel>
+      <content src="book_0006.xhtml#auto-toc5" />
+    </navPoint>
+    <navPoint id="CHAPITRE VI HERR HELSING, SUJET ALLEMAND" playOrder="7" class="">
+      <navLabel>
+        <text>CHAPITRE VI HERR HELSING, SUJET ALLEMAND</text>
+      </navLabel>
+      <content src="book_0007.xhtml#auto-toc6" />
+    </navPoint>
+    <navPoint id="CHAPITRE VII UNE NATION D’HOMMES LIBRES" playOrder="8" class="">
+      <navLabel>
+        <text>CHAPITRE VII UNE NATION D’HOMMES LIBRES</text>
+      </navLabel>
+      <content src="book_0008.xhtml#auto-toc7" />
+    </navPoint>
+    <navPoint id="CHAPITRE VIII AVANT L’ENQUÊTE DU CORONER" playOrder="9" class="">
+      <navLabel>
+        <text>CHAPITRE VIII AVANT L’ENQUÊTE DU CORONER</text>
+      </navLabel>
+      <content src="book_0009.xhtml#auto-toc8" />
+    </navPoint>
+    <navPoint id="CHAPITRE IX UN AJOURNEMENT « SINE DIE »" playOrder="10" class="">
+      <navLabel>
+        <text>CHAPITRE IX UN AJOURNEMENT « SINE DIE »</text>
+      </navLabel>
+      <content src="book_0010.xhtml#auto-toc9" />
+    </navPoint>
+    <navPoint id="CHAPITRE X CE QUE HEAD VOULAIT" playOrder="11" class="">
+      <navLabel>
+        <text>CHAPITRE X CE QUE HEAD VOULAIT</text>
+      </navLabel>
+      <content src="book_0011.xhtml#auto-toc10" />
+    </navPoint>
+    <navPoint id="CHAPITRE XI JADIS" playOrder="12" class="">
+      <navLabel>
+        <text>CHAPITRE XI JADIS</text>
+      </navLabel>
+      <content src="book_0012.xhtml#auto-toc11" />
+    </navPoint>
+    <navPoint id="CHAPITRE XII LE PROBLÈME D’ESTWICK" playOrder="13" class="">
+      <navLabel>
+        <text>CHAPITRE XII LE PROBLÈME D’ESTWICK</text>
+      </navLabel>
+      <content src="book_0013.xhtml#auto-toc12" />
+    </navPoint>
+    <navPoint id="CHAPITRE XIII À ESTWICK" playOrder="14" class="">
+      <navLabel>
+        <text>CHAPITRE XIII À ESTWICK</text>
+      </navLabel>
+      <content src="book_0014.xhtml#auto-toc13" />
+    </navPoint>
+    <navPoint id="CHAPITRE XIV BREDOUILLE !" playOrder="15" class="">
+      <navLabel>
+        <text>CHAPITRE XIV BREDOUILLE !</text>
+      </navLabel>
+      <content src="book_0015.xhtml#auto-toc14" />
+    </navPoint>
+    <navPoint id="CHAPITRE XV QUATORZE CITOYENS DE WESTINGBOROUGH" playOrder="16" class="">
+      <navLabel>
+        <text>CHAPITRE XV QUATORZE CITOYENS DE WESTINGBOROUGH</text>
+      </navLabel>
+      <content src="book_0016.xhtml#auto-toc15" />
+    </navPoint>
+    <navPoint id="CHAPITRE XVI QUATORZE PHOTOGRAPHIES" playOrder="17" class="">
+      <navLabel>
+        <text>CHAPITRE XVI QUATORZE PHOTOGRAPHIES</text>
+      </navLabel>
+      <content src="book_0017.xhtml#auto-toc16" />
+    </navPoint>
+    <navPoint id="CHAPITRE XVII QUADE" playOrder="18" class="">
+      <navLabel>
+        <text>CHAPITRE XVII QUADE</text>
+      </navLabel>
+      <content src="book_0018.xhtml#auto-toc17" />
+    </navPoint>
+    <navPoint id="CHAPITRE XVIII « 13 »" playOrder="19" class="">
+      <navLabel>
+        <text>CHAPITRE XVIII « 13 »</text>
+      </navLabel>
+      <content src="book_0019.xhtml#auto-toc18" />
+    </navPoint>
+    <navPoint id="CHAPITRE XIX DE RETOUR À ESTWICK" playOrder="20" class="">
+      <navLabel>
+        <text>CHAPITRE XIX DE RETOUR À ESTWICK</text>
+      </navLabel>
+      <content src="book_0020.xhtml#auto-toc19" />
+    </navPoint>
+    <navPoint id="CHAPITRE XX À WESTINGBOROUGH" playOrder="21" class="">
+      <navLabel>
+        <text>CHAPITRE XX À WESTINGBOROUGH</text>
+      </navLabel>
+      <content src="book_0021.xhtml#auto-toc20" />
+    </navPoint>
+    <navPoint id="CHAPITRE XXI NEUF SEMAINES PLUS TARD" playOrder="22" class="">
+      <navLabel>
+        <text>CHAPITRE XXI NEUF SEMAINES PLUS TARD</text>
+      </navLabel>
+      <content src="book_0022.xhtml#auto-toc21" />
+    </navPoint>
+    <navPoint id="À propos de cette édition électronique" playOrder="23" class="">
+      <navLabel>
+        <text>À propos de cette édition électronique</text>
+      </navLabel>
+      <content src="book_0023.xhtml#auto-toc22" />
+    </navPoint>
+  </navMap>
+</ncx>
