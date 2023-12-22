@@ -62,7 +62,7 @@ $lienepub = isset($_GET['nomfichier']) ? $_GET['nomfichier'] : '';
               <i class="fa fa-book"></i>
               <span>Bibliothèque Commune</span>
             </a>
-            <ul id="menuDeroulantCommun" class="menu-deroulant-commune" style="display: block;">
+            <ul id="menuDeroulantCommun" class="menu-deroulant-commune"">
               <li class=" auteur">
                 <a href="../index.php">
                   <i class="fa fa-book-open"></i>
@@ -94,9 +94,9 @@ $lienepub = isset($_GET['nomfichier']) ? $_GET['nomfichier'] : '';
               <i class="fa fa-book"></i>
               <span>Bibliothèque Perso</span>
             </a>
-            <ul id="menuDeroulantPerso" class="menu-deroulant-perso">
+            <ul id="menuDeroulantPerso" class="menu-deroulant-perso"  style="display: block;>
               <li class="auteur">
-                <a href="../pages_perso/livres_perso.php">
+                <a href="../pages_perso/livres_perso.php" class="active">
                   <i class="fa fa-book-open"></i>
                   <span>Livres</span>
                 </a>
@@ -170,23 +170,26 @@ $lienepub = isset($_GET['nomfichier']) ? $_GET['nomfichier'] : '';
             <!--CUSTOM CHART START -->
             <div class="border-head">
               <h3>BIBLIOTHEQUE GLOBALE</h3>
-              <h4>Convertir EPUB en PDF</h4>
-              <div>
-              <form action="../fonctions_php/convert_epub_en_pdf.php" method="post" enctype="multipart/form-data" id="conversionFormPDF">
-                <label for="epubFile">Sélectionnez le fichier EPUB à convertir :</label>
-                <input type="file" name="epubFile" id="epubFile" accept=".epub" required>
-                <br>
-                <button type="button" onclick="convertToPDF()">Convertir en .pdf</button>
-              </form>
-              <h4>Convertir PDF en EPUB</h4>
-              <form action="../fonctions_php/convert_pdf_en_epub.php" method="post" enctype="multipart/form-data">
-                  <label for="pdfFile">Sélectionnez le fichier PDF à convertir :</label>
-                  <input type="file" name="pdfFile" id="pdfFile" accept=".pdf" required>
-                  <br>
-                  <input type="submit" value="Convertir en .epub">
-              </form>
-              <div id="conversionStatus"></div>
-              </div>
+              <div style="text-align: center;">
+                <h4>Convertir EPUB en PDF</h4>
+                
+                <form action="../fonctions_php/convert_epub_en_pdf.php" method="post" enctype="multipart/form-data" id="conversionFormPDF" style="display: inline-block;">
+                    <label for="epubFile">Sélectionnez le fichier EPUB à convertir :</label>
+                    <input type="file" name="epubFile" id="epubFile" accept=".epub" required>
+                    <br>
+                    <button type="button" onclick="convertToPDF()">Convertir en .pdf</button>
+                </form>
+
+                <h4>Convertir PDF en EPUB</h4>
+                
+                <form action="../fonctions_php/convert_pdf_en_epub.php" method="post" enctype="multipart/form-data" style="display: inline-block; ">
+                    <label for="pdfFile">Sélectionnez le fichier PDF à convertir :</label>
+                    <input type="file" name="pdfFile" id="pdfFile" accept=".pdf" required>
+                    <br>
+                    <input type="submit" value="Convertir en .epub">
+                </form>
+
+                <div id="conversionStatus"></div>
             </div>
             <!--custom chart end-->
           </div>
