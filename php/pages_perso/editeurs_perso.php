@@ -1,4 +1,6 @@
 <?php
+// SOUS PROJET MATHEO ET BENJAMIN
+
 // Connexion à la base de données
 $servername = "localhost"; // Remplacez par le nom de votre serveur de base de données
 $username = "root"; // Remplacez par votre nom d'utilisateur de base de données
@@ -20,14 +22,6 @@ if (!isset($_SESSION["username"])) {
   exit();
 }
 
-// Requête pour récupérer les données des tables
-$sql = "SELECT livre.id, livre.nom, livre.infos, auteur.nom as nom_auteur, editeur.nom as nom_editeur, genre.nom as nom_genre, langue.nom as nom_langue FROM livre
-        INNER JOIN auteur ON livre.idauteur = auteur.id
-        INNER JOIN editeur ON livre.idediteur = editeur.id
-        INNER JOIN genre ON livre.idgenre = genre.id
-        INNER JOIN langue ON livre.idlangue = langue.id";
-
-$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -79,6 +73,13 @@ $result = $conn->query($sql);
                 <input type="file" id="file-input" accept=".epub" style="display: none">
               </li>
             </ul>
+          </li>
+          <li id="header_ajout_livre_bar" class="dropdown bars">
+
+            <a href="../pages_autres/conversion.php">
+              Convertir
+              <i class="fa-solid fa-arrows-rotate"></i>
+            </a>
           </li>
         </ul>
       </div>
@@ -174,6 +175,14 @@ $result = $conn->query($sql);
               <span>Recherche d'Ebook</span>
             </a>
           </li>
+          <?php if (isset($_SESSION['username'])): ?>
+          <li class="sub-menu">
+            <a href="../pages_autres/creationEbook.php">
+              <i class="fa-solid fa-plus"></i>
+              <span>Créer un livre</span>
+            </a>
+          </li>
+          <?php endif; ?>
           <li class="sub-menu">
             <a href="../pages_forum/forum.php">
               <i class="fa fa-rectangle-list"></i>
@@ -210,15 +219,15 @@ $result = $conn->query($sql);
               <h3>EDITEURS</h3>
               <div class="container">
                 <?php
-
+                $conn->set_charset("utf8");
                 // Requête pour récupérer les editeurs
                 $queryediteurs = "SELECT id, nom FROM editeur WHERE id != 1";
                 $resultediteurs = $conn->query($queryediteurs);
 
                 if ($resultediteurs && $resultediteurs->num_rows > 0) {
                   while ($rowediteur = $resultediteurs->fetch_assoc()) {
-                    $editeurId = $rowediteur['id'];
-                    $editeurName = $rowediteur['nom'];
+                    $editeurId = htmlspecialchars($rowediteur['id']);
+                    $editeurName = htmlspecialchars($rowediteur['nom']);
 
                     echo '<div class="book" >';
                     echo "<a href='#' class='editeur-link' data-editeur-id='$editeurId'>$editeurName</a>";
@@ -247,6 +256,9 @@ $result = $conn->query($sql);
     </section>
     <!--main content end-->
 
+        <!-- **********************************************************************************************************************************************************
+      SIDEBAR INFOS LIVRE (Valentin Prevot)
+      *********************************************************************************************************************************************************** -->
     <!-- Sidebar for Book Info -->
     <aside id="bookInfoSidebar" class="book-info-sidebar">
       <!-- Le contenu des informations du livre sera affiché ici -->
@@ -255,11 +267,14 @@ $result = $conn->query($sql);
     </aside>
 
     <script>
-      function showBookInfo(bookId) {
+
+      // FONCTION QUI AFFICHE LES INFORMATIONS D'UN LIVRE (Valentin Prevot)
+      function ShowBookInfo(bookId) {
         // Utilisez AJAX pour récupérer les informations du livre du serveur
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
           if (xhr.readyState === XMLHttpRequest.DONE) {
+            console.log(xhr.responseText); // Afficher la réponse dans la console
             if (xhr.status === 200) {
               // Parsez les données JSON reçues du serveur
               var bookInfo = JSON.parse(xhr.responseText);
@@ -298,22 +313,6 @@ $result = $conn->query($sql);
         // Envoyez une requête GET vers votre script PHP qui récupère les informations du livre
         xhr.open('GET', '../pages_autres/get_book_info_perso.php?id=' + bookId, true);
         xhr.send();
-      }
-
-      function toggleBookInfo() {
-        var sidebar = document.getElementById('bookInfoSidebar');
-        var arrow = document.getElementById('expandArrow');
-
-        // Si la sidebar est ouverte, la fermer ; sinon, l'ouvrir
-        if (sidebar.style.width === '0px' || sidebar.style.width === '') {
-          sidebar.style.width = '250px'; // Réglez la largeur souhaitée de la sidebar
-          arrow.classList.add('open'); // Ajoutez une classe pour styliser la flèche en tant qu'ouverte
-        } else {
-          sidebar.style.width = '0';
-          arrow.classList.remove('open'); // Retirez la classe pour styliser la flèche en tant que fermée
-          arrow.style.left = '50px';
-          document.getElementById('main-content').style.marginRight = '0';
-        }
       }
     </script>
 
@@ -360,9 +359,6 @@ $result = $conn->query($sql);
     <script src="../lib/jquery/jquery.min.js"></script>
 
     <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
-    <script class="include" type="text/javascript" src="../lib/jquery.dcjqaccordion.2.7.js"></script>
-    <script src="../lib/jquery.scrollTo.min.js"></script>
-
 
 </body>
 

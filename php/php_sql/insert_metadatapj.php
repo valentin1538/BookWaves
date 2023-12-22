@@ -1,4 +1,6 @@
 <?php
+// SOUS PROJET ACHILLE
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupérer les données envoyées par le formulaire
     $nom = $_POST['nom'] ?? '';

@@ -1,9 +1,11 @@
 <?php
+// SOUS PROJET ACHILLE
+
 // deletebook.php
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     // Récupérer l'ID du livre à supprimer depuis la requête
-    $bookId = $_GET['id'] ?? '';
+    $bookId = isset($_GET['id']) ? $_GET['id'] : '';
 
     // Vérifier si l'ID du livre est valide
     if (!empty($bookId) && is_numeric($bookId)) {

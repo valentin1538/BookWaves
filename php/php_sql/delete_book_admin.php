@@ -1,4 +1,6 @@
 <?php
+// SOUS PROJET ACHILLE
+
 // deletebook.php
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {

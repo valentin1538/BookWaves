@@ -1,4 +1,6 @@
 <?php
+// SOUS PROJET TIMOTHEE
+
 // Connexion à la base de données
 $servername = "localhost";
 $username = "root";

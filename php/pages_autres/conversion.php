@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
+<!-- SOUS PROJET YOUNES -->
 <?php
-// SOUS PROJET ANTONIN / GAUTHIER ET VALENTIN PERREIRA
-
 $lienepub = isset($_GET['nomfichier']) ? $_GET['nomfichier'] : '';
 ?>
 
@@ -171,174 +170,64 @@ $lienepub = isset($_GET['nomfichier']) ? $_GET['nomfichier'] : '';
             <!--CUSTOM CHART START -->
             <div class="border-head">
               <h3>BIBLIOTHEQUE GLOBALE</h3>
-              <select id="toc"></select>
-              <div id="viewer" class="spreads"></div>
-
-              <!-- VISUALISATION D'UN LIVRE -->
-              <script>
-                var params =
-                  URLSearchParams &&
-                  new URLSearchParams(document.location.search.substring(1));
-                var url =
-                  params && params.get("url") && decodeURIComponent(params.get("url"));
-                var currentSectionIndex =
-                  params && params.get("loc") ? params.get("loc") : undefined;
-
-                // Load the opf
-                var lienEpub = '<?php echo $lienepub; ?>'; // Récupération du lien du livre depuis PHP
-                var book = ePub(url || "../lib/Librairy/" + lienEpub + "/" + lienEpub + ".epub");
-                var rendition = book.renderTo("viewer", {
-                  width: "100%",
-                  height: "100%",
-                  spread: "always",
-                });
-
-                rendition.display(currentSectionIndex);
-
-                book.ready.then(() => {
-                  var next = document.getElementById("next");
-
-                  next.addEventListener(
-                    "click",
-                    function (e) {
-                      book.package.metadata.direction === "rtl"
-                        ? rendition.prev()
-                        : rendition.next();
-                      e.preventDefault();
-                    },
-                    false
-                  );
-
-                  var prev = document.getElementById("prev");
-                  prev.addEventListener(
-                    "click",
-                    function (e) {
-                      book.package.metadata.direction === "rtl"
-                        ? rendition.next()
-                        : rendition.prev();
-                      e.preventDefault();
-                    },
-                    false
-                  );
-
-                  var keyListener = function (e) {
-                    // Left Key
-                    if ((e.keyCode || e.which) == 37) {
-                      book.package.metadata.direction === "rtl"
-                        ? rendition.next()
-                        : rendition.prev();
-                    }
-
-                    // Right Key
-                    if ((e.keyCode || e.which) == 39) {
-                      book.package.metadata.direction === "rtl"
-                        ? rendition.prev()
-                        : rendition.next();
-                    }
-                  };
-
-                  rendition.on("keyup", keyListener);
-                  document.addEventListener("keyup", keyListener, false);
-                });
-
-                var title = document.getElementById("title");
-
-                rendition.on("rendered", function (section) {
-                  var current = book.navigation && book.navigation.get(section.href);
-
-                  if (current) {
-                    var $select = document.getElementById("toc");
-                    var $selected = $select.querySelector("option[selected]");
-                    if ($selected) {
-                      $selected.removeAttribute("selected");
-                    }
-
-                    var $options = $select.querySelectorAll("option");
-                    for (var i = 0; i < $options.length; ++i) {
-                      let selected = $options[i].getAttribute("ref") === current.href;
-                      if (selected) {
-                        $options[i].setAttribute("selected", "");
-                      }
-                    }
-                  }
-                });
-
-                rendition.on("relocated", function (location) {
-                  console.log(location);
-
-                  var next =
-                    book.package.metadata.direction === "rtl"
-                      ? document.getElementById("prev")
-                      : document.getElementById("next");
-                  var prev =
-                    book.package.metadata.direction === "rtl"
-                      ? document.getElementById("next")
-                      : document.getElementById("prev");
-
-                  if (location.atEnd) {
-                    next.style.visibility = "hidden";
-                  } else {
-                    next.style.visibility = "visible";
-                  }
-
-                  if (location.atStart) {
-                    prev.style.visibility = "hidden";
-                  } else {
-                    prev.style.visibility = "visible";
-                  }
-                });
-
-                rendition.on("layout", function (layout) {
-                  let viewer = document.getElementById("viewer");
-
-                  if (layout.spread) {
-                    viewer.classList.remove("single");
-                  } else {
-                    viewer.classList.add("single");
-                  }
-                });
-
-                window.addEventListener("unload", function () {
-                  console.log("unloading");
-                  this.book.destroy();
-                });
-
-                book.loaded.navigation.then(function (toc) {
-                  var $select = document.getElementById("toc"),
-                    docfrag = document.createDocumentFragment();
-
-                  toc.forEach(function (chapter) {
-                    var option = document.createElement("option");
-                    option.textContent = chapter.label;
-                    option.setAttribute("ref", chapter.href);
-
-                    docfrag.appendChild(option);
-                  });
-
-                  $select.appendChild(docfrag);
-
-                  $select.onchange = function () {
-                    var index = $select.selectedIndex,
-                      url = $select.options[index].getAttribute("ref");
-                    rendition.display(url);
-                    return false;
-                  };
-                });
-              </script>
+              <h4>Convertir EPUB en PDF</h4>
+              <div>
+              <form action="../fonctions_php/convert_epub_en_pdf.php" method="post" enctype="multipart/form-data" id="conversionFormPDF">
+                <label for="epubFile">Sélectionnez le fichier EPUB à convertir :</label>
+                <input type="file" name="epubFile" id="epubFile" accept=".epub" required>
+                <br>
+                <button type="button" onclick="convertToPDF()">Convertir en .pdf</button>
+              </form>
+              <h4>Convertir PDF en EPUB</h4>
+              <form action="../fonctions_php/convert_pdf_en_epub.php" method="post" enctype="multipart/form-data">
+                  <label for="pdfFile">Sélectionnez le fichier PDF à convertir :</label>
+                  <input type="file" name="pdfFile" id="pdfFile" accept=".pdf" required>
+                  <br>
+                  <input type="submit" value="Convertir en .epub">
+              </form>
+              <div id="conversionStatus"></div>
+              </div>
             </div>
             <!--custom chart end-->
           </div>
           <!-- /col-lg-3 -->
-          <div class="arrow-container">
-            <a id="prev" href="#prev" class="arrow">‹</a>
-            <a id="next" href="#next" class="arrow">›</a>
-          </div>
         </div>
         <!-- /row -->
       </section>
     </section>
     <!--main content end-->
   </section>
+
+  <script>
+    function convertToPDF() {
+        // Créez une nouvelle instance de l'objet FormData pour récupérer les données du formulaire
+        var formData = new FormData(document.getElementById('conversionFormPDF'));
+
+        // Créez une nouvelle instance de l'objet XMLHttpRequest
+        var xhr = new XMLHttpRequest();
+
+        // Configurez la requête
+        xhr.open("POST", "../fonctions_php/convert_epub_en_pdf.php", true);
+
+        // Gérez l'événement de fin de requête
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                // Gérez la réponse du serveur ici
+                console.log(xhr.responseText);
+
+                // Affichez le message de conversion dans la div
+                document.getElementById("conversionStatus").innerHTML = xhr.responseText;
+            } else {
+                // Gérez les erreurs ici
+                console.error("Une erreur est survenue lors de la requête.");
+            }
+        };
+
+        // Envoyez la requête avec les données du formulaire
+        xhr.send(formData);
+    }
+  </script>
+
 
 </body>
 

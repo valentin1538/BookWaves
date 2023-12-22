@@ -1,4 +1,6 @@
 <?php
+// SOUS PROJET HUGO DAVION
+
 // Connexion à la base de données
 $servername = "localhost"; // Remplacez par le nom de votre serveur de base de données
 $username = "root"; // Remplacez par votre nom d'utilisateur de base de données
@@ -174,6 +176,12 @@ $result = $conn->query("SELECT * FROM forum");
                         </a>
                     </li>
                     <li class="sub-menu">
+                        <a href="../pages-autres/creationEbook.php">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Créer un livre</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu">
                         <a href="../pages_forum/forum.php" class="active">
                             <i class="fa fa-rectangle-list"></i>
                             <span>Forums</span>
@@ -193,14 +201,15 @@ $result = $conn->query("SELECT * FROM forum");
                         <!--CUSTOM CHART START -->
                         <div class="border-head">
                             <?php
+                            $conn->set_charset("utf8");
                             $result = $conn->query("SELECT * FROM forum");
 
                             echo "<div class='forum-box'>";
                             while ($row = $result->fetch_assoc()) {
                                 echo "<div class='forum-item'>";
-                                echo "<a href='sujets.php?idforum=" . $row['id'] . "'>";
-                                echo "<h2>" . $row['nom'] . "</h2>";
-                                echo "<p>Description : " . $row['description'] . "</p>";
+                                echo "<a href='sujets.php?idforum=" . htmlspecialchars($row['id']) . "'>";
+                                echo "<h2>" . htmlspecialchars($row['nom']) . "</h2>";
+                                echo "<p>Description : " . htmlspecialchars($row['description']) . "</p>";
                                 echo "</a>";
                                 echo "</div>";
                             }
@@ -225,7 +234,5 @@ $result = $conn->query("SELECT * FROM forum");
         <script src="../lib/jquery/jquery.min.js"></script>
 
         <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
-        <script class="include" type="text/javascript" src="../lib/jquery.dcjqaccordion.2.7.js"></script>
-        <script src="../lib/jquery.scrollTo.min.js"></script>
 
 </html>

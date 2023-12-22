@@ -1,4 +1,6 @@
 <?php
+// SOUS PROJET HUGO DAVION
+
 session_start();
 
 // Vérifier si l'ID du message est défini dans le formulaire

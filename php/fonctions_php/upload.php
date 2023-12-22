@@ -1,6 +1,6 @@
-<!-- SOUS PROJET ACHILLE -->
-
 <?php
+// SOUS PROJET ACHILLE
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $targetDirectory = '../lib/Librairy/';
   $fileType = strtolower(pathinfo($_FILES['epubFile']['name'], PATHINFO_EXTENSION));

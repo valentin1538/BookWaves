@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <?php
+// SOUS PROJET ANTONIN / GAUTHIER ET VALENTIN PERREIRA
 $lienepub = isset($_GET['nomfichier']) ? $_GET['nomfichier'] : '';
 ?>
 
@@ -126,6 +127,12 @@ $lienepub = isset($_GET['nomfichier']) ? $_GET['nomfichier'] : '';
           </a>
         </li>
         <li class="sub-menu">
+            <a href="./creationEbook.php">
+            <i class="fa-solid fa-plus"></i>
+            <span>Créer un livre</span>
+            </a>
+        </li>
+        <li class="sub-menu">
           <a href="../pages_forum/forum.php">
             <i class="fa fa-rectangle-list"></i>
             <span>Forums</span>
@@ -165,7 +172,7 @@ $lienepub = isset($_GET['nomfichier']) ? $_GET['nomfichier'] : '';
               <select id="toc"></select>
               <div id="viewer" class="spreads"></div>
 
-              <!-- VISUALISATION D'UN LIVRE (ANTONIN / GAUTHIER / VALENTIEN PERREIRA) -->
+              <!-- VISUALISATION D'UN LIVRE -->
               <script>
                 var params =
                   URLSearchParams &&

@@ -1,4 +1,6 @@
 <?php
+// SOUS PROJET VALENTIN PREVOT
+
 session_start();
 // Connexion à la base de données MySQL
 $servername = "localhost";

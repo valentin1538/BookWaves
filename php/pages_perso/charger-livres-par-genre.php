@@ -1,4 +1,6 @@
 <?php
+// SOUS PROJET MATHEO ET BENJAMIN
+
 // Connexion à la base de données (utilisez vos propres informations de connexion)
 $servername = "localhost";
 $username = "root";
@@ -64,7 +66,7 @@ if (isset($_GET['genreId'])) {
                 echo '</ul>';
                 echo '</div>';
                 echo '</div>';
-                echo '<button class="btn-info" onclick="showBookInfo(' . urlencode($livreId) . ')">Info</button>';
+                echo '<button class="btn-info" onclick="ShowBookInfo(' . urlencode($livreId) . ')">Info</button>';
                 echo '</div>';
             }
             echo '</div>';

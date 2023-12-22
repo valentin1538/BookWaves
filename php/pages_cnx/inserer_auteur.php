@@ -1,6 +1,6 @@
-<!-- SOUS PROJET HUGO DAVION -->
-
 <?php
+// SOUS PROJET HUGO DAVION
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nom_auteur = $_POST["nom_auteur"];
 

@@ -1,4 +1,6 @@
 <?php
+// SOUS PROJET HUGO DAVION
+
 // Assurez-vous que le formulaire a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Connexion à la base de données

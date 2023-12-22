@@ -1,4 +1,6 @@
 <?php
+// SOUS PROJET MATHEO ET BENJAMIN
+
 // Connexion à la base de données (utilisez vos propres informations de connexion)
 $servername = "localhost";
 $username = "root";

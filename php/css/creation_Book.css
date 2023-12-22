@@ -1,0 +1,51 @@
+/* Styles pour le formulaire */
+form {
+  margin: 20px auto; /* Centrer le formulaire */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 80%; /* Largeur du formulaire */
+  max-width: 600px; /* Largeur maximale */
+  background-color: #f9f9f9; /* Couleur de fond */
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+input[type="text"],
+textarea {
+  width: calc(100% - 20px); /* Largeur du champ moins la largeur des paddings */
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+textarea {
+  height: 150px;
+}
+
+input[type="file"] {
+  margin-bottom: 15px;
+}
+
+input[type="submit"] {
+  background-color: #4ecdc4;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: #45b8cb;
+}
+
+.center-heading {
+  text-align: center;
+}

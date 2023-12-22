@@ -1,3 +1,6 @@
+<!-- **********************************************************************************************************************************************************
+                                                                  PAGE PRINCIPAL DU PROJET BOOKKWAVES
+*********************************************************************************************************************************************************** -->
 <?php
 // Connexion à la base de données
 $servername = "localhost"; // Remplacez par le nom de votre serveur de base de données
@@ -143,6 +146,14 @@ session_start();
               <span>Recherche d'Ebook</span>
             </a>
           </li>
+          <?php if (isset($_SESSION['username'])): ?>
+            <li class="sub-menu">
+              <a href="./pages_autres/creationEbook.php">
+                <i class="fa-solid fa-plus"></i>
+                <span>Créer un livre</span>
+              </a>
+            </li>
+          <?php endif; ?>
           <li class="sub-menu">
             <a href="./pages_forum/forum.php">
               <i class="fa fa-rectangle-list"></i>
@@ -274,6 +285,7 @@ session_start();
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
           if (xhr.readyState === XMLHttpRequest.DONE) {
+            console.log(xhr.responseText); // Afficher la réponse dans la console
             if (xhr.status === 200) {
               // Parsez les données JSON reçues du serveur
               var bookInfo = JSON.parse(xhr.responseText);

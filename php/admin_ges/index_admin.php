@@ -216,9 +216,6 @@ if (($_SESSION["idprofil"]) != 4) {
                 echo '<ul class="dropdown-menu extended notification">';
                 echo '<div class="notify-arrow notify-arrow-grey"></div>';
                 echo '<li>';
-                echo '<a href="./pages_autres/visualiser.php?nomfichier=' . urlencode($livre['nomfichier']) . '"><i class="fa fa-eye"></i> Visualiser</a>';
-                echo '</li>';
-                echo '<li>';
                 echo "<a href=\"#\" onclick=\"lireMetadonnees('" . htmlspecialchars($livre["lien"]) . "','" . htmlspecialchars($livre["langue"]) . "','" . htmlspecialchars($livre["id"]) . "','" . htmlspecialchars($livre["auteur"]) . "','" . htmlspecialchars($livre["nom"]) . "','" . htmlspecialchars($livre["editeur"]) . "','" . htmlspecialchars($livre["genre"]) . "' )\"><i class=\"fa fa-pencil\"></i> Modifier le livre : " . (isset($livre["id"]) ? htmlspecialchars($livre["id"]) : "Inconnu") . "</a>";
                 echo '</li>';
                 echo '<li>';

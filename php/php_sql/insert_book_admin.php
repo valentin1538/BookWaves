@@ -1,13 +1,15 @@
 <?php
+// SOUS PROJET ACHILLE
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupérer les données envoyées par le formulaire
-    $nom = $_POST['nom'] ?? '';
-    $filesPath = $_POST['lienfiles'] ?? '';
-    $folderPath = $_POST['lienfolder'] ?? '';
-    $auteur = $_POST['auteur'] ?? '';
-    $langue = $_POST['langue'] ?? '';
-    $genre = $_POST['genre'] ?? '';
-    $editeur = $_POST['editeur'] ?? '';
+    $nom = isset($_POST['nom']) ? $_POST['nom'] : '';
+    $filesPath = isset($_POST['lienfiles']) ? $_POST['lienfiles'] : '';
+    $folderPath = isset($_POST['lienfolder']) ? $_POST['lienfolder'] : '';
+    $auteur = isset($_POST['auteur']) ? $_POST['auteur'] : '';
+    $langue = isset($_POST['langue']) ? $_POST['langue'] : '';
+    $genre = isset($_POST['genre']) ? $_POST['genre'] : '';
+    $editeur = isset($_POST['editeur']) ? $_POST['editeur'] : '';
 
 
 

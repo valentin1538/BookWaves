@@ -1,6 +1,6 @@
-<!-- SOUS PROJET HUGO DAVION -->
-
 <?php
+// SOUS PROJET HUGO DAVION
+
 // Informations d'identification
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root');

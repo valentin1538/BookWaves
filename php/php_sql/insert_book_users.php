@@ -1,18 +1,16 @@
 <?php
-
-error_log("Début du script", 3, "J:\wamp64\logs\php_error");
-
+// SOUS PROJET ACHILLE
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupérer les données envoyées par le formulaire
-    $nom = $_POST['nom'] ?? '';
-    $filesPath = $_POST['lienfiles'] ?? '';
-    $folderPath = $_POST['lienfolder'] ?? '';
-    $sessionId = $_POST['sessionId'] ?? '';
-    $auteur = $_POST['auteur'] ?? '';
-    $langue = $_POST['langue'] ?? '';
-    $genre = $_POST['genre'] ?? '';
-    $editeur = $_POST['editeur'] ?? '';
+    $nom = isset($_POST['nom']) ? $_POST['nom'] : '';
+    $filesPath = isset($_POST['lienfiles']) ? $_POST['lienfiles'] : '';
+    $folderPath = isset($_POST['lienfolder']) ? $_POST['lienfolder'] : '';
+    $sessionId = isset($_POST['sessionId']) ? $_POST['sessionId'] : '';
+    $auteur = isset($_POST['auteur']) ? $_POST['auteur'] : '';
+    $langue = isset($_POST['langue']) ? $_POST['langue'] : '';
+    $genre = isset($_POST['genre']) ? $_POST['genre'] : '';
+    $editeur = isset($_POST['editeur']) ? $_POST['editeur'] : '';
 
 
 
@@ -20,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $servername = "localhost";
     $username = "root";
     $password = "";
-    $dbname = "Biblio";
+    $dbname = "biblio";
 
     $conn = new mysqli($servername, $username, $password, $dbname);
 

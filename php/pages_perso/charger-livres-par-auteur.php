@@ -1,4 +1,5 @@
 <?php
+// SOUS PROJET MATHEO ET BENJAMIN
 
 session_start();
 // Connexion à la base de données (utilisez vos propres informations de connexion)
@@ -68,7 +69,7 @@ if (isset($_GET['auteurId'])) {
                 echo '</ul>';
                 echo '</div>';
                 echo '</div>';
-                echo '<button class="btn-info" onclick="showBookInfo(' . urlencode($livreId) . ')">Info</button>';
+                echo '<button class="btn-info" onclick="ShowBookInfo(' . urlencode($livreId) . ')">Info</button>';
                 echo '</div>';
             }
             echo '</div>';

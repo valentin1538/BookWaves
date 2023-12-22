@@ -1,6 +1,8 @@
-<!-- SOUS PROJET BRANDON -->
-
 <?php
+// SOUS PROJET BRANDON
+
+date_default_timezone_set('Europe/Paris');
+
 // Connexion à la base de données
 $servername = "localhost"; // Remplacez par le nom de votre serveur de base de données
 $username = "root"; // Remplacez par votre nom d'utilisateur de base de données
@@ -20,17 +22,6 @@ if (!isset($_SESSION["username"])) {
     header("Location: ../pages_cnx/login.php");
     exit();
 }
-?>
-<?php
-
-// Requête pour récupérer les données des tables
-$sql = "SELECT livre.id, livre.nom, livre.infos, auteur.nom as nom_auteur, editeur.nom as nom_editeur, genre.nom as nom_genre, langue.nom as nom_langue FROM livre
-        INNER JOIN auteur ON livre.idauteur = auteur.id
-        INNER JOIN editeur ON livre.idediteur = editeur.id
-        INNER JOIN genre ON livre.idgenre = genre.id
-        INNER JOIN langue ON livre.idlangue = langue.id";
-
-$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -232,6 +223,12 @@ $result = $conn->query($sql);
                         </a>
                     </li>
                     <li class="sub-menu">
+                        <a href="./creationEbook.php">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Créer un livre</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu">
                         <a href="../pages_forum/forum.php">
                             <i class="fa fa-rectangle-list"></i>
                             <span>Forums</span>
@@ -265,7 +262,6 @@ $result = $conn->query($sql);
                         <!--CUSTOM CHART START -->
                         <div class="border-head">
                             <h3>Recherche de Livres</h3>
-
                             <script>
                                 function showTodayBooks() {
                                     const today = new Date().toISOString().split('T')[0];
@@ -309,9 +305,7 @@ $result = $conn->query($sql);
                             </script>
 
                             <div class="container">
-
                                 <div class="notification">
-
                                     <span class="bell" onclick="showTodayBooks()" style="cursor: pointer;">🔔</span>
                                     <div id="todayBooks" class="hidden">
                                         <!-- Les livres du jour seront affichés ici -->
@@ -330,8 +324,7 @@ $result = $conn->query($sql);
                                 <input type="radio" id="criteria_author" name="criteria" value="author">
                                 <label for="criteria_author">Auteur</label>
 
-                                <input type="radio" id="criteria_publisher" name="criteria" value="publisher"
-                                    onclick="showPublisherSearch()">
+                                <input type="radio" id="criteria_publisher" name="criteria" value="publisher">
                                 <label for="criteria_publisher">Éditeur</label>
 
                                 <div id="publisherSearch" style="display: none;">
@@ -346,7 +339,7 @@ $result = $conn->query($sql);
 
                             function searchByAuthor($searchTerm)
                             {
-                                $date = date('Y') . "-01-01";
+                                $date = date("Y") . '-01-01';
                                 $searchTerm = urlencode($searchTerm);
                                 $api_url = "https://www.googleapis.com/books/v1/volumes?q=inauthor:{$searchTerm}&langRestrict=fr&orderBy=newest&printType=books&filter=partial&projection=lite&publishedDate={$date}";
 
@@ -619,6 +612,9 @@ $result = $conn->query($sql);
                         <script src="../lib/jquery/jquery.min.js"></script>
 
                         <script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+                    </div>
+                </div>
+            </section>
 </body>
 
 </html>

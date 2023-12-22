@@ -1,4 +1,6 @@
 <?php
+// SOUS PROJET HUGO DAVION
+
 // Connexion à la base de données
 $servername = "localhost"; // Remplacez par le nom de votre serveur de base de données
 $username = "root"; // Remplacez par votre nom d'utilisateur de base de données
@@ -30,6 +32,7 @@ if (!isset($_GET['idsujet']) || !is_numeric($_GET['idsujet'])) {
 // Récupérer l'ID du sujet
 $idsujet = $_GET['idsujet'];
 
+
 // Récupérer le titre du sujet
 $titreSujet = "";
 $resultSujet = $conn->query("SELECT nom FROM sujet WHERE id = $idsujet");
@@ -40,11 +43,11 @@ if ($resultSujet && $resultSujet->num_rows > 0) {
 }
 
 // Récupérer les messages du sujet
-$resultMessages = $conn->query("SELECT messages.id, messages.contenu, messages.date_creation, users.username
-                                FROM messages
-                                JOIN users ON messages.idpersonne = users.id
-                                WHERE messages.idsujet = $idsujet
-                                ORDER BY messages.date_creation");
+$resultMessages = $conn->query("SELECT message.id, message.contenu, message.date_creation, users.username
+                                FROM message
+                                JOIN users ON message.idpersonne = users.id
+                                WHERE message.idsujet = $idsujet
+                                ORDER BY message.date_creation");
 
 ?>
 
@@ -197,6 +200,12 @@ $resultMessages = $conn->query("SELECT messages.id, messages.contenu, messages.d
                         </a>
                     </li>
                     <li class="sub-menu">
+                        <a href="../pages-autres/creationEbook.php">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Créer un livre</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu">
                         <a href="../pages_forum/forum.php" class="active">
                             <i class="fa fa-rectangle-list"></i>
                             <span>Forums</span>
@@ -218,6 +227,8 @@ $resultMessages = $conn->query("SELECT messages.id, messages.contenu, messages.d
 
                     <div class="sujet-list">
                         <?php
+                        $conn->set_charset("utf8");
+
                         // Récupérer les messages du sujet
                         $resultMessages = $conn->query("SELECT message.id, message.contenu, message.date_creation, users.username, message.idpersonne
                                 FROM message
@@ -261,7 +272,7 @@ $resultMessages = $conn->query("SELECT messages.id, messages.contenu, messages.d
 
                                 // Afficher le contenu du message
                                 echo "<div class='message-content'>";
-                                echo "<b>" . nl2br($rowMessage['contenu']) . "</b>";
+                                echo "<b>" . nl2br(htmlspecialchars($rowMessage['contenu'])) . "</b>";
                                 echo "</div>";
                                 // Récupérer l'ID de l'utilisateur connecté
                                 $userId = isset($_SESSION['id']) ? $_SESSION['id'] : null;

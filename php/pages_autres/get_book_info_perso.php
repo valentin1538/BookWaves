@@ -1,6 +1,6 @@
-<!-- SOUS PROJET VALENTIN PREVOT -->
-
 <?php
+// SOUS PROJET HPREVOT VALENTIN
+
 // Connexion à la base de données (utilisez vos propres informations)
 $servername = "localhost";
 $username = "root";

@@ -1,6 +1,6 @@
-<!-- SOUS PROJET HUGO DAVION -->
-
 <?php
+// SOUS PROJET HUGO DAVION 
+
   // Initialiser la session
   session_start();
   

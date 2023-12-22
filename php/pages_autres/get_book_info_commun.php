@@ -1,6 +1,6 @@
-<!-- SOUS PROJET VALENTIN PREVOT -->
-
 <?php
+// SOUS PROJET PREVOT VALENTIN
+
 // Connexion à la base de données (utilisez vos propres informations)
 $servername = "localhost";
 $username = "root";
@@ -32,7 +32,9 @@ try {
     // Retournez les informations du livre au format JSON
     header('Content-Type: application/json');
     echo json_encode($bookInfo);
+    exit(); // Assurez-vous de terminer le script après l'envoi du JSON
 } catch (PDOException $e) {
-    echo "Erreur de connexion : " . $e->getMessage();
+    echo json_encode(['error' => 'Erreur de connexion : ' . $e->getMessage()]);
+    exit(); // En cas d'erreur, assurez-vous de terminer le script
 }
 ?>
