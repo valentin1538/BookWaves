@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<package xmlns="http://www.idpf.org/2007/opf" version="2.0" unique-identifier="BookId">
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+    <dc:title>Le Lorem</dc:title>
+    <dc:creator opf:file-as="Lorem" opf:role="aut">Lolo</dc:creator>
+    <dc:language>fr</dc:language>
+    <dc:subject>Genre</dc:subject>
+    <dc:publisher>Editeur</dc:publisher>
+    
+    
+  </metadata>
+  <manifest>
+    <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml" />
+    <item id="css1" href="style.css" media-type="text/css" />
+    <item id="img1" href="cover.jpg" media-type="image/jpeg" />
+    <item id="ch1" href="cover.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch2" href="book_0000.xhtml" media-type="application/xhtml+xml" />
+    <item id="ch3" href="book_0001.xhtml" media-type="application/xhtml+xml" />
+
+  </manifest>
+  <spine toc="ncx">
+    <itemref idref="ch1" />
+    <itemref idref="ch2" />
+    <itemref idref="ch3" />
+
+  </spine>
+  <guide>
+    <reference href="cover.xhtml" type="cover" title="Couverture" />
+  </guide>
+</package>
